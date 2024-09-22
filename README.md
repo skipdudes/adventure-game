@@ -21,4 +21,4 @@ Project is licensed under the [MIT](LICENSE) license.
 Todo
 
 ## Authors
-Copyright &copy; 2024, Marcin Chętnik, Andrzej Woroniecki, Marta Makowska
+Copyright &copy; 2024 Marcin Chętnik, Andrzej Woroniecki, Marta Makowska
