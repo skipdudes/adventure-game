@@ -1,11 +1,14 @@
+import torch.cuda
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments, DataCollatorForLanguageModeling
 from datasets import load_dataset  # Nowa funkcja do ładowania datasetów
 
 # Wczytanie tokenizer'a i modelu GPT-2
-tokenizer = GPT2Tokenizer.from_pretrained("gpt2-large")
-model = GPT2LMHeadModel.from_pretrained("gpt2-large")
+tokenizer = GPT2Tokenizer.from_pretrained("gpt2-medium")
+model = GPT2LMHeadModel.from_pretrained("gpt2-medium")
 
 tokenizer.pad_token = tokenizer.eos_token
+
+print(torch.cuda.get_device_name())
 
 # Funkcja tworząca dataset z pliku .txt przy użyciu Hugging Face datasets
 def load_custom_dataset(file_path, tokenizer, block_size=128):
@@ -34,9 +37,9 @@ except Exception as e:
 training_args = TrainingArguments(
     output_dir="./results",
     overwrite_output_dir=True,
-    num_train_epochs=1,
-    per_device_train_batch_size=2,
-    save_steps=10_000,
+    num_train_epochs=3,
+    per_device_train_batch_size=4,
+    save_steps=500,
     save_total_limit=2,
     prediction_loss_only=True,
 )
