@@ -1,0 +1,117 @@
+Guard: Halt! Who are you and where are you going?
+Traveler: I am a merchant, heading to the market to sell my goods.
+Guard: Show me your permit to trade. Without it, you cannot pass through the city gates.
+
+---
+
+Guard: Why are you in such a rush? The city imposes a curfew after dark.
+Citizen: I must deliver a message to the guard on the walls. It is a matter of life and death!
+Guard: Without official permission or an escort, you cannot leave the city after dark. Return to your home immediately.
+
+---
+
+Guard: Hey, you there! What's in that sack? It looks suspiciously heavy.
+Traveler: Just some herbs I gathered in the forest. Nothing more.
+Guard: Herbs, you say? Let me see them. There’s a strict ban on unregistered goods being traded in the city.
+
+---
+
+Guard: What news do you bring from the road, wanderer?
+Wanderer: From the north, a great army is marching. I’ve heard they’re pillaging villages along the way.
+Guard: Thank you for the information. I must report this to the captain at once. Enter the city, but keep your eyes open for any danger.
+
+---
+
+Guard: Step forward slowly. Who are you and from where do you hail?
+Stranger: I am a messenger from a neighboring kingdom. I carry an important message for your ruler.
+Guard: A messenger, you say? Show me the royal seal of your kingdom. Without it, I cannot allow you to pass through the gates.
+
+---
+
+Guard: What time did you leave the city walls? There’s been a robbery reported during the night.
+Citizen: I was at the tavern until late, guard. I had nothing to do with it!
+Guard: Then you'll need to provide witnesses to back your story. If no one confirms your alibi, you’ll be a suspect.
+
+---
+
+Guard: There’s a storm approaching. I advise you not to leave the city in this weather.
+Traveler: I must continue my journey. My lord is expecting me.
+Guard: Very well, but be warned, the roads are muddy and full of bandits. Proceed with caution.
+
+---
+
+Guard: State your business in the city.
+Visitor: I am here to sell spices from the east.
+Guard: Spices from the east, you say? You’ll need to pay the toll for foreign goods. No exceptions.
+
+---
+
+Guard: Why do you look so nervous? What are you hiding?
+Passerby: Nothing, sir. I’m just a humble scholar on my way to the library.
+Guard: A scholar, hmm? Show me your documents proving your profession. We can’t be too careful with strangers these days.
+
+---
+
+Guard: You, stop! That cart looks overloaded. What are you transporting?
+Merchant: Just grain for the city's mills. Nothing more.
+Guard: We’ve had reports of smuggling in the area. I’ll need to inspect your cart before you proceed.
+
+---
+
+Guard: It's late to be wandering the streets, isn't it? The curfew bell has already rung.
+Pedestrian: I lost track of time while visiting a friend. I’ll return home immediately.
+Guard: See that you do. And remember, next time the punishment for breaking curfew is a fine or worse.
+
+---
+
+Guard: What's that strange noise coming from your wagon?
+Peddler: Just some livestock I’m bringing to market. Nothing unusual.
+Guard: Livestock, you say? I’ll need to inspect the animals. We can’t allow diseased beasts into the city.
+
+---
+
+Guard: Hold! What brings you to our city at this hour?
+Nobleman: I seek an audience with your lord. My business is urgent.
+Guard: An audience, is it? The lord does not meet with anyone unannounced. You’ll need to send word ahead and return during the day.
+
+---
+
+Guard: Are you aware that all weapons must be surrendered at the city gates?
+Adventurer: I need my sword for protection. I can’t just hand it over.
+Guard: You’ll get it back when you leave. Until then, no exceptions. The city's laws are clear.
+
+---
+
+Guard: You there! Why is your cloak so tightly drawn? What are you hiding?
+Stranger: Just trying to keep warm, sir. The night is cold.
+Guard: Cold or not, I need to see your face. Lower your hood, or I’ll have you detained.
+
+---
+
+Guard: What is your purpose here?
+Traveler: I seek shelter for the night. The roads have become too dangerous to travel.
+Guard: The inns are full, but you may find lodging in the common quarter. Keep out of trouble, and no wandering the streets after dark.
+
+---
+
+Guard: Why are you lurking near the city walls? Planning something, are we?
+Suspicious Man: No, sir! I was just looking for a quiet place to think.
+Guard: A quiet place near the city walls at this hour? Move along before I decide to arrest you for loitering.
+
+---
+
+Guard: You’ve come from the western roads? Have you encountered anything unusual?
+Traveler: Yes, there was an ambush about two miles from here. Bandits attacked a caravan.
+Guard: We’ll need to send out a patrol immediately. Thank you for the information. Rest in the city, and stay alert.
+
+---
+
+Guard: State your name and business before entering the city.
+Merchant: My name is Arvel, and I come to trade goods from the southern lands.
+Guard: Very well, Arvel. But be aware, all traders from the south must pay an additional tax this week. Proceed to the customs office for inspection.
+
+---
+
+Guard: This city has strict rules about who can carry weapons. Are you aware of that?
+Sellsword: I am. But I am sworn to protect a noble family. I can’t be without my blade.
+Guard: Your loyalty is noted, but the law stands. Hand over your weapon, or you’ll be denied entry.
