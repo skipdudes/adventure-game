@@ -3,10 +3,15 @@
 #include <iomanip>
 #include <sstream>
 #include <iostream>
+#include <filesystem>
 
 Logger::Logger()
 {
 	mFile.open(mFilename.c_str(), std::ios::out);
+	if (!mFile.is_open())
+	{
+		std::cerr << "Error: Could not open the log file (" << mFilename << ')' << std::endl;
+	}
 }
 
 Logger::~Logger()
@@ -52,17 +57,11 @@ void Logger::log(LogLevel level, const std::string& message, const std::string& 
 
 	std::stringstream date;
 	date << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S");
-
-	char separator;
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-	separator = '\\';
-#else
-	separator = '/';
-#endif
 	
-	std::string filename = (strrchr(file.c_str(), separator) ? strrchr(file.c_str(), separator) + 1 : file);
+	std::string filename = std::filesystem::path(file).filename().string();
 	std::string fullMessage = date.str() + " [" + levelToString(level) + "] " + message + " (" + filename + ':' + std::to_string(line) + ')';
 	mFile << fullMessage << std::endl;
+	mFile.flush();
 
 #ifdef _DEBUG
 	std::cout << fullMessage << std::endl;
