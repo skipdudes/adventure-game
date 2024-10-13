@@ -6,6 +6,7 @@
 class Logger
 {
 public:
+	//Possible log levels
 	enum LogLevel
 	{
 		INFO,
@@ -13,21 +14,27 @@ public:
 		ERROR
 	};
 
+	//Singleton implementation
 	Logger(const Logger&) = delete;
 	void operator=(const Logger&) = delete;
 	static Logger& getInstance();
+
+	//Message logging method
 	void log(LogLevel level, const std::string& message, const std::string& file, int line);
 
 private:
-	std::string mFilename = "Logs/latest.log";
+	//Log output file
+	std::string mDirectory = "Logs";
+	std::string mFilename = "latest.log";
+	std::string mFilepath;
 	std::ofstream mFile;
 	std::mutex mMutex;
 
 	Logger();
-	~Logger();
-	std::string levelToString(LogLevel level);
+	constexpr const char* levelToString(LogLevel level);
 };
 
+//Info level logs only in Debug build
 #ifdef _DEBUG
 #define LOG_INFO(message) Logger::getInstance().log(Logger::LogLevel::INFO, message, __FILE__, __LINE__)
 #else

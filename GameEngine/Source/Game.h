@@ -5,7 +5,7 @@
 #include <string>
 
 class Game
-{	
+{
 public:
 	Game(std::string title, int width, int height);
 	~Game();
@@ -17,12 +17,20 @@ private:
 	SDL_Window* mWindow;
 	SDL_Renderer* mRenderer;
 	bool mRunning;
+	bool mPaused;
 	bool mFullscreen;
-	//const int SCREEN_FPS = 60;
-	//const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
+	const int FPS = 60;
+	const int MIN_FRAMETIME = 1000 / FPS;
+	const int MAX_UPDATETIME = 10;
 
 	bool init();
-	bool loadMedia();
+	bool loadData();
+	void handleEvents(SDL_Event& e);
+	void pauseGame();
+	void toggleFullscreen();
+	void update(const int& timeStep);
+	void render(const double& alpha);
 	void run();
-	void teardown();
+	void freeData();
+	void free();
 };
