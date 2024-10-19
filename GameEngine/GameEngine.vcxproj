@@ -163,13 +163,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\FontTexture.cpp" />
+    <ClCompile Include="Source\Font.cpp" />
     <ClCompile Include="Source\Logger.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\FontTexture.h" />
+    <ClInclude Include="Source\Font.h" />
     <ClInclude Include="Source\Logger.h" />
     <ClInclude Include="Source\Game.h" />
+    <ClInclude Include="Source\Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

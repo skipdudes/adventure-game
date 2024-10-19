@@ -3,6 +3,8 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <string>
+#include <memory>
+#include "Font.h"
 
 class Game
 {
@@ -19,15 +21,20 @@ private:
 	bool mRunning;
 	bool mPaused;
 	bool mFullscreen;
-	const int FPS = 60;
-	const int MIN_FRAMETIME = 1000 / FPS;
-	const int MAX_UPDATETIME = 10;
+	const unsigned int FPS = 60;
+	const unsigned int MIN_FRAMETIME = 1000 / FPS;
+	const unsigned int MAX_UPDATETIME = 10;
+
+	//Data shared across gamestates
+	std::unique_ptr<Font> mFontSmall;
+	std::unique_ptr<Font> mFontMedium;
+	std::unique_ptr<Font> mFontLarge;
 
 	bool init();
 	bool loadData();
 	void handleEvents(SDL_Event& e);
-	void pauseGame();
 	void toggleFullscreen();
+	void pauseGame();
 	void update(const int& timeStep);
 	void render(const double& alpha);
 	void run();

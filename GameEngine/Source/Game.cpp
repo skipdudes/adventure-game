@@ -77,6 +77,14 @@ bool Game::loadData()
 	LOG_INFO("Starting loading data");
 
 	//Load global data
+	mFontSmall = std::make_unique<Font>(mRenderer);
+	mFontSmall->build("Data/Fonts/TinyUnicode.png");
+
+	mFontMedium = std::make_unique<Font>(mRenderer);
+	mFontMedium->build("Data/Fonts/Kubasta.png");
+
+	mFontLarge = std::make_unique<Font>(mRenderer);
+	mFontLarge->build("Data/Fonts/ClassicShit.png");
 
 	LOG_INFO("Finished loading data");
 	return true;
@@ -94,11 +102,11 @@ void Game::handleEvents(SDL_Event& e)
 
 			switch (e.key.keysym.sym)
 			{
-			case SDLK_ESCAPE:
-				pauseGame();
-				break;
 			case SDLK_F4:
 				toggleFullscreen();
+				break;
+			case SDLK_ESCAPE:
+				pauseGame();
 				break;
 			}
 		}
@@ -154,6 +162,9 @@ void Game::render(const double& alpha)
 	SDL_RenderClear(mRenderer);
 
 	//Render textures based on alpha
+	mFontSmall->renderText(mWidth - 128, mHeight - 24, "version 0.1a");
+	mFontMedium->renderText(mWidth / 3, mHeight / 2, "Welcome, Royal Guard!");
+	mFontLarge->renderText(mWidth / 4, mHeight / 4, "Shadows of The Crown");
 
 	SDL_RenderPresent(mRenderer);
 }
@@ -215,6 +226,8 @@ void Game::free()
 	//Window	
 	SDL_DestroyRenderer(mRenderer);
 	SDL_DestroyWindow(mWindow);
+	mRenderer = nullptr;
+	mWindow = nullptr;
 
 	//SDL
 	Mix_Quit();
