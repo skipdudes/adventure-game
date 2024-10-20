@@ -4,14 +4,12 @@
 
 using namespace std;
 
-string sendPrompt(string user_prompt, string system_prompt, string assistant_prompt) {
+string sendPrompt(const nlohmann::json& messages) {
     httplib::Client cli("http://localhost:8000");
 
 
     nlohmann::json requestData = {
-        {"user_prompt", user_prompt},
-        {"system_prompt", system_prompt},
-        {"assistant_prompt", assistant_prompt}
+        {"messages", messages}
     };
 
 
@@ -28,13 +26,42 @@ string sendPrompt(string user_prompt, string system_prompt, string assistant_pro
 int main() {
 
     string prompt;
+    string context = "you are a robot. sometimes you say beep-boop. Please try to answer shortly, maximum 50 words.";
+    nlohmann::json messages = nlohmann::json::array();
 
-    getline(cin, prompt);
+    nlohmann::json systemMessage = {
+        {"role", "system"},
+        {"content", context}
+    };
+    messages.push_back(systemMessage);
 
-    string response = sendPrompt(prompt, "you are a robot. sometimes you say beep-boop. your answer should be 15 words at most", "");
-    response.erase(remove(response.begin(), response.end(), '"'), response.end());
+    while (true) {
+        getline(cin, prompt);
+        if (prompt == "q") break;
 
-    cout << response;
+        nlohmann::json userMessage = {
+            {"role", "user"},
+            {"content", prompt}
+        };
+        messages.push_back(userMessage);
+
+        string response = sendPrompt(messages);
+
+        if (!response.empty() && response.front() == '"' && response.back() == '"') {
+            response = response.substr(1, response.length() - 2);
+        }
+
+        cout << response << endl;
+
+        nlohmann::json assistantMessage = {
+            {"role", "assistant"},
+            {"content", response}
+        };
+        messages.push_back(assistantMessage);
+
+    }
+
+
 
     return 0;
 }
