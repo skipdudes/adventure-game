@@ -14,27 +14,17 @@ client = Groq(
     api_key=os.getenv('GROQ_API_KEY'),
 )
 
-class RequestData(BaseModel):
-    user_prompt: str
-    system_prompt: str
-    assistant_prompt: str
 
-def generate_response(user_prompt="", system_prompt="", assistant_prompt=""):
+class Message(BaseModel):
+    role: str
+    content: str
+
+class RequestData(BaseModel):
+    messages: list[Message]
+
+def generate_response(messages):
     chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": user_prompt,
-            },
-            {
-                "role": "system",
-                "content": system_prompt
-            },
-            {
-                "role": "assistant",
-                "content": assistant_prompt
-            }
-        ],
+        messages=[message.dict() for message in messages],
         model="llama3-70b-8192",
     )
 
@@ -42,11 +32,10 @@ def generate_response(user_prompt="", system_prompt="", assistant_prompt=""):
 
 @app.post("/generate/")
 async def generate_response_endpoint(data: RequestData):
-    response = generate_response(user_prompt=data.user_prompt, system_prompt=data.system_prompt, assistant_prompt=data.assistant_prompt)
-    print("User prompt received: ", data.user_prompt)
+    response = generate_response(data.messages)
+    print("User prompt received: ", data.messages[-1].content)
     return response
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
-# print(generate_response(user_prompt="hello, how are you?", system_prompt="you are a robot. sometimes you say beep-boop. your answer should be 15 words at most"))
