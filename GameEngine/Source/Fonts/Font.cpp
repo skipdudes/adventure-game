@@ -1,10 +1,10 @@
 #include "Font.h"
-#include "Logger.h"
+#include "../Logger.h"
 
-Font::Font(SDL_Renderer* renderer)
-	:mNewLine(0), mSpace(0), mBuilt(false)
+Font::Font()
+	:mBuilt(false), mSpace(0), mNewLine(0)
 {
-	mFontTexture = std::make_unique<FontTexture>(renderer);
+	mFontTexture = std::make_unique<FontTexture>();
 }
 
 bool Font::build(std::string filepath)

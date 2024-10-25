@@ -1,21 +1,30 @@
 #include "Game.h"
+#include "Globals.h"
+#include "Constants.h"
 #include "Logger.h"
+#include "Levels/Menu.h"
+#include "Levels/Exit.h"
 
-Game::Game(std::string title, int width, int height)
-	:mWidth(width), mHeight(height), mTitle(title), mWindow(nullptr), mRenderer(nullptr), mRunning(true), mPaused(false), mFullscreen(false)
+Game::Game()
+	:mWindow(nullptr), mFullscreen(false)
 {
 	//Initialize the game
 	if (!init())
 	{
+		//Close subsystems upon error
 		LOG_ERROR("Failed to initialize the game");
-		mRunning = false;
+		close();
+		return;
 	}
 
 	//Load the data
 	if (!loadData())
 	{
+		//Free loaded data and close subsystems
 		LOG_ERROR("Failed to load the data");
-		mRunning = false;
+		freeData();
+		close();
+		return;
 	}
 
 	//Run the game loop
@@ -34,7 +43,7 @@ bool Game::init()
 	}
 
 	//Window
-	mWindow = SDL_CreateWindow(mTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mWidth, mHeight, SDL_WINDOW_SHOWN);
+	mWindow = SDL_CreateWindow(TITLE.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (mWindow == nullptr)
 	{
 		LOG_ERROR("Window could not be created, SDL Error: " + std::string(SDL_GetError()));
@@ -42,15 +51,15 @@ bool Game::init()
 	}
 
 	//Renderer
-	mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
-	if (mRenderer == nullptr)
+	gRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
+	if (gRenderer == nullptr)
 	{
 		LOG_ERROR("Renderer could not be created, SDL Error: " + std::string(SDL_GetError()));
 		return false;
 	}
-	if (SDL_SetRenderDrawColor(mRenderer, 0x00, 0x00, 0x00, 0xFF) < 0)
+	if (SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF) < 0)
 		LOG_WARNING("Could not set renderer draw color, SDL Error: " + std::string(SDL_GetError()));
-	if (SDL_RenderSetLogicalSize(mRenderer, mWidth, mHeight) < 0)
+	if (SDL_RenderSetLogicalSize(gRenderer, SCREEN_WIDTH, SCREEN_HEIGHT) < 0)
 		LOG_WARNING("Could not set renderer logical size, SDL Error: " + std::string(SDL_GetError()));
 
 	//SDL_image
@@ -77,40 +86,105 @@ bool Game::loadData()
 	LOG_INFO("Starting loading data");
 
 	//Load global data
-	mFontSmall = std::make_unique<Font>(mRenderer);
-	mFontSmall->build("Data/Fonts/TinyUnicode.png");
+	gFontSmall = std::make_unique<Font>();
+	if (!gFontSmall->build(FILE_FONT_SMALL_TEXTURE.string()))
+	{
+		LOG_ERROR("Could not load the small font");
+		return false;
+	}
 
-	mFontMedium = std::make_unique<Font>(mRenderer);
-	mFontMedium->build("Data/Fonts/Kubasta.png");
+	gFontMedium = std::make_unique<Font>();
+	if (!gFontMedium->build(FILE_FONT_MEDIUM_TEXTURE.string()))
+	{
+		LOG_ERROR("Could not load the medium font");
+		return false;
+	}
 
-	mFontLarge = std::make_unique<Font>(mRenderer);
-	mFontLarge->build("Data/Fonts/ClassicShit.png");
+	gFontLarge = std::make_unique<Font>();
+	if (!gFontLarge->build(FILE_FONT_LARGE_TEXTURE.string()))
+	{
+		LOG_ERROR("Could not load the large font");
+		return false;
+	}
+
+	gPlayer = std::make_unique<Player>();
+	if (!gPlayer->load())
+	{
+		LOG_ERROR("Could not load the player");
+		return false;
+	}
 
 	LOG_INFO("Finished loading data");
 	return true;
+}
+
+void Game::run()
+{
+	LOG_INFO("Starting the game loop");
+
+	SDL_Event e;
+	gCurrentLevel = Menu::get();
+	gCurrentLevel->enter();
+
+	Uint32 lastFrameStartTime = SDL_GetTicks();
+	Uint32 timeAccumulator = 0;
+
+	while (gCurrentLevel != Exit::get())
+	{
+		//Calculate the time between the frames
+		Uint32 currentFrameStartTime = SDL_GetTicks();
+		Uint32 elapsedFrameTime = currentFrameStartTime - lastFrameStartTime;
+		lastFrameStartTime = currentFrameStartTime;
+		timeAccumulator += elapsedFrameTime;
+
+		//Handle user input
+		handleEvents(e);
+
+		//Update with fixed time step
+		while (timeAccumulator >= MAX_UPDATETIME)
+		{
+			update();
+			timeAccumulator -= MAX_UPDATETIME;
+		}
+
+		//Render
+		render();
+
+		//Cap the framerate
+		Uint32 frameTime = SDL_GetTicks() - currentFrameStartTime;
+		if (frameTime < MIN_FRAMETIME)
+			SDL_Delay(MIN_FRAMETIME - frameTime);
+	}
+
+	LOG_INFO("Finished the game loop");
 }
 
 void Game::handleEvents(SDL_Event& e)
 {
 	while (SDL_PollEvent(&e) != 0)
 	{
-		if (e.type == SDL_QUIT)
-			mRunning = false;
-		else if (e.type == SDL_KEYDOWN)
-		{
-			LOG_INFO("Pressed " + std::string(SDL_GetKeyName(e.key.keysym.sym)));
+		gCurrentLevel->handleEvents(e);
 
-			switch (e.key.keysym.sym)
-			{
-			case SDLK_F4:
-				toggleFullscreen();
-				break;
-			case SDLK_ESCAPE:
-				pauseGame();
-				break;
-			}
-		}
+		if (e.type == SDL_QUIT)
+			setNextState(Exit::get());
+		else if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_FULLSCREEN))
+			toggleFullscreen();
 	}
+}
+
+void Game::update()
+{
+	gCurrentLevel->update();
+	changeState();
+}
+
+void Game::render()
+{
+	SDL_RenderClear(gRenderer);
+
+	gCurrentLevel->render();
+
+	SDL_RenderPresent(gRenderer);
 }
 
 void Game::toggleFullscreen()
@@ -139,74 +213,6 @@ void Game::toggleFullscreen()
 		LOG_WARNING("Mouse position could not be restored, SDL Error: " + std::string(SDL_GetError()));
 }
 
-void Game::pauseGame()
-{
-	mPaused = !mPaused;
-	if (!mPaused)
-	{
-		LOG_INFO("Unpausing the game");
-	}
-	else
-	{
-		LOG_INFO("Pausing the game");
-	}
-}
-
-void Game::update(const int& timeStep)
-{
-	//Update game logic based on timeStep
-}
-
-void Game::render(const double& alpha)
-{
-	SDL_RenderClear(mRenderer);
-
-	//Render textures based on alpha
-	mFontSmall->renderText(mWidth - 128, mHeight - 24, "version 0.1a");
-	mFontMedium->renderText(mWidth / 3, mHeight / 2, "Welcome, Royal Guard!");
-	mFontLarge->renderText(mWidth / 4, mHeight / 4, "Shadows of The Crown");
-
-	SDL_RenderPresent(mRenderer);
-}
-
-void Game::run()
-{
-	LOG_INFO("Starting the game loop");
-
-	SDL_Event e;
-	Uint32 lastFrameStartTime = SDL_GetTicks();
-	Uint32 timeAccumulator = 0;
-
-	while (mRunning)
-	{
-		//Calculate the time between the frames
-		Uint32 currentFrameStartTime = SDL_GetTicks();
-		Uint32 elapsedFrameTime = currentFrameStartTime - lastFrameStartTime;
-		lastFrameStartTime = currentFrameStartTime;
-		timeAccumulator += elapsedFrameTime;
-
-		//Handle user input
-		handleEvents(e);
-
-		while (timeAccumulator >= MAX_UPDATETIME)
-		{
-			//Update with fixed time step
-			update(MAX_UPDATETIME);
-			timeAccumulator -= MAX_UPDATETIME;
-		}
-
-		//Render with extrapolation
-		render(timeAccumulator / (double)MAX_UPDATETIME);
-
-		//Cap the framerate
-		Uint32 frameTime = SDL_GetTicks() - currentFrameStartTime;
-		if (frameTime < MIN_FRAMETIME)
-			SDL_Delay(MIN_FRAMETIME - frameTime);
-	}
-
-	LOG_INFO("Finished the game loop");
-}
-
 void Game::freeData()
 {
 	LOG_INFO("Starting freeing data");
@@ -216,17 +222,14 @@ void Game::freeData()
 	LOG_INFO("Finished freeing data");
 }
 
-void Game::free()
+void Game::close()
 {
 	LOG_INFO("Starting game teardown");
 
-	//Free the memory
-	freeData();
-
 	//Window	
-	SDL_DestroyRenderer(mRenderer);
+	SDL_DestroyRenderer(gRenderer);
 	SDL_DestroyWindow(mWindow);
-	mRenderer = nullptr;
+	gRenderer = nullptr;
 	mWindow = nullptr;
 
 	//SDL
@@ -239,6 +242,9 @@ void Game::free()
 
 Game::~Game()
 {
-	//Free the memory and close subsystems
-	free();
+	//Free the memory
+	freeData();
+
+	//Close subsystems
+	close();
 }

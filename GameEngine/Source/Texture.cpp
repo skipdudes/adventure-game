@@ -1,8 +1,9 @@
 #include "Texture.h"
+#include "Globals.h"
 #include "Logger.h"
 
-Texture::Texture(SDL_Renderer* renderer)
-	:mWidth(0), mHeight(0), mTexture(nullptr), mRenderer(renderer)
+Texture::Texture()
+	:mTexture(nullptr), mWidth(0), mHeight(0)
 {
 
 }
@@ -13,7 +14,7 @@ bool Texture::load(std::string filepath)
 	free();
 
 	//Load new texture
-	mTexture = IMG_LoadTexture(mRenderer, filepath.c_str());
+	mTexture = IMG_LoadTexture(gRenderer, filepath.c_str());
 	if (mTexture == nullptr)
 	{
 		LOG_ERROR("Texture file \"" + filepath + "\" could not be loaded, SDL_image Error: " + std::string(IMG_GetError()));
@@ -54,7 +55,7 @@ void Texture::render(int x, int y, SDL_Rect* srcRect)
 	}
 
 	//Render the texture
-	SDL_RenderCopy(mRenderer, mTexture, srcRect, &dstRect);
+	SDL_RenderCopy(gRenderer, mTexture, srcRect, &dstRect);
 }
 
 bool Texture::setColor(Uint8 r, Uint8 g, Uint8 b)

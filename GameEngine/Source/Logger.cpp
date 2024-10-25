@@ -3,30 +3,27 @@
 #include <iomanip>
 #include <sstream>
 #include <iostream>
-#include <filesystem>
+#include "Constants.h"
 
 Logger::Logger()
 {
 	//Create desired directory if not present
-	if (!std::filesystem::exists(mDirectory))
+	if (!std::filesystem::exists(DIR_LOGS))
 	{
 		try
 		{
-			std::filesystem::create_directories(mDirectory);
+			std::filesystem::create_directories(DIR_LOGS);
 		}
 		catch (const std::exception& e)
 		{
-			std::cerr << "Error: Could not create directory \"" << mDirectory << "\". Exception: " << e.what() << std::endl;
+			std::cerr << "Error: Could not create directory \"" << DIR_LOGS << "\". Exception: " << e.what() << std::endl;
 		}
 	}
 
-	//Get full log filepath
-	mFilepath = (std::filesystem::path(mDirectory) / mFilename).string();
-
 	//Open the log output file
-	mFile.open(mFilepath.c_str(), std::ios::out);
+	mFile.open(FILE_LOG.c_str(), std::ios::out);
 	if (!mFile.is_open())
-		std::cerr << "Error: Could not open file \"" << mFilepath << '"' << std::endl;
+		std::cerr << "Error: Could not open file \"" << FILE_LOG << '"' << std::endl;
 }
 
 constexpr const char* Logger::levelToString(LogLevel level)

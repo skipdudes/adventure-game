@@ -24,9 +24,6 @@ public:
 
 private:
 	//Log output file
-	std::string mDirectory = "Logs";
-	std::string mFilename = "latest.log";
-	std::string mFilepath;
 	std::ofstream mFile;
 	std::mutex mMutex;
 

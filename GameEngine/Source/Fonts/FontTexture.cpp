@@ -1,8 +1,9 @@
 #include "FontTexture.h"
-#include "Logger.h"
+#include "../Globals.h"
+#include "../Logger.h"
 
-FontTexture::FontTexture(SDL_Renderer* renderer)
-	:Texture(renderer), mPixels(nullptr)
+FontTexture::FontTexture()
+	:Texture(), mPixels(nullptr)
 {
 
 }
@@ -60,7 +61,7 @@ bool FontTexture::create()
 	}
 
 	//Create texture from loaded pixels
-	mTexture = SDL_CreateTextureFromSurface(mRenderer, mPixels);
+	mTexture = SDL_CreateTextureFromSurface(gRenderer, mPixels);
 	if (mTexture == nullptr)
 	{
 		LOG_ERROR("Could not creature texture from loaded pixels, SDL Error: " + std::string(SDL_GetError()));
