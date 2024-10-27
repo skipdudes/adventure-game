@@ -40,14 +40,11 @@ const std::filesystem::path DIR_TEXTURES = DIR_DATA / "Textures";
 
 //Player
 const std::filesystem::path DIR_PLAYER = DIR_TEXTURES / "Player";
-const std::filesystem::path FILE_PLAYER_TEXTURE = DIR_PLAYER / "Frisk.png";
-const std::filesystem::path FILE_PLAYER_IDLE_TEXTURE = DIR_PLAYER / "Idle.png";
-const std::filesystem::path FILE_PLAYER_WALK_TEXTURE = DIR_PLAYER / "Walk.png";
+const std::filesystem::path FILE_PLAYER_TEXTURE = DIR_PLAYER / "RoyalGuard.png";
 
 //NPC
 const std::filesystem::path DIR_NPC = DIR_TEXTURES / "NPC";
-const std::filesystem::path FILE_CHARA_TEXTURE = DIR_NPC / "Chara.png";
-const std::filesystem::path FILE_MUFFET_TEXTURE = DIR_NPC / "Muffet.png";
+const std::filesystem::path FILE_KING_TEXTURE = DIR_NPC / "King.png";
 
 //Levels
 const std::filesystem::path DIR_LEVELS = DIR_TEXTURES / "Levels";
