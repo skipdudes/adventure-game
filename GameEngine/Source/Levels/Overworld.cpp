@@ -2,12 +2,28 @@
 #include "../Constants.h"
 #include "../Globals.h"
 #include "../Logger.h"
+#include "Castle.h"
 
 Overworld Overworld::gLevelOverworld;
 
 Overworld::Overworld()
 {
 	mLevelTexture = std::make_unique<Texture>();
+
+	//Trigger
+	mTriggerCastle = { 768, 96, 64, 32 };
+
+	//Castle
+	mWalls.push_back(SDL_Rect{ 704, 0, 64, 128 });
+	mWalls.push_back(SDL_Rect{ 768, 0, 64, 96 });
+	mWalls.push_back(SDL_Rect{ 832, 0, 64, 128 });
+
+	//Trees
+	mWalls.push_back(SDL_Rect{ 480, 96, 32, 96 }); 
+	mWalls.push_back(SDL_Rect{ 128, 160, 32, 96 }); 
+	mWalls.push_back(SDL_Rect{ 128, 512, 32, 96 }); 
+	mWalls.push_back(SDL_Rect{ 512, 576, 32, 96 }); 
+	mWalls.push_back(SDL_Rect{ 832, 544, 32, 96 }); 
 }
 
 Overworld* Overworld::get()
@@ -24,7 +40,15 @@ bool Overworld::enter()
 		return false;
 	}
 
-	gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) / 2);
+	//Came from Castle
+	if (gCurrentLevel == Castle::get())
+	{
+		gPlayer->setPosition(782, 128);
+	}
+	else
+	{
+		gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) / 2);
+	}
 
 	LOG_INFO("Successfully entered overworld level");
 	return true;
@@ -46,7 +70,13 @@ void Overworld::handleEvents(SDL_Event& e)
 
 void Overworld::update()
 {
-	gPlayer->move(LEVEL_WIDTH, LEVEL_HEIGHT);
+	gPlayer->move(LEVEL_WIDTH, LEVEL_HEIGHT, mWalls);
+
+	//Enter castle
+	if (checkCollision(gPlayer->getCollider(), mTriggerCastle))
+	{
+		setNextState(Castle::get());
+	}
 }
 
 void Overworld::render()

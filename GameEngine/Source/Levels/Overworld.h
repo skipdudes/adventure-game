@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "../Texture.h"
 #include <memory>
+#include <vector>
 
 class Overworld : public Level
 {
@@ -18,6 +19,9 @@ public:
 private:
 	const static int LEVEL_WIDTH = 960;
 	const static int LEVEL_HEIGHT = 704;
+
+	SDL_Rect mTriggerCastle;
+	std::vector<SDL_Rect> mWalls;
 
 	static Overworld gLevelOverworld;
 	Overworld();
