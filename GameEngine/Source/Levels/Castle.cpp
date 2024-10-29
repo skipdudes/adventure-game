@@ -35,7 +35,17 @@ bool Castle::enter()
 		return false;
 	}
 
+	//Load King
+	if (!gKing->load(FILE_KING_TEXTURE.string()))
+	{
+		LOG_ERROR("Could not load the king");
+		return false;
+	}
+
 	gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) - 4);
+
+	gKing->setPosition((LEVEL_WIDTH - gKing->getWidth()) / 2, 32);
+	mWalls.push_back(gKing->getCollider());
 
 	LOG_INFO("Successfully entered castle level");
 	return true;
@@ -45,6 +55,8 @@ bool Castle::exit()
 {
 	//Free allocated memory
 	mLevelTexture->free();
+	gKing->free();
+	mWalls.pop_back();
 
 	LOG_INFO("Exiting Castle level");
 	return true;
@@ -53,6 +65,12 @@ bool Castle::exit()
 void Castle::handleEvents(SDL_Event& e)
 {
 	gPlayer->handleEvents(e);
+
+	if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_CONFIRM))
+	{
+		if (gKing->mAbleToTalk)
+			LOG_INFO("Player wants to speak with the King!");
+	}
 }
 
 void Castle::update()
@@ -62,6 +80,12 @@ void Castle::update()
 	//Enter overworld
 	if (checkCollision(gPlayer->getCollider(), mTriggerOverworld))
 		setNextState(Overworld::get());
+
+	//King dialogue
+	if (checkCollision(gPlayer->getCollider(), gKing->getDialogueCollider()))
+		gKing->mAbleToTalk = true;
+	else
+		gKing->mAbleToTalk = false;
 }
 
 void Castle::render()
@@ -70,6 +94,8 @@ void Castle::render()
 
 	//Background
 	mLevelTexture->render(0, 0, &camera);
+
+	gKing->render(camera);
 
 	//Objects
 	gPlayer->render(camera);

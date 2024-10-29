@@ -6,6 +6,7 @@ std::unique_ptr<Font> gFontSmall;
 std::unique_ptr<Font> gFontMedium;
 std::unique_ptr<Font> gFontLarge;
 std::unique_ptr<Player> gPlayer;
+std::unique_ptr<NPC> gKing;
 Level* gCurrentLevel = nullptr;
 Level* gNextLevel = nullptr;
 

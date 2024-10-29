@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\NPC\NPC.cpp" />
     <ClCompile Include="Source\Batch.cpp" />
     <ClCompile Include="Source\Fonts\Font.cpp" />
     <ClCompile Include="Source\Fonts\FontTexture.cpp" />
@@ -35,6 +36,7 @@
     <ClCompile Include="Source\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\NPC\NPC.h" />
     <ClInclude Include="Source\Batch.h" />
     <ClInclude Include="Source\Constants.h" />
     <ClInclude Include="Source\Fonts\Font.h" />

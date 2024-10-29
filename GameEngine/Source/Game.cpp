@@ -114,6 +114,8 @@ bool Game::loadData()
 		return false;
 	}
 
+	gKing = std::make_unique<NPC>();
+
 	LOG_INFO("Finished loading data");
 	return true;
 }

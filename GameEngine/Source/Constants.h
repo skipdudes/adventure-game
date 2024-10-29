@@ -19,6 +19,7 @@ const SDL_KeyCode BUTTON_MOVE_LEFT = SDLK_LEFT;
 const SDL_KeyCode BUTTON_MOVE_RIGHT = SDLK_RIGHT;
 
 const SDL_KeyCode BUTTON_CONFIRM = SDLK_RETURN;
+const SDL_KeyCode BUTTON_QUIT = SDLK_ESCAPE;
 const SDL_KeyCode BUTTON_FULLSCREEN = SDLK_F4;
 
 //Files and directories

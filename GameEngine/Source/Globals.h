@@ -4,6 +4,7 @@
 #include "Fonts/Font.h"
 #include "Player/Player.h"
 #include "Levels/Level.h"
+#include "NPC/NPC.h"
 
 //Renderer
 extern SDL_Renderer* gRenderer;
@@ -15,6 +16,9 @@ extern std::unique_ptr<Font> gFontLarge;
 
 //Player
 extern std::unique_ptr<Player> gPlayer;
+
+//NPC
+extern std::unique_ptr<NPC> gKing;
 
 //Levels
 void setNextState(Level* nextLevel);
