@@ -46,7 +46,6 @@ const std::filesystem::path FILE_PLAYER_TEXTURE = DIR_PLAYER / "Player.png";
 //NPC
 const std::filesystem::path DIR_NPC = DIR_TEXTURES / "NPC";
 const std::filesystem::path FILE_KING_TEXTURE = DIR_NPC / "King.png";
-const std::string STRING_KING_NAME = "The King";
 
 //Levels
 const std::filesystem::path DIR_LEVELS = DIR_TEXTURES / "Levels";
@@ -69,6 +68,11 @@ const std::string OPTION_BACK = "Press ENTER to go back";
 
 //Dialogue
 const std::string BEGIN_DIALOGUE_PROMPT = "Press ENTER to speak with ";
+const std::string STRING_KING_NAME = "The King";
+const std::string DIALOGUE_START_PROMPT = "Enter text. Press ESC to quit";
+const std::string DIALOGUE_HELP_PROMPT = "Press ENTER to confirm, press ESC to quit";
+const std::string DIALOGUE_TOO_LONG = "Too many characters!";
+const std::string DIALOGUE_HELP_NPC_TURN = "Press ENTER to reply, press ESC to quit";
 const std::filesystem::path DIR_DIALOGUE = DIR_TEXTURES / "Dialogue";
 const std::filesystem::path FILE_PLAYER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Player.png";
 const std::filesystem::path FILE_KING_DIALOGUE_TEXTURE = DIR_DIALOGUE / "King.png";

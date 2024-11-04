@@ -149,9 +149,9 @@ void Castle::render()
 
 	//Prompts
 	if (gKing->mAbleToTalk && !gKing->mCurrentlyTalkingTo && !gKing->mRecentlyTalkedTo)
-		renderPrompt(127, BEGIN_DIALOGUE_PROMPT + STRING_KING_NAME);
-	
+		renderPrompt(127, BEGIN_DIALOGUE_PROMPT + STRING_KING_NAME, 1, 0xFF, 0xFF, 0xFF);
+		
 	//Dialogue
 	if (gKing->mCurrentlyTalkingTo && !(gKing->mDialogue == nullptr))
-		gKing->mDialogue->render(camera);
+		gKing->mDialogue->render();
 }

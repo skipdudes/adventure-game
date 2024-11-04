@@ -12,6 +12,7 @@ public:
 
 	bool build(std::string filepath);
 	void renderText(int x, int y, std::string text);
+	void renderDialogueText(int x, int y, std::string text, int xMaxPos);
 	bool setColor(Uint8 r, Uint8 g, Uint8 b);
 	bool setAlpha(Uint8 a);
 	void free();

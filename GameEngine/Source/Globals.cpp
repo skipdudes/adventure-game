@@ -60,7 +60,7 @@ bool checkCollision(SDL_Rect a, SDL_Rect b)
 	return true;
 }
 
-void renderPrompt(int xOffset, std::string text, int linesNumber)
+void renderPrompt(int xOffset, std::string text, int linesNumber, Uint8 r, Uint8 g, Uint8 b)
 {
 	int padding = 2;
 	int content = 32 * linesNumber;
@@ -76,6 +76,6 @@ void renderPrompt(int xOffset, std::string text, int linesNumber)
 	SDL_RenderFillRect(gRenderer, &innerBox);
 
 	//Prompt
-	gFontMedium->setColor(0xFF, 0xFF, 0xFF);
+	gFontMedium->setColor(r, g, b);
 	gFontMedium->renderText(xOffset, SCREEN_HEIGHT - (content - 2 * padding), text);
 }

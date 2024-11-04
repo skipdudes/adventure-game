@@ -1,5 +1,6 @@
 #include "Font.h"
 #include "../Logger.h"
+#include "../Constants.h"
 
 Font::Font()
 	:mBuilt(false), mSpace(0), mNewLine(0)
@@ -142,8 +143,46 @@ void Font::renderText(int x, int y, std::string text)
 			else
 			{
 				mFontTexture->render(charX, charY, &mChars[int(text[i])]);
+				charX += mChars[int(text[i])].w + PADDING;
+			}
+		}
+	}
+}
 
-				//Apply padding
+void Font::renderDialogueText(int x, int y, std::string text, int xMaxPos)
+{
+	//If the font was built
+	if (mBuilt)
+	{
+		int charX = x;
+		int charY = y;
+
+		for (int i = 0; i < text.length(); i++)
+		{
+			//Space
+			if (text[i] == ' ')
+			{
+				charX += mSpace;
+			}
+			//Newline
+			else if (text[i] == '\n')
+			{
+				charY += mNewLine;
+
+				//Return to the beginning
+				charX = x;
+			}
+			//Other chars
+			else
+			{
+				//Word wrapping
+				if ((charX + mChars[int(text[i])].w) > xMaxPos)
+				{
+					charY += mNewLine;
+					charX = x;
+				}
+
+				mFontTexture->render(charX, charY, &mChars[int(text[i])]);
 				charX += mChars[int(text[i])].w + PADDING;
 			}
 		}
