@@ -114,7 +114,9 @@ bool Game::loadData()
 		return false;
 	}
 
+	//Create NPCs
 	gKing = std::make_unique<NPC>();
+	gKing->loadDialogueVariables(STRING_KING_NAME, FILE_KING_DIALOGUE_TEXTURE.string());
 
 	LOG_INFO("Finished loading data");
 	return true;

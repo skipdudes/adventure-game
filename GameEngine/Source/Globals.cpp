@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "Levels/Exit.h"
+#include "Constants.h"
 
 SDL_Renderer* gRenderer = nullptr;
 std::unique_ptr<Font> gFontSmall;
@@ -57,4 +58,24 @@ bool checkCollision(SDL_Rect a, SDL_Rect b)
 		return false;
 
 	return true;
+}
+
+void renderPrompt(int xOffset, std::string text, int linesNumber)
+{
+	int padding = 2;
+	int content = 32 * linesNumber;
+
+	//Outer box
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_Rect outerBox = { 0, SCREEN_HEIGHT - (2 * padding + content), SCREEN_WIDTH, (2 * padding + content) };
+	SDL_RenderFillRect(gRenderer, &outerBox);
+
+	//Inner box
+	SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
+	SDL_Rect innerBox = { padding, SCREEN_HEIGHT - (padding + content), SCREEN_WIDTH - (2 * padding), content };
+	SDL_RenderFillRect(gRenderer, &innerBox);
+
+	//Prompt
+	gFontMedium->setColor(0xFF, 0xFF, 0xFF);
+	gFontMedium->renderText(xOffset, SCREEN_HEIGHT - (content - 2 * padding), text);
 }

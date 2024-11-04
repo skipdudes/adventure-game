@@ -57,16 +57,16 @@ void Authors::render()
 
 	//Render header
 	gFontLarge->setColor(0x00, 0x00, 0x00);
-	gFontLarge->renderText(272, 156, AUTHORS);
+	gFontLarge->renderText(272, 146, AUTHORS);
 
 	//Render authors
 	gFontMedium->setColor(0x00, 0x00, 0x00);
-	gFontMedium->renderText(246, 207, AUTHOR_MARCIN);
-	gFontMedium->renderText(226, 233, AUTHOR_ANDRZEJ);
-	gFontMedium->renderText(234, 259, AUTHOR_MARTA);
+	gFontMedium->renderText(246, 197, AUTHOR_MARCIN);
+	gFontMedium->renderText(226, 223, AUTHOR_ANDRZEJ);
+	gFontMedium->renderText(234, 249, AUTHOR_MARTA);
 
 	//Render prompt
-	gFontMedium->renderText(192, 320, OPTION_BACK);
+	gFontMedium->renderText(192, 310, OPTION_BACK);
 
 	//Render version
 	gFontSmall->setColor(0x00, 0x00, 0x00);

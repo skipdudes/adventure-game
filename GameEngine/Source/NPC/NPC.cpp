@@ -2,9 +2,11 @@
 #include "../Logger.h"
 
 NPC::NPC()
-	:mWidth(0), mHeight(0), mAbleToTalk(false)
+	:mWidth(0), mHeight(0), mAbleToTalk(false), mCurrentlyTalkingTo(false), mRecentlyTalkedTo(false)
 {
 	mTexture = std::make_unique<Texture>();
+	mName = "";
+	mDialogueTexturePath = "";
 }
 
 NPC::~NPC()
@@ -19,6 +21,12 @@ int NPC::getWidth() const
 int NPC::getHeight() const
 {
 	return mHeight;
+}
+
+void NPC::loadDialogueVariables(const std::string& name, const std::string& dialogueTexturePath)
+{
+	mName = name;
+	mDialogueTexturePath = dialogueTexturePath;
 }
 
 bool NPC::load(const std::string& filepath)
@@ -73,4 +81,14 @@ SDL_Rect NPC::getCollider() const
 SDL_Rect NPC::getDialogueCollider() const
 {
 	return mDialogueCollider;
+}
+
+std::string NPC::getName() const
+{
+	return mName;
+}
+
+std::string NPC::getDialogueTexturePath() const
+{
+	return mDialogueTexturePath;
 }

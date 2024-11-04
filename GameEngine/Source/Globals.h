@@ -26,3 +26,6 @@ void changeState();
 extern Level* gCurrentLevel;
 extern Level* gNextLevel;
 bool checkCollision(SDL_Rect a, SDL_Rect b);
+
+//HUD
+void renderPrompt(int xOffset, std::string text, int linesNumber = 1);

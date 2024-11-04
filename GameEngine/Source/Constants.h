@@ -41,11 +41,12 @@ const std::filesystem::path DIR_TEXTURES = DIR_DATA / "Textures";
 
 //Player
 const std::filesystem::path DIR_PLAYER = DIR_TEXTURES / "Player";
-const std::filesystem::path FILE_PLAYER_TEXTURE = DIR_PLAYER / "RoyalGuard.png";
+const std::filesystem::path FILE_PLAYER_TEXTURE = DIR_PLAYER / "Player.png";
 
 //NPC
 const std::filesystem::path DIR_NPC = DIR_TEXTURES / "NPC";
 const std::filesystem::path FILE_KING_TEXTURE = DIR_NPC / "King.png";
+const std::string STRING_KING_NAME = "The King";
 
 //Levels
 const std::filesystem::path DIR_LEVELS = DIR_TEXTURES / "Levels";
@@ -65,3 +66,9 @@ const std::string AUTHOR_MARCIN = "Marcin Chetnik";
 const std::string AUTHOR_ANDRZEJ = "Andrzej Woroniecki";
 const std::string AUTHOR_MARTA = "Marta Makowska";
 const std::string OPTION_BACK = "Press ENTER to go back";
+
+//Dialogue
+const std::string BEGIN_DIALOGUE_PROMPT = "Press ENTER to speak with ";
+const std::filesystem::path DIR_DIALOGUE = DIR_TEXTURES / "Dialogue";
+const std::filesystem::path FILE_PLAYER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Player.png";
+const std::filesystem::path FILE_KING_DIALOGUE_TEXTURE = DIR_DIALOGUE / "King.png";
