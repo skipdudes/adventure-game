@@ -49,7 +49,7 @@ const std::filesystem::path FILE_PLAYER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Playe
 const std::filesystem::path DIR_NPC = DIR_TEXTURES / "NPC";
 const std::string STRING_NPC_BASE_CONTEXT = 
 " Please try to answer shortly, maximum 50 words."
-" Do not use any special characters at the beginning and the end of the response."
+" Do not use any special characters, especially at the beginning and the end of the response. eg. newline character"
 " At the end of your response, you need to set some parameters based on the conversation,"
 " the parameters are float with value ranging from 0 to 1. parameters are: Happiness, Anxiety, Hostility."
 " You MUST include all of them in every response and you should behave accordingly to their value."
