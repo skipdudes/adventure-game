@@ -47,6 +47,9 @@ const std::filesystem::path FILE_PLAYER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Playe
 
 //NPC
 const std::filesystem::path DIR_NPC = DIR_TEXTURES / "NPC";
+const std::string STRING_HAPPINESS = "Happiness";
+const std::string STRING_ANXIETY = "Anxiety";
+const std::string STRING_HOSTILITY = "Hostility";
 const std::string STRING_NPC_BASE_CONTEXT = 
 " Please try to answer shortly, maximum 50 words."
 " Do not use any special characters at the beginning and the end of the response."
@@ -85,4 +88,5 @@ const std::string BEGIN_DIALOGUE_PROMPT = "Press ENTER to speak with ";
 const std::string DIALOGUE_START_PROMPT = "Enter text. Press ESC to quit";
 const std::string DIALOGUE_HELP_PROMPT = "Press ENTER to confirm, press ESC to quit";
 const std::string DIALOGUE_TOO_LONG = "Too many characters!";
+const std::string DIALOGUE_HELP_NPC_THINKING = "Wait for the response";
 const std::string DIALOGUE_HELP_NPC_TURN = "Press ENTER to reply, press ESC to quit";

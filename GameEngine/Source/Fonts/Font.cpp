@@ -189,6 +189,22 @@ void Font::renderDialogueText(int x, int y, std::string text, int xMaxPos)
 	}
 }
 
+void Font::renderStat(int x, int y, std::string text)
+{
+	//If the font was built
+	if (mBuilt)
+	{
+		int charX = x;
+		int charY = y;
+
+		for (int i = int(text.length() - 1); i >= 0; i--)
+		{
+			mFontTexture->render(charX - mChars[int(text[i])].w, charY - 2, &mChars[int(text[i])]);
+			charX -= mChars[int(text[i])].w + PADDING;
+		}
+	}
+}
+
 bool Font::setColor(Uint8 r, Uint8 g, Uint8 b)
 {
 	if (!mFontTexture->setColor(r, g, b))

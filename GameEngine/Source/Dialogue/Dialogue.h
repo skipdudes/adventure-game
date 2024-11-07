@@ -19,6 +19,7 @@ public:
 	Dialogue(const std::shared_ptr<NPC>& NPC);
 	~Dialogue();
 
+	static const int DOT_DURATION = 1000; //in ms
 	static const int MAXIMUM_INPUT = 300;
 
 	bool load();
@@ -47,4 +48,7 @@ private:
 	bool mChangeTurn;
 
 	std::future<std::string> generatedResponse;
+	Uint32 mLastRenderUpateTime;
+
+	void renderStat(int x, int y, const float& stat, bool good);
 };

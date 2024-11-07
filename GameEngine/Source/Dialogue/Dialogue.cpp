@@ -3,9 +3,10 @@
 #include "../Globals.h"
 #include "../Logger.h"
 #include "../SendPrompt.h"
+#include <sstream>
 
 Dialogue::Dialogue(const std::shared_ptr<NPC>& NPC)
-	:mCurrentLine(""), mCurrentTurn(Turn::PLAYER_TURN), mChangeTurn(false)
+	:mCurrentLine(""), mCurrentTurn(Turn::PLAYER_TURN), mChangeTurn(false), mLastRenderUpateTime(0)
 {
 	LOG_INFO("Called Dialogue constructor");
 
@@ -91,7 +92,8 @@ void Dialogue::changeToNPCTurn()
 
 	//NPC is thinking
 	mNPC->mThinking = true;
-	mCurrentLine = mNPC->getName() + " is thinking...";
+	mCurrentLine = mNPC->getName() + " is thinking";
+	mLastRenderUpateTime = SDL_GetTicks();
 
 	//Begin generating response
 	generatedResponse = std::async(
@@ -138,6 +140,14 @@ void Dialogue::update()
 	//If NPC is thinking and response is ready (w/o blocking the thread)
 	if (mNPC->mThinking && generatedResponse.valid())
 	{
+		//Add dot
+		Uint32 currentTicks = SDL_GetTicks();
+		if (currentTicks - mLastRenderUpateTime >= DOT_DURATION)
+		{
+			mCurrentLine += ".";
+			mLastRenderUpateTime = currentTicks;
+		}
+
 		if (generatedResponse.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
 		{
 			//Retrieve response
@@ -155,15 +165,43 @@ void Dialogue::update()
 	}
 }
 
+void Dialogue::renderStat(int x, int y, const float& stat, bool good)
+{
+	int percentage = static_cast<int>(stat * 100);
+
+	if (good)
+	{
+		if(percentage >= 0 && percentage < 34)
+			//Weak
+			gFontSmall->setColor(0xFF, 0x00, 0x00);
+		else if (percentage >= 34 && percentage < 67)
+			//Medium
+			gFontSmall->setColor(0xFF, 0xA5, 0x00);
+		else
+			//Strong
+			gFontSmall->setColor(0x00, 0xFF, 0x00);
+	}
+	else
+	{
+		if (percentage >= 0 && percentage < 34)
+			//Strong
+			gFontSmall->setColor(0x00, 0xFF, 0x00);
+		else if (percentage >= 34 && percentage < 67)
+			//Medium
+			gFontSmall->setColor(0xFF, 0xA5, 0x00);
+		else
+			//Weak
+			gFontSmall->setColor(0xFF, 0x00, 0x00);
+	}
+
+	std::ostringstream oss;
+	oss << percentage << "%";
+
+	gFontSmall->renderStat(x, y, oss.str());
+}
+
 void Dialogue::renderPlayerTurn(const int& padding, const int& content, const int& promptHeight)
 {
-	//Line
-	gFontSmall->setColor(0xFF, 0xFF, 0xFF);
-	gFontSmall->renderDialogueText(4 * padding, SCREEN_HEIGHT - (promptHeight)-(content - 2 * padding), mCurrentLine, SCREEN_WIDTH - (4 * padding));
-
-	//Avatar
-	mPlayerDialogueTexture->render(0, SCREEN_HEIGHT - (promptHeight)-(2 * padding + content) - mPlayerDialogueTexture->getHeight());
-
 	//Prompts
 	if (mCurrentLine.length() > MAXIMUM_INPUT)
 		renderPrompt(207, DIALOGUE_TOO_LONG, 1, 0xFF, 0x00, 0x00);
@@ -175,15 +213,11 @@ void Dialogue::renderPlayerTurn(const int& padding, const int& content, const in
 
 void Dialogue::renderNPCTurn(const int& padding, const int& content, const int& promptHeight)
 {
-	//Line
-	gFontSmall->setColor(0xFF, 0xFF, 0xFF);
-	gFontSmall->renderDialogueText(4 * padding, SCREEN_HEIGHT - (promptHeight)-(content - 2 * padding), mCurrentLine, SCREEN_WIDTH - (4 * padding));
-
-	//Avatar
-	mNPCDialogueTexture->render(SCREEN_WIDTH - mNPCDialogueTexture->getWidth(), SCREEN_HEIGHT - (promptHeight)-(2 * padding + content) - mNPCDialogueTexture->getHeight());
-
 	//Prompts
-	renderPrompt(106, DIALOGUE_HELP_NPC_TURN, 1, 0xFF, 0xFF, 0xFF);
+	if (mNPC->mThinking)
+		renderPrompt(204, DIALOGUE_HELP_NPC_THINKING, 1, 0xFF, 0xFF, 0xFF);
+	else
+		renderPrompt(106, DIALOGUE_HELP_NPC_TURN, 1, 0xFF, 0xFF, 0xFF);
 }
 
 void Dialogue::render()
@@ -202,6 +236,47 @@ void Dialogue::render()
 	SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
 	SDL_Rect innerBox = { padding, SCREEN_HEIGHT - (promptHeight)-(padding + content), SCREEN_WIDTH - (2 * padding), content };
 	SDL_RenderFillRect(gRenderer, &innerBox);
+
+	//Line
+	gFontSmall->setColor(0xFF, 0xFF, 0xFF);
+	gFontSmall->renderDialogueText(4 * padding, SCREEN_HEIGHT - (promptHeight)-(content - 2 * padding), mCurrentLine, SCREEN_WIDTH - (4 * padding));
+
+	//Player Avatar
+	mPlayerDialogueTexture->render(0, SCREEN_HEIGHT - (promptHeight)-(2 * padding + content) - mPlayerDialogueTexture->getHeight());
+
+	//Stats boxes
+	int statsInnerBoxSizeX = 136;
+	int statsInnerBoxSizeY = 84;
+
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_Rect statsOuterBox = { SCREEN_WIDTH - (2 * padding) - statsInnerBoxSizeX,
+		SCREEN_HEIGHT - (promptHeight)-(2 * padding + content) - padding - statsInnerBoxSizeY,
+		statsInnerBoxSizeX + (2 * padding),
+		statsInnerBoxSizeY + padding };
+	SDL_RenderFillRect(gRenderer, &statsOuterBox);
+
+	SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
+	SDL_Rect statsInnerBox = { SCREEN_WIDTH - padding - statsInnerBoxSizeX,
+		SCREEN_HEIGHT - (promptHeight)-(2 * padding + content) - statsInnerBoxSizeY,
+		statsInnerBoxSizeX,
+		statsInnerBoxSizeY };
+	SDL_RenderFillRect(gRenderer, &statsInnerBox);
+
+	//Stats labels
+	int statsLabelsX = SCREEN_WIDTH - padding - statsInnerBoxSizeX + (1 * padding);
+	int statsLabelsY = SCREEN_HEIGHT - (promptHeight)-(2 * padding + content) - statsInnerBoxSizeY;
+	std::string statsLabelsText = mNPC->getName() + "\n" + STRING_HAPPINESS + "\n" + STRING_ANXIETY + "\n" + STRING_HOSTILITY;
+	gFontSmall->setColor(0xFF, 0xFF, 0xFF);
+	gFontSmall->renderText(statsLabelsX, statsLabelsY, statsLabelsText);
+
+	//Stats
+	renderStat(636, 270, mNPC->mHappiness, true);
+	renderStat(636, 292, mNPC->mAnxiety, false);
+	renderStat(636, 314, mNPC->mHostility, false);
+
+	//NPC Avatar
+	mNPCDialogueTexture->render(SCREEN_WIDTH - (statsInnerBoxSizeX + (2 * padding)) - mNPCDialogueTexture->getWidth(),
+		SCREEN_HEIGHT - (promptHeight)-(2 * padding + content) - mNPCDialogueTexture->getHeight());
 
 	if (mCurrentTurn == Turn::PLAYER_TURN)
 		renderPlayerTurn(padding, content, promptHeight);
