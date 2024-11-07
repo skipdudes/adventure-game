@@ -47,10 +47,9 @@ std::string generateMessage(nlohmann::json& messages, std::string base_context, 
     if (!response.empty() && response.front() == '\\' && response.back() == '"')
         response = response.substr(2, response.length() - 4);
 
-    updateParametersFromResponse(response, happiness, anxiety, hostility);
-
     pushAssistantMessage(messages, response);
-
+    updateParametersFromResponse(response, happiness, anxiety, hostility);
+    
     return response;
 }
 
@@ -80,8 +79,12 @@ void updateParametersFromResponse(std::string& response, float& npc_happiness, f
         searchStart = match.suffix().first;
     }
 
-    //std::regex params_pattern(R"(\s*\(Happiness:\s*[0-9]*\.?[0-9]+,\s*Anxiety:\s*[0-9]*\.?[0-9]+,\s*Hostility:\s*[0-9]*\.?[0-9]+\)\s*)");
-    //response = std::regex_replace(response, params_pattern, "");
+    //Log full message with stats
+    LOG_INFO("Generated response: " + response);
+
+    //Stats
+    std::regex params_pattern(R"(\s*\(Happiness:\s*[0-9]*\.?[0-9]+,\s*Anxiety:\s*[0-9]*\.?[0-9]+,\s*Hostility:\s*[0-9]*\.?[0-9]+\)\s*)");
+    response = std::regex_replace(response, params_pattern, "");
 
     npc_happiness = happiness;
     npc_anxiety = anxiety;

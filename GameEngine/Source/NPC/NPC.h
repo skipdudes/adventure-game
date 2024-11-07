@@ -4,6 +4,7 @@
 #include <string>
 #include "../Texture.h"
 #include "../Dialogue/Dialogue.h"
+#include <nlohmann/json.hpp>
 
 class Dialogue;
 
@@ -21,6 +22,7 @@ public:
 	bool mAbleToTalk;
 	bool mCurrentlyTalkingTo;
 	bool mRecentlyTalkedTo;
+	bool mThinking;
 	std::unique_ptr<Dialogue> mDialogue;
 
 	//Stats
@@ -28,7 +30,8 @@ public:
 	float mAnxiety;
 	float mHostility;
 
-	//json_array messages
+	//Messages array
+	nlohmann::json mMessages = nlohmann::json::array();
 
 	bool load();
 	void free();

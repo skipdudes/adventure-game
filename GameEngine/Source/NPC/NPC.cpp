@@ -1,13 +1,15 @@
 #include "NPC.h"
 #include "../Logger.h"
+#include "../Constants.h"
 
 NPC::NPC(const std::string& name, const std::string& texturePath, const std::string& dialogueTexturePath, const std::string& context)
-	:mWidth(0), mHeight(0), mAbleToTalk(false), mCurrentlyTalkingTo(false), mRecentlyTalkedTo(false), 
-	mName(name), mTexturePath(texturePath), mDialogueTexturePath(dialogueTexturePath), mContext(context),
+	:mWidth(0), mHeight(0), mAbleToTalk(false), mCurrentlyTalkingTo(false), mRecentlyTalkedTo(false), mThinking(false), 
+	mName(name), mTexturePath(texturePath), mDialogueTexturePath(dialogueTexturePath), 
 	mHappiness(0.5f), mAnxiety(0.5f), mHostility(0.5f)
 {
 	mTexture = std::make_unique<Texture>();
-	//messages <- empty
+	mMessages.clear();
+	mContext = context + STRING_NPC_BASE_CONTEXT;
 }
 
 NPC::~NPC()

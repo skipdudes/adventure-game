@@ -107,7 +107,7 @@ void Castle::handleEvents(SDL_Event& e)
 	}
 	else if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_QUIT))
 	{
-		if (gKing->mAbleToTalk && gKing->mCurrentlyTalkingTo)
+		if (gKing->mAbleToTalk && gKing->mCurrentlyTalkingTo && !gKing->mThinking)
 		{
 			//King
 			gKing->mCurrentlyTalkingTo = false;

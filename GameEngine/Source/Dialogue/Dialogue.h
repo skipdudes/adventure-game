@@ -2,6 +2,8 @@
 #include <memory>
 #include "../Texture.h"
 #include "../NPC/NPC.h"
+#include <thread>
+#include <future>
 
 class NPC;
 
@@ -43,4 +45,6 @@ private:
 	std::string mCurrentLine;
 	Turn mCurrentTurn;
 	bool mChangeTurn;
+
+	std::future<std::string> generatedResponse;
 };

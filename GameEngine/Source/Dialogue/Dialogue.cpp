@@ -2,6 +2,7 @@
 #include "../Constants.h"
 #include "../Globals.h"
 #include "../Logger.h"
+#include "../SendPrompt.h"
 
 Dialogue::Dialogue(const std::shared_ptr<NPC>& NPC)
 	:mCurrentLine(""), mCurrentTurn(Turn::PLAYER_TURN), mChangeTurn(false)
@@ -65,7 +66,10 @@ void Dialogue::handleEventsNPCTurn(SDL_Event& e)
 {
 	//Pressed confirm
 	if (e.type == SDL_KEYDOWN && e.key.keysym.sym == BUTTON_CONFIRM)
-		mChangeTurn = true;
+	{
+		if (!(mNPC->mThinking))
+			mChangeTurn = true;
+	}
 }
 
 void Dialogue::handleEvents(SDL_Event& e)
@@ -78,19 +82,28 @@ void Dialogue::handleEvents(SDL_Event& e)
 
 void Dialogue::changeToNPCTurn()
 {
+	//User message backup
+	std::string prompt = mCurrentLine;
+
 	//Player turn ended
 	SDL_StopTextInput();
+	LOG_INFO("Sending line (" + std::to_string(prompt.length()) + ") " + prompt);
 
-	//TODO: Send entered line to language model
-	LOG_INFO("(" + std::to_string(mCurrentLine.length()) + ") " + mCurrentLine);
+	//NPC is thinking
+	mNPC->mThinking = true;
+	mCurrentLine = mNPC->getName() + " is thinking...";
 
-	//std::string prompt = mCurrentLine;
-	//mCurrentLine = mNPC->getName() + " is thinking...";
-
-	//mCurrentLine = generateMessage(NPC->messages, NPC->context, NPC->happ, npc->anx, npc->hostility, prompt)
-
-	//TEMP: npc_name (npc_anxiety): npc_context
-	mCurrentLine = mNPC->getName() + " (" + std::to_string(mNPC->mAnxiety) + "): " + mNPC->getContext();
+	//Begin generating response
+	generatedResponse = std::async(
+		std::launch::async,
+		generateMessage,
+		std::ref(mNPC->mMessages),
+		mNPC->getContext(),
+		std::ref(mNPC->mHappiness),
+		std::ref(mNPC->mAnxiety),
+		std::ref(mNPC->mHostility),
+		prompt
+	);
 
 	//NPC turn started
 	mCurrentTurn = Turn::NPC_TURN;
@@ -120,6 +133,25 @@ void Dialogue::update()
 			changeToPlayerTurn();
 
 		mChangeTurn = false;
+	}
+
+	//If NPC is thinking and response is ready (w/o blocking the thread)
+	if (mNPC->mThinking && generatedResponse.valid())
+	{
+		if (generatedResponse.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
+		{
+			//Retrieve response
+			mCurrentLine = generatedResponse.get();
+
+			//Log stats
+			LOG_INFO(mNPC->getName() + " stats after the line:");
+			LOG_INFO("Happiness: " + std::to_string(mNPC->mHappiness));
+			LOG_INFO("Anxiety: " + std::to_string(mNPC->mAnxiety));
+			LOG_INFO("Hostility: " + std::to_string(mNPC->mHostility));
+
+			//Not thinking anymore
+			mNPC->mThinking = false;
+		}
 	}
 }
 
