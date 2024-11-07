@@ -23,12 +23,13 @@ std::string sendPrompt(const nlohmann::json& messages) {
     return "";
 }
 
-//przy inicjalizacji messages:
-// nlohmann::json messages = nlohmann::json::array();
+
 std::string generateMessage(nlohmann::json& messages, std::string base_context, float& happiness, float& anxiety, float& hostility, std::string prompt) {
     std::string context = base_context + paramsToString(happiness, anxiety, hostility);
-    
-    //if it's a first message - messages array empty - then push system message, else - overwrite it 
+    std::string response;
+    std::string originalResponse;
+
+    //if it's a first message and messages array is empty - then push system message, else - overwrite it 
     if (messages.empty()) 
         pushSystemMessage(messages, context); 
     else if (messages[0]["role"] == "system")
@@ -36,24 +37,31 @@ std::string generateMessage(nlohmann::json& messages, std::string base_context, 
     else
         std::cerr << "Error: " << "No system role found when generating message" << std::endl;
 
-    pushUserMessage(messages, prompt);
+    //Check if response if valid, generate again if needed
+    do
+    {
+        //Generate response
+        pushUserMessage(messages, prompt);
+        response = sendPrompt(messages);
 
-    std::string response = sendPrompt(messages);
 
-    //remove language model's unnecessary characters
-    if (!response.empty() && response.front() == '"' && response.back() == '"')
-        response = response.substr(1, response.length() - 2);
+        //Remove language model's unnecessary characters
+        if (!response.empty() && response.front() == '"' && response.back() == '"')
+            response = response.substr(1, response.length() - 2);
+        if (!response.empty() && response.front() == '\\' && response.back() == '"')
+            response = response.substr(2, response.length() - 4);
 
-    if (!response.empty() && response.front() == '\\' && response.back() == '"')
-        response = response.substr(2, response.length() - 4);
+        originalResponse = response;
+    } while (!updateParametersFromResponse(response, happiness, anxiety, hostility));
 
-    pushAssistantMessage(messages, response);
-    updateParametersFromResponse(response, happiness, anxiety, hostility);
+
+    //Push model's response if valid
+    pushAssistantMessage(messages, originalResponse);
     
     return response;
 }
 
-void updateParametersFromResponse(std::string& response, float& npc_happiness, float& npc_anxiety, float& npc_hostility) {
+bool updateParametersFromResponse(std::string& response, float& npc_happiness, float& npc_anxiety, float& npc_hostility) {
     std::regex pattern(R"(\b(Happiness|Anxiety|Hostility):\s*([0-9]*\.?[0-9]+))");
     std::smatch match;
 
@@ -61,6 +69,7 @@ void updateParametersFromResponse(std::string& response, float& npc_happiness, f
     float anxiety = 0.0;
     float hostility = 0.0;
 
+    //Get parameters from string
     std::string::const_iterator searchStart(response.cbegin());
     while (std::regex_search(searchStart, response.cend(), match, pattern)) 
     {
@@ -69,18 +78,24 @@ void updateParametersFromResponse(std::string& response, float& npc_happiness, f
 
         if (attribute == "Happiness")
             happiness = value;
-
         else if (attribute == "Anxiety")
             anxiety = value;
-
         else if (attribute == "Hostility")
             hostility = value;
 
         searchStart = match.suffix().first;
     }
 
+    //Check if parameters are valid
+    if (happiness == 0 && anxiety == 0 && hostility == 0)
+    {
+        LOG_INFO("Generated response is invalid. Regenerating...");
+        return false;
+    }
+
     //Log full message with stats
     LOG_INFO("Generated response: " + response);
+
 
     //Stats
     std::regex params_pattern(R"(\s*\(Happiness:\s*[0-9]*\.?[0-9]+,\s*Anxiety:\s*[0-9]*\.?[0-9]+,\s*Hostility:\s*[0-9]*\.?[0-9]+\)\s*)");
@@ -89,6 +104,8 @@ void updateParametersFromResponse(std::string& response, float& npc_happiness, f
     npc_happiness = happiness;
     npc_anxiety = anxiety;
     npc_hostility = hostility;
+
+    return true;
 }
 
 void pushSystemMessage(nlohmann::json& messages, std::string msg) {
