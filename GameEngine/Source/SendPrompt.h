@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <nlohmann/json.hpp>
-#include "Logger.h"
 
 std::string sendPrompt(const nlohmann::json& messages);
 std::string generateMessage(nlohmann::json& messages, std::string prompt);

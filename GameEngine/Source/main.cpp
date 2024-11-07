@@ -17,6 +17,5 @@ int main(int argc, char* args[])
 	if (batchThread.joinable())
 		batchThread.join();
 
-
 	return 0;
 }

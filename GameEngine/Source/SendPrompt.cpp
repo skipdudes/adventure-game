@@ -1,4 +1,5 @@
 #include "SendPrompt.h"
+#include "Logger.h"
 #include <httplib.h>
 
 std::string sendPrompt(const nlohmann::json& messages) {

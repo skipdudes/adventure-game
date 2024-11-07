@@ -18,7 +18,7 @@ extern std::unique_ptr<Font> gFontLarge;
 extern std::unique_ptr<Player> gPlayer;
 
 //NPC
-extern std::unique_ptr<NPC> gKing;
+extern std::shared_ptr<NPC> gKing;
 
 //Levels
 void setNextState(Level* nextLevel);

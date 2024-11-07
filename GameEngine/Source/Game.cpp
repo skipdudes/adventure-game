@@ -86,6 +86,7 @@ bool Game::loadData()
 	LOG_INFO("Starting loading data");
 
 	//Load global data
+	//Small font (dialogues)
 	gFontSmall = std::make_unique<Font>();
 	if (!gFontSmall->build(FILE_FONT_SMALL_TEXTURE.string()))
 	{
@@ -93,6 +94,7 @@ bool Game::loadData()
 		return false;
 	}
 
+	//Medium font (prompts)
 	gFontMedium = std::make_unique<Font>();
 	if (!gFontMedium->build(FILE_FONT_MEDIUM_TEXTURE.string()))
 	{
@@ -100,6 +102,7 @@ bool Game::loadData()
 		return false;
 	}
 
+	//Large font (title)
 	gFontLarge = std::make_unique<Font>();
 	if (!gFontLarge->build(FILE_FONT_LARGE_TEXTURE.string()))
 	{
@@ -107,6 +110,7 @@ bool Game::loadData()
 		return false;
 	}
 
+	//Player
 	gPlayer = std::make_unique<Player>();
 	if (!gPlayer->load())
 	{
@@ -114,9 +118,8 @@ bool Game::loadData()
 		return false;
 	}
 
-	//Create NPCs
-	gKing = std::make_unique<NPC>();
-	gKing->loadDialogueVariables(STRING_KING_NAME, FILE_KING_DIALOGUE_TEXTURE.string());
+	//NPCs
+	gKing = std::make_shared<NPC>(STRING_KING_NAME, FILE_KING_TEXTURE.string(), FILE_KING_DIALOGUE_TEXTURE.string(), STRING_KING_CONTEXT);
 
 	LOG_INFO("Finished loading data");
 	return true;

@@ -3,13 +3,12 @@
 #include "../Globals.h"
 #include "../Logger.h"
 
-Dialogue::Dialogue(const std::string& NPCName, const std::string& NPCDialogueTexturePath)
+Dialogue::Dialogue(const std::shared_ptr<NPC>& NPC)
 	:mCurrentLine(""), mCurrentTurn(Turn::PLAYER_TURN), mChangeTurn(false)
 {
 	LOG_INFO("Called Dialogue constructor");
 
-	mNPCName = NPCName;
-	mNPCDialogueTexturePath = NPCDialogueTexturePath;
+	mNPC = NPC;
 
 	mPlayerDialogueTexture = std::make_unique<Texture>();
 	mNPCDialogueTexture = std::make_unique<Texture>();
@@ -26,7 +25,7 @@ bool Dialogue::load()
 		return false;
 	}
 
-	if (!(mNPCDialogueTexture->load(mNPCDialogueTexturePath)))
+	if (!(mNPCDialogueTexture->load(mNPC->getDialogueTexturePath())))
 	{
 		LOG_ERROR("Could not load NPC dialogue texture");
 		return false;
@@ -41,25 +40,17 @@ void Dialogue::handleEventsPlayerTurn(SDL_Event& e)
 	//Pressed non-text button
 	if (e.type == SDL_KEYDOWN)
 	{
-		//Send line
+		//Pressed confirm
 		if (e.key.keysym.sym == BUTTON_CONFIRM)
 		{
 			if (mCurrentLine.length() > 0 && mCurrentLine.length() <= MAXIMUM_INPUT)
-			{
-				//Send dialogue to language model
-				LOG_INFO("(" + std::to_string(mCurrentLine.length()) + ") " + mCurrentLine);
-
-				//Change turn
 				mChangeTurn = true;
-			}
 		}
 		//Backspace
 		else if (e.key.keysym.sym == SDLK_BACKSPACE)
 		{
 			if (mCurrentLine.length() > 0)
-			{
 				mCurrentLine.pop_back();
-			}
 		}
 	}
 	//Text buttons
@@ -74,9 +65,7 @@ void Dialogue::handleEventsNPCTurn(SDL_Event& e)
 {
 	//Pressed confirm
 	if (e.type == SDL_KEYDOWN && e.key.keysym.sym == BUTTON_CONFIRM)
-	{
 		mChangeTurn = true;
-	}
 }
 
 void Dialogue::handleEvents(SDL_Event& e)
@@ -87,14 +76,34 @@ void Dialogue::handleEvents(SDL_Event& e)
 		handleEventsNPCTurn(e);
 }
 
-void Dialogue::updatePlayerTurn()
+void Dialogue::changeToNPCTurn()
 {
+	//Player turn ended
+	SDL_StopTextInput();
 
+	//TODO: Send entered line to language model
+	LOG_INFO("(" + std::to_string(mCurrentLine.length()) + ") " + mCurrentLine);
+
+	//std::string prompt = mCurrentLine;
+	//mCurrentLine = mNPC->getName() + " is thinking...";
+
+	//mCurrentLine = generateMessage(NPC->messages, NPC->context, NPC->happ, npc->anx, npc->hostility, prompt)
+
+	//TEMP: npc_name (npc_anxiety): npc_context
+	mCurrentLine = mNPC->getName() + " (" + std::to_string(mNPC->mAnxiety) + "): " + mNPC->getContext();
+
+	//NPC turn started
+	mCurrentTurn = Turn::NPC_TURN;
 }
 
-void Dialogue::updateNPCTurn()
+void Dialogue::changeToPlayerTurn()
 {
+	//Reset line, player will provide a new one
+	mCurrentLine = "";
 
+	//Player turn started
+	SDL_StartTextInput();
+	mCurrentTurn = Turn::PLAYER_TURN;
 }
 
 void Dialogue::update()
@@ -103,20 +112,14 @@ void Dialogue::update()
 	if (mChangeTurn)
 	{
 		if (mCurrentTurn == Turn::PLAYER_TURN)
-		{
 			//Player -> NPC
-			SDL_StopTextInput();
-			mCurrentTurn = Turn::NPC_TURN;
-		}
+			changeToNPCTurn();
+
 		else if (mCurrentTurn == Turn::NPC_TURN)
-		{
 			//NPC -> Player
-			SDL_StartTextInput();
-			mCurrentTurn = Turn::PLAYER_TURN;
-		}
+			changeToPlayerTurn();
 
 		mChangeTurn = false;
-		mCurrentLine = "";
 	}
 }
 

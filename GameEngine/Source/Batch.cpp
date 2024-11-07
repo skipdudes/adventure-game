@@ -1,4 +1,5 @@
 #include "Batch.h"
+#include "Logger.h"
 
 void runBatchScript(const std::string& scriptPath) {
 

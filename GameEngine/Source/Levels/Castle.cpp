@@ -11,14 +11,23 @@ Castle::Castle()
 	mLevelTexture = std::make_unique<Texture>();
 
 	//Trigger to Overworld
-	mTriggerOverworld = { 256, 478, 128, 2 };
+	mTriggerOverworld = { 360, 718, 240, 2 };
 
-	//Walls (castle walls)
-	mWalls.push_back(SDL_Rect{ 0, 0, 32, 480 });
-	mWalls.push_back(SDL_Rect{ 608, 0, 32, 480 });
-	mWalls.push_back(SDL_Rect{ 32, 384, 224, 96 });
-	mWalls.push_back(SDL_Rect{ 384, 384, 224, 96 });
-	mWalls.push_back(SDL_Rect{ 32, 0, 576, 32 });
+	//Castle walls
+	mWalls.push_back(SDL_Rect{ 0, 0, 960, 48 }); //top
+	mWalls.push_back(SDL_Rect{ 0, 48, 24, 624 }); //left
+	mWalls.push_back(SDL_Rect{ 936, 48, 24, 624 }); //right
+	mWalls.push_back(SDL_Rect{ 0, 672, 360, 48 }); //bottom left
+	mWalls.push_back(SDL_Rect{ 600, 672, 360, 48 }); //bottom right
+
+	//Furniture
+	mWalls.push_back(SDL_Rect{ 143, 48, 96, 48 });
+	mWalls.push_back(SDL_Rect{ 312, 48, 48, 48 });
+	mWalls.push_back(SDL_Rect{ 600, 48, 48, 48 });
+	mWalls.push_back(SDL_Rect{ 719, 48, 96, 48 });
+
+	//Throne
+	mWalls.push_back(SDL_Rect{ 436, 147, 88, 93 });
 }
 
 Castle* Castle::get()
@@ -36,7 +45,7 @@ bool Castle::enter()
 	}
 
 	//Load King
-	if (!gKing->load(FILE_KING_TEXTURE.string()))
+	if (!gKing->load())
 	{
 		LOG_ERROR("Could not load the king");
 		return false;
@@ -46,7 +55,7 @@ bool Castle::enter()
 	gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) - 4);
 
 	//King
-	gKing->setPosition((LEVEL_WIDTH - gKing->getWidth()) / 2, 32);
+	gKing->setPosition((LEVEL_WIDTH - gKing->getWidth()) / 2, 179);
 	mWalls.push_back(gKing->getCollider());
 
 	LOG_INFO("Successfully entered castle level");
@@ -81,8 +90,6 @@ void Castle::handleEvents(SDL_Event& e)
 	{
 		if (gKing->mAbleToTalk && !gKing->mCurrentlyTalkingTo)
 		{
-			LOG_INFO("Player started dialogue with The King");
-
 			//Player
 			gPlayer->stop();
 
@@ -91,22 +98,24 @@ void Castle::handleEvents(SDL_Event& e)
 			gKing->mRecentlyTalkedTo = true;
 
 			//Dialogue
-			gKing->mDialogue = std::make_unique<Dialogue>(gKing->getName(), gKing->getDialogueTexturePath());
+			gKing->mDialogue = std::make_unique<Dialogue>(gKing);
 			if (!(gKing->mDialogue->load()))
 				LOG_ERROR("Could not load Dialogue variables");
+
+			LOG_INFO("Player started dialogue with The King");
 		}
 	}
 	else if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_QUIT))
 	{
 		if (gKing->mAbleToTalk && gKing->mCurrentlyTalkingTo)
 		{
-			LOG_INFO("Player ended dialogue with The King");
-
 			//King
 			gKing->mCurrentlyTalkingTo = false;
 
 			//Dialogue
 			gKing->mDialogue.reset();
+
+			LOG_INFO("Player ended dialogue with The King");
 		}
 	}
 }
@@ -136,7 +145,29 @@ void Castle::update()
 
 void Castle::render()
 {
-	SDL_Rect camera = { 0, 0, LEVEL_WIDTH, LEVEL_HEIGHT };
+	SDL_Rect camera =
+	{
+		(gPlayer->getCollider().x + Player::PLAYER_WIDTH / 2) - SCREEN_WIDTH / 2,
+		(gPlayer->getCollider().y + Player::PLAYER_HEIGHT / 2) - SCREEN_HEIGHT / 2,
+		SCREEN_WIDTH,
+		SCREEN_HEIGHT
+	};
+	if (camera.x < 0)
+	{
+		camera.x = 0;
+	}
+	if (camera.y < 0)
+	{
+		camera.y = 0;
+	}
+	if (camera.x > LEVEL_WIDTH - camera.w)
+	{
+		camera.x = LEVEL_WIDTH - camera.w;
+	}
+	if (camera.y > LEVEL_HEIGHT - camera.h)
+	{
+		camera.y = LEVEL_HEIGHT - camera.h;
+	}
 
 	//Background
 	mLevelTexture->render(0, 0, &camera);

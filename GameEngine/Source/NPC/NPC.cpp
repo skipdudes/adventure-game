@@ -1,16 +1,18 @@
 #include "NPC.h"
 #include "../Logger.h"
 
-NPC::NPC()
-	:mWidth(0), mHeight(0), mAbleToTalk(false), mCurrentlyTalkingTo(false), mRecentlyTalkedTo(false)
+NPC::NPC(const std::string& name, const std::string& texturePath, const std::string& dialogueTexturePath, const std::string& context)
+	:mWidth(0), mHeight(0), mAbleToTalk(false), mCurrentlyTalkingTo(false), mRecentlyTalkedTo(false), 
+	mName(name), mTexturePath(texturePath), mDialogueTexturePath(dialogueTexturePath), mContext(context),
+	mHappiness(0.5f), mAnxiety(0.5f), mHostility(0.5f)
 {
 	mTexture = std::make_unique<Texture>();
-	mName = "";
-	mDialogueTexturePath = "";
+	//messages <- empty
 }
 
 NPC::~NPC()
 {
+	//Dealloc texture
 	free();
 }
 
@@ -23,17 +25,13 @@ int NPC::getHeight() const
 	return mHeight;
 }
 
-void NPC::loadDialogueVariables(const std::string& name, const std::string& dialogueTexturePath)
+bool NPC::load()
 {
-	mName = name;
-	mDialogueTexturePath = dialogueTexturePath;
-}
-
-bool NPC::load(const std::string& filepath)
-{
+	//Free tex
 	free();
 
-	if (!(mTexture->load(filepath)))
+	//Load tex
+	if (!(mTexture->load(mTexturePath)))
 	{
 		LOG_ERROR("Could not load NPC texture");
 		return false;
@@ -43,6 +41,7 @@ bool NPC::load(const std::string& filepath)
 	mWidth = mTexture->getWidth();
 	mHeight = mTexture->getHeight();
 
+	//Init colliders
 	mCollider.w = mWidth;
 	mCollider.h = mHeight;
 
@@ -91,4 +90,19 @@ std::string NPC::getName() const
 std::string NPC::getDialogueTexturePath() const
 {
 	return mDialogueTexturePath;
+}
+
+std::string NPC::getContext() const
+{
+	return mContext;
+}
+
+void NPC::startDialogue()
+{
+	
+}
+
+void NPC::endDialogue()
+{
+	
 }

@@ -38,14 +38,21 @@ const std::filesystem::path FILE_FONT_LARGE_TEXTURE = DIR_FONTS / "PixNull.png";
 
 //Textures
 const std::filesystem::path DIR_TEXTURES = DIR_DATA / "Textures";
+const std::filesystem::path DIR_DIALOGUE = DIR_TEXTURES / "Dialogue";
 
 //Player
 const std::filesystem::path DIR_PLAYER = DIR_TEXTURES / "Player";
 const std::filesystem::path FILE_PLAYER_TEXTURE = DIR_PLAYER / "Player.png";
+const std::filesystem::path FILE_PLAYER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Player.png";
 
 //NPC
 const std::filesystem::path DIR_NPC = DIR_TEXTURES / "NPC";
+
+//King
+const std::string STRING_KING_NAME = "The King";
 const std::filesystem::path FILE_KING_TEXTURE = DIR_NPC / "King.png";
+const std::filesystem::path FILE_KING_DIALOGUE_TEXTURE = DIR_DIALOGUE / "King.png";
+const std::string STRING_KING_CONTEXT = "You are the king of medieval country.";
 
 //Levels
 const std::filesystem::path DIR_LEVELS = DIR_TEXTURES / "Levels";
@@ -68,11 +75,7 @@ const std::string OPTION_BACK = "Press ENTER to go back";
 
 //Dialogue
 const std::string BEGIN_DIALOGUE_PROMPT = "Press ENTER to speak with ";
-const std::string STRING_KING_NAME = "The King";
 const std::string DIALOGUE_START_PROMPT = "Enter text. Press ESC to quit";
 const std::string DIALOGUE_HELP_PROMPT = "Press ENTER to confirm, press ESC to quit";
 const std::string DIALOGUE_TOO_LONG = "Too many characters!";
 const std::string DIALOGUE_HELP_NPC_TURN = "Press ENTER to reply, press ESC to quit";
-const std::filesystem::path DIR_DIALOGUE = DIR_TEXTURES / "Dialogue";
-const std::filesystem::path FILE_PLAYER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Player.png";
-const std::filesystem::path FILE_KING_DIALOGUE_TEXTURE = DIR_DIALOGUE / "King.png";
