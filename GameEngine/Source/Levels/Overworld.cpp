@@ -3,6 +3,7 @@
 #include "../Globals.h"
 #include "../Logger.h"
 #include "Castle.h"
+#include "Inn.h"
 
 Overworld Overworld::gLevelOverworld;
 
@@ -12,11 +13,17 @@ Overworld::Overworld()
 
 	//Trigger
 	mTriggerCastle = { 768, 96, 64, 32 };
+	mTriggerInn = { 288, 96, 64, 32 };
 
 	//Castle
 	mWalls.push_back(SDL_Rect{ 704, 0, 64, 128 });
 	mWalls.push_back(SDL_Rect{ 768, 0, 64, 96 });
 	mWalls.push_back(SDL_Rect{ 832, 0, 64, 128 });
+
+	//Inn
+	mWalls.push_back(SDL_Rect{ 224, 0, 64, 128 });
+	mWalls.push_back(SDL_Rect{ 288, 0, 64, 96 });
+	mWalls.push_back(SDL_Rect{ 352, 0, 64, 128 });
 
 	//Trees
 	mWalls.push_back(SDL_Rect{ 480, 96, 32, 96 }); 
@@ -44,6 +51,11 @@ bool Overworld::enter()
 	if (gCurrentLevel == Castle::get())
 	{
 		gPlayer->setPosition(782, 128);
+	}
+	//Came from Inn
+	else if (gCurrentLevel == Inn::get())
+	{
+		gPlayer->setPosition(302, 128);
 	}
 	else
 	{
@@ -76,6 +88,11 @@ void Overworld::update()
 	if (checkCollision(gPlayer->getCollider(), mTriggerCastle))
 	{
 		setNextState(Castle::get());
+	}
+	//Enter Inn
+	else if (checkCollision(gPlayer->getCollider(), mTriggerInn))
+	{
+		setNextState(Inn::get());
 	}
 }
 

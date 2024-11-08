@@ -19,6 +19,10 @@ extern std::unique_ptr<Player> gPlayer;
 
 //NPC
 extern std::shared_ptr<NPC> gKing;
+extern std::shared_ptr<NPC> gFather;
+extern std::shared_ptr<NPC> gRoyalGuard;
+extern std::shared_ptr<NPC> gInnkeeper;
+extern std::shared_ptr<NPC> gMarquis;
 
 //Levels
 void setNextState(Level* nextLevel);

@@ -3,11 +3,19 @@
 #include "Constants.h"
 
 SDL_Renderer* gRenderer = nullptr;
+
 std::unique_ptr<Font> gFontSmall;
 std::unique_ptr<Font> gFontMedium;
 std::unique_ptr<Font> gFontLarge;
+
 std::unique_ptr<Player> gPlayer;
+
 std::shared_ptr<NPC> gKing;
+std::shared_ptr<NPC> gFather;
+std::shared_ptr<NPC> gRoyalGuard;
+std::shared_ptr<NPC> gInnkeeper;
+std::shared_ptr<NPC> gMarquis;
+
 Level* gCurrentLevel = nullptr;
 Level* gNextLevel = nullptr;
 

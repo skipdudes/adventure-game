@@ -16,7 +16,7 @@ public:
 	~NPC();
 
 	//Second collider
-	static const int DIALOGUE_COLLIDER_PADDING = 24;
+	static const int DIALOGUE_COLLIDER_PADDING = 32;
 
 	//Dialogue variables
 	bool mAbleToTalk;

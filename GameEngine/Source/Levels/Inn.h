@@ -4,10 +4,10 @@
 #include <memory>
 #include <vector>
 
-class Overworld : public Level
+class Inn : public Level
 {
 public:
-	static Overworld* get();
+	static Inn* get();
 
 	bool enter();
 	bool exit();
@@ -18,13 +18,12 @@ public:
 
 private:
 	const static int LEVEL_WIDTH = 960;
-	const static int LEVEL_HEIGHT = 704;
+	const static int LEVEL_HEIGHT = 720;
 
-	SDL_Rect mTriggerCastle;
-	SDL_Rect mTriggerInn;
+	SDL_Rect mTriggerOverworld;
 	std::vector<SDL_Rect> mWalls;
 
-	static Overworld gLevelOverworld;
-	Overworld();
+	static Inn gLevelInn;
+	Inn();
 	std::unique_ptr<Texture> mLevelTexture;
 };

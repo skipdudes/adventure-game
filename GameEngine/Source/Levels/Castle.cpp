@@ -14,17 +14,18 @@ Castle::Castle()
 	mTriggerOverworld = { 360, 718, 240, 2 };
 
 	//Castle walls
-	mWalls.push_back(SDL_Rect{ 0, 0, 960, 48 }); //top
 	mWalls.push_back(SDL_Rect{ 0, 48, 24, 624 }); //left
 	mWalls.push_back(SDL_Rect{ 936, 48, 24, 624 }); //right
 	mWalls.push_back(SDL_Rect{ 0, 672, 360, 48 }); //bottom left
 	mWalls.push_back(SDL_Rect{ 600, 672, 360, 48 }); //bottom right
 
 	//Furniture
-	mWalls.push_back(SDL_Rect{ 143, 48, 96, 48 });
-	mWalls.push_back(SDL_Rect{ 312, 48, 48, 48 });
-	mWalls.push_back(SDL_Rect{ 600, 48, 48, 48 });
-	mWalls.push_back(SDL_Rect{ 719, 48, 96, 48 });
+	mWalls.push_back(SDL_Rect{ 143, 0, 96, 48 });
+	mWalls.push_back(SDL_Rect{ 312, 0, 48, 48 });
+	mWalls.push_back(SDL_Rect{ 408, 0, 48, 48 });
+	mWalls.push_back(SDL_Rect{ 504, 0, 48, 48 });
+	mWalls.push_back(SDL_Rect{ 600, 0, 48, 48 });
+	mWalls.push_back(SDL_Rect{ 719, 0, 96, 48 });
 
 	//Throne
 	mWalls.push_back(SDL_Rect{ 436, 147, 88, 93 });
@@ -40,36 +41,36 @@ bool Castle::enter()
 	//Load background
 	if (!mLevelTexture->load(FILE_CASTLE_TEXTURE.string()))
 	{
-		LOG_ERROR("Could not load castle level texture");
+		LOG_ERROR("Could not load Castle level texture");
 		return false;
 	}
 
 	//Load King
 	if (!gKing->load())
 	{
-		LOG_ERROR("Could not load the king");
+		LOG_ERROR("Could not load the King");
 		return false;
 	}
-
-	//Player starting position
-	gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) - 4);
 
 	//King
 	gKing->setPosition((LEVEL_WIDTH - gKing->getWidth()) / 2, 179);
 	mWalls.push_back(gKing->getCollider());
 
-	LOG_INFO("Successfully entered castle level");
+	//Player starting position
+	gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) - 4);
+
+	LOG_INFO("Successfully entered Castle level");
 	return true;
 }
 
 bool Castle::exit()
 {
-	//Free allocated memory
-	mLevelTexture->free();
-
 	//King
 	gKing->free();
 	mWalls.pop_back();
+
+	//Free allocated memory
+	mLevelTexture->free();
 
 	LOG_INFO("Exiting Castle level");
 	return true;

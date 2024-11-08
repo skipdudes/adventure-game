@@ -33,6 +33,12 @@
     <ClCompile Include="Source\Levels\Exit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Levels\House.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Levels\Inn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Levels\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,6 +90,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Levels\Exit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Levels\House.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Levels\Inn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Levels\Level.h">

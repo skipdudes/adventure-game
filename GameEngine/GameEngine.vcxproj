@@ -28,6 +28,8 @@
     <ClCompile Include="Source\Levels\Authors.cpp" />
     <ClCompile Include="Source\Levels\Castle.cpp" />
     <ClCompile Include="Source\Levels\Exit.cpp" />
+    <ClCompile Include="Source\Levels\House.cpp" />
+    <ClCompile Include="Source\Levels\Inn.cpp" />
     <ClCompile Include="Source\Levels\Menu.cpp" />
     <ClCompile Include="Source\Levels\Overworld.cpp" />
     <ClCompile Include="Source\Logger.cpp" />
@@ -48,6 +50,8 @@
     <ClInclude Include="Source\Levels\Authors.h" />
     <ClInclude Include="Source\Levels\Castle.h" />
     <ClInclude Include="Source\Levels\Exit.h" />
+    <ClInclude Include="Source\Levels\House.h" />
+    <ClInclude Include="Source\Levels\Inn.h" />
     <ClInclude Include="Source\Levels\Level.h" />
     <ClInclude Include="Source\Levels\Menu.h" />
     <ClInclude Include="Source\Levels\Overworld.h" />

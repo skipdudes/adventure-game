@@ -64,12 +64,38 @@ const std::filesystem::path FILE_KING_TEXTURE = DIR_NPC / "King.png";
 const std::filesystem::path FILE_KING_DIALOGUE_TEXTURE = DIR_DIALOGUE / "King.png";
 const std::string STRING_KING_CONTEXT = "You are the king of a medieval city.";
 
+//Father
+const std::string STRING_FATHER_NAME = "The Father";
+const std::filesystem::path FILE_FATHER_TEXTURE = DIR_NPC / "Father.png";
+const std::filesystem::path FILE_FATHER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Father.png";
+const std::string STRING_FATHER_CONTEXT = "You are the king of a medieval city.";
+
+//RoyalGuard
+const std::string STRING_ROYALGUARD_NAME = "Royal Guard";
+const std::filesystem::path FILE_ROYALGUARD_TEXTURE = DIR_NPC / "RoyalGuard.png";
+const std::filesystem::path FILE_ROYALGUARD_DIALOGUE_TEXTURE = DIR_DIALOGUE / "RoyalGuard.png";
+const std::string STRING_ROYALGUARD_CONTEXT = "You are the king of a medieval city.";
+
+//Innkeeper
+const std::string STRING_INNKEEPER_NAME = "The Innkeeper";
+const std::filesystem::path FILE_INNKEEPER_TEXTURE = DIR_NPC / "Innkeeper.png";
+const std::filesystem::path FILE_INNKEEPER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Innkeeper.png";
+const std::string STRING_INNKEEPER_CONTEXT = "You are the king of a medieval city.";
+
+//Marquis
+const std::string STRING_MARQUIS_NAME = "The Marquis";
+const std::filesystem::path FILE_MARQUIS_TEXTURE = DIR_NPC / "Marquis.png";
+const std::filesystem::path FILE_MARQUIS_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Marquis.png";
+const std::string STRING_MARQUIS_CONTEXT = "You are the king of a medieval city.";
+
 //Levels
 const std::filesystem::path DIR_LEVELS = DIR_TEXTURES / "Levels";
 const std::filesystem::path FILE_MENU_TEXTURE = DIR_LEVELS / "Menu.png";
 const std::filesystem::path FILE_AUTHORS_TEXTURE = DIR_LEVELS / "Authors.png";
 const std::filesystem::path FILE_OVERWORLD_TEXTURE = DIR_LEVELS / "Overworld.png";
 const std::filesystem::path FILE_CASTLE_TEXTURE = DIR_LEVELS / "Castle.png";
+const std::filesystem::path FILE_INN_TEXTURE = DIR_LEVELS / "Inn.png";
+const std::filesystem::path FILE_HOUSE_TEXTURE = DIR_LEVELS / "House.png";
 
 //Menu options
 const std::string OPTION_START = "Start game";
