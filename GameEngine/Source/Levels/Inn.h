@@ -1,6 +1,7 @@
 #pragma once
 #include "Level.h"
 #include "../Texture.h"
+#include "../NPC/NPC.h"
 #include <memory>
 #include <vector>
 
@@ -22,6 +23,7 @@ private:
 
 	SDL_Rect mTriggerOverworld;
 	std::vector<SDL_Rect> mWalls;
+	std::vector<std::shared_ptr<NPC>> mNPCs;
 
 	static Inn gLevelInn;
 	Inn();

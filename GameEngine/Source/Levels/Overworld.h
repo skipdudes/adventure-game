@@ -22,6 +22,7 @@ private:
 
 	SDL_Rect mTriggerCastle;
 	SDL_Rect mTriggerInn;
+	SDL_Rect mTriggerHouse;
 	std::vector<SDL_Rect> mWalls;
 
 	static Overworld gLevelOverworld;

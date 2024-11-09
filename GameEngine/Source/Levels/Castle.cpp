@@ -45,16 +45,29 @@ bool Castle::enter()
 		return false;
 	}
 
-	//Load King
-	if (!gKing->load())
+	//NPCs
+	mNPCs.push_back(gKing);
+	mNPCs.push_back(gFather);
+	mNPCs.push_back(gRoyalGuard);
+
+	for (std::shared_ptr<NPC>& npc : mNPCs)
 	{
-		LOG_ERROR("Could not load the King");
-		return false;
+		//Load
+		if (!npc->load())
+		{
+			LOG_ERROR("Could not load " + npc->getName());
+			return false;
+		}
 	}
 
-	//King
+	//Individual NPCs position
 	gKing->setPosition((LEVEL_WIDTH - gKing->getWidth()) / 2, 179);
-	mWalls.push_back(gKing->getCollider());
+	gFather->setPosition((LEVEL_WIDTH - gFather->getWidth()) / 3, (LEVEL_HEIGHT - gFather->getHeight()) / 2);
+	gRoyalGuard->setPosition(2 * (LEVEL_WIDTH - gRoyalGuard->getWidth()) / 3, (LEVEL_HEIGHT - gRoyalGuard->getHeight()) / 2);
+
+	//NPCs colliders
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+		mWalls.push_back(npc->getCollider());
 
 	//Player starting position
 	gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) - 4);
@@ -65,11 +78,16 @@ bool Castle::enter()
 
 bool Castle::exit()
 {
-	//King
-	gKing->free();
-	mWalls.pop_back();
+	//NPCs
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+	{
+		//Free and remove collider
+		npc->free();
+		mWalls.pop_back();
+	}
+	mNPCs.clear();
 
-	//Free allocated memory
+	//Free level texture
 	mLevelTexture->free();
 
 	LOG_INFO("Exiting Castle level");
@@ -79,44 +97,51 @@ bool Castle::exit()
 void Castle::handleEvents(SDL_Event& e)
 {
 	//Player
-	if (!gKing->mCurrentlyTalkingTo)
+	bool talkingTo = false;
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+	{
+		if (npc->mCurrentlyTalkingTo)
+			talkingTo = true;
+		break;
+	}
+	if (!talkingTo)
 		gPlayer->handleEvents(e);
 
 	//Dialogue
-	if (gKing->mCurrentlyTalkingTo && !(gKing->mDialogue == nullptr))
-		gKing->mDialogue->handleEvents(e);
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+		npc->handleDialogueEvents(e);
 
-	//King
+	//Start dialogue
 	if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_CONFIRM))
 	{
-		if (gKing->mAbleToTalk && !gKing->mCurrentlyTalkingTo)
+		for (std::shared_ptr<NPC>& npc : mNPCs)
 		{
-			//Player
-			gPlayer->stop();
+			if (npc->startedDialogue())
+			{
+				//Stop the player
+				gPlayer->stop();
 
-			//King
-			gKing->mCurrentlyTalkingTo = true;
-			gKing->mRecentlyTalkedTo = true;
+				//Dialogue
+				npc->mDialogue = std::make_unique<Dialogue>(npc);
+				if (!(npc->mDialogue->load()))
+					LOG_ERROR("Could not load dialogue variables");
 
-			//Dialogue
-			gKing->mDialogue = std::make_unique<Dialogue>(gKing);
-			if (!(gKing->mDialogue->load()))
-				LOG_ERROR("Could not load Dialogue variables");
-
-			LOG_INFO("Player started dialogue with The King");
+				LOG_INFO("Player started dialogue with " + npc->getName());
+			}
 		}
 	}
+	//End dialogue
 	else if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_QUIT))
 	{
-		if (gKing->mAbleToTalk && gKing->mCurrentlyTalkingTo && !gKing->mThinking)
+		for (std::shared_ptr<NPC>& npc : mNPCs)
 		{
-			//King
-			gKing->mCurrentlyTalkingTo = false;
+			if (npc->endedDialogue())
+			{
+				//Dialogue
+				npc->mDialogue.reset();
 
-			//Dialogue
-			gKing->mDialogue.reset();
-
-			LOG_INFO("Player ended dialogue with The King");
+				LOG_INFO("Player ended dialogue with " + npc->getName());
+			}
 		}
 	}
 }
@@ -130,60 +155,44 @@ void Castle::update()
 	if (checkCollision(gPlayer->getCollider(), mTriggerOverworld))
 		setNextState(Overworld::get());
 
-	//King
-	if (checkCollision(gPlayer->getCollider(), gKing->getDialogueCollider()))
-		gKing->mAbleToTalk = true;
-	else
+	//NPCs
+	for (std::shared_ptr<NPC>& npc : mNPCs)
 	{
-		gKing->mAbleToTalk = false;
-		gKing->mRecentlyTalkedTo = false;
+		npc->checkIfAbleToTalk();
+		npc->updateDialogue();
 	}
-
-	//Dialogue
-	if (gKing->mCurrentlyTalkingTo && !(gKing->mDialogue == nullptr))
-		gKing->mDialogue->update();
 }
 
 void Castle::render()
 {
+	//Center camera around the player
 	SDL_Rect camera =
 	{
 		(gPlayer->getCollider().x + Player::PLAYER_WIDTH / 2) - SCREEN_WIDTH / 2,
 		(gPlayer->getCollider().y + Player::PLAYER_HEIGHT / 2) - SCREEN_HEIGHT / 2,
-		SCREEN_WIDTH,
-		SCREEN_HEIGHT
+		SCREEN_WIDTH, SCREEN_HEIGHT
 	};
-	if (camera.x < 0)
-	{
-		camera.x = 0;
-	}
-	if (camera.y < 0)
-	{
-		camera.y = 0;
-	}
-	if (camera.x > LEVEL_WIDTH - camera.w)
-	{
-		camera.x = LEVEL_WIDTH - camera.w;
-	}
-	if (camera.y > LEVEL_HEIGHT - camera.h)
-	{
-		camera.y = LEVEL_HEIGHT - camera.h;
-	}
-
+	if (camera.x < 0) camera.x = 0;
+	if (camera.y < 0) camera.y = 0;
+	if (camera.x > LEVEL_WIDTH - camera.w) camera.x = LEVEL_WIDTH - camera.w;
+	if (camera.y > LEVEL_HEIGHT - camera.h) camera.y = LEVEL_HEIGHT - camera.h;
+		
 	//Background
 	mLevelTexture->render(0, 0, &camera);
 
-	//King
-	gKing->render(camera);
+	//NPCs
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+		npc->render(camera);
 		
 	//Player
 	gPlayer->render(camera);
 
-	//Prompts
-	if (gKing->mAbleToTalk && !gKing->mCurrentlyTalkingTo && !gKing->mRecentlyTalkedTo)
-		renderPrompt(127, BEGIN_DIALOGUE_PROMPT + STRING_KING_NAME, 1, 0xFF, 0xFF, 0xFF);
+	//Specific NPCs prompts
+	gKing->renderDialoguePrompt(127);
+	gFather->renderDialoguePrompt(113);
+	gRoyalGuard->renderDialoguePrompt(110);
 		
-	//Dialogue
-	if (gKing->mCurrentlyTalkingTo && !(gKing->mDialogue == nullptr))
-		gKing->mDialogue->render();
+	//NPCs Dialogue
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+		npc->renderDialogue();
 }

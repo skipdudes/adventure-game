@@ -1,6 +1,7 @@
 #include "NPC.h"
 #include "../Logger.h"
 #include "../Constants.h"
+#include "../Globals.h"
 
 NPC::NPC(const std::string& name, const std::string& texturePath, const std::string& dialogueTexturePath, const std::string& context)
 	:mWidth(0), mHeight(0), mAbleToTalk(false), mCurrentlyTalkingTo(false), mRecentlyTalkedTo(false), mThinking(false), 
@@ -99,12 +100,66 @@ std::string NPC::getContext() const
 	return mContext;
 }
 
-void NPC::startDialogue()
+void NPC::renderDialoguePrompt(int xOffset)
 {
-	
+	if(mAbleToTalk && !mCurrentlyTalkingTo && !mRecentlyTalkedTo)
+		renderPrompt(xOffset, BEGIN_DIALOGUE_PROMPT + mName, 1, 0xFF, 0xFF, 0xFF);
 }
 
-void NPC::endDialogue()
+void NPC::renderDialogue()
 {
-	
+	if (mCurrentlyTalkingTo && !(mDialogue == nullptr))
+		mDialogue->render();
+}
+
+void NPC::handleDialogueEvents(SDL_Event& e)
+{
+	if (mCurrentlyTalkingTo && !(mDialogue == nullptr))
+		mDialogue->handleEvents(e);
+}
+
+bool NPC::startedDialogue()
+{
+	if (mAbleToTalk && !mCurrentlyTalkingTo)
+	{
+		//Set internal variables
+		mCurrentlyTalkingTo = true;
+		mRecentlyTalkedTo = true;
+		
+		return true;
+	}
+
+	return false;
+}
+
+bool NPC::endedDialogue()
+{
+	if (mAbleToTalk && mCurrentlyTalkingTo && !mThinking)
+	{
+		//Set internal variables
+		mCurrentlyTalkingTo = false;
+
+		return true;
+	}
+
+	return false;
+}
+
+void NPC::checkIfAbleToTalk()
+{
+	if (checkCollision(gPlayer->getCollider(), mDialogueCollider))
+	{
+		mAbleToTalk = true;
+	}
+	else
+	{
+		mAbleToTalk = false;
+		mRecentlyTalkedTo = false;
+	}
+}
+
+void NPC::updateDialogue()
+{
+	if (mCurrentlyTalkingTo && !(mDialogue == nullptr))
+		mDialogue->update();
 }

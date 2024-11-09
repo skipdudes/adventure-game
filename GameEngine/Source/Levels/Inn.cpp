@@ -14,6 +14,7 @@ Inn::Inn()
 	mTriggerOverworld = { 0, 718, 960, 2 };
 
 	//Walls
+	//TODO
 }
 
 Inn* Inn::get()
@@ -26,36 +27,50 @@ bool Inn::enter()
 	//Load background
 	if (!mLevelTexture->load(FILE_INN_TEXTURE.string()))
 	{
-		LOG_ERROR("Could not load inn level texture");
+		LOG_ERROR("Could not load Inn level texture");
 		return false;
 	}
 
-	//Load Innkeeper
-	if (!gInnkeeper->load())
+	//NPCs
+	mNPCs.push_back(gInnkeeper);
+
+	for (std::shared_ptr<NPC>& npc : mNPCs)
 	{
-		LOG_ERROR("Could not load the king");
-		return false;
+		//Load
+		if (!npc->load())
+		{
+			LOG_ERROR("Could not load " + npc->getName());
+			return false;
+		}
 	}
+
+	//Individual NPCs position
+	gInnkeeper->setPosition((LEVEL_WIDTH - gInnkeeper->getWidth()) / 2, 179);
+
+	//NPCs colliders
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+		mWalls.push_back(npc->getCollider());
 
 	//Player starting position
 	gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) - 4);
 
-	//Innkeeper
-	gInnkeeper->setPosition((LEVEL_WIDTH - gInnkeeper->getWidth()) / 2, 179);
-	mWalls.push_back(gInnkeeper->getCollider());
-
-	LOG_INFO("Successfully entered inn level");
+	LOG_INFO("Successfully entered Inn level");
 	return true;
 }
 
 bool Inn::exit()
 {
-	//Free allocated memory
-	mLevelTexture->free();
+	//NPCs
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+	{
+		//Free and remove collider
+		npc->free();
+		mWalls.pop_back();
+	}
+	mNPCs.clear();
 
-	//Innkeeper
-	gInnkeeper->free();
-	mWalls.pop_back();
+	//Free level texture
+	mLevelTexture->free();
 
 	LOG_INFO("Exiting Inn level");
 	return true;
@@ -64,44 +79,51 @@ bool Inn::exit()
 void Inn::handleEvents(SDL_Event& e)
 {
 	//Player
-	if (!gInnkeeper->mCurrentlyTalkingTo)
+	bool talkingTo = false;
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+	{
+		if (npc->mCurrentlyTalkingTo)
+			talkingTo = true;
+		break;
+	}
+	if (!talkingTo)
 		gPlayer->handleEvents(e);
 
 	//Dialogue
-	if (gInnkeeper->mCurrentlyTalkingTo && !(gInnkeeper->mDialogue == nullptr))
-		gInnkeeper->mDialogue->handleEvents(e);
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+		npc->handleDialogueEvents(e);
 
-	//NPC
+	//Start dialogue
 	if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_CONFIRM))
 	{
-		if (gInnkeeper->mAbleToTalk && !gInnkeeper->mCurrentlyTalkingTo)
+		for (std::shared_ptr<NPC>& npc : mNPCs)
 		{
-			//Player
-			gPlayer->stop();
+			if (npc->startedDialogue())
+			{
+				//Stop the player
+				gPlayer->stop();
 
-			//NPC
-			gInnkeeper->mCurrentlyTalkingTo = true;
-			gInnkeeper->mRecentlyTalkedTo = true;
+				//Dialogue
+				npc->mDialogue = std::make_unique<Dialogue>(npc);
+				if (!(npc->mDialogue->load()))
+					LOG_ERROR("Could not load dialogue variables");
 
-			//Dialogue
-			gInnkeeper->mDialogue = std::make_unique<Dialogue>(gInnkeeper);
-			if (!(gInnkeeper->mDialogue->load()))
-				LOG_ERROR("Could not load Dialogue variables");
-
-			LOG_INFO("Player started dialogue with The Innkeeper");
+				LOG_INFO("Player started dialogue with " + npc->getName());
+			}
 		}
 	}
+	//End dialogue
 	else if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_QUIT))
 	{
-		if (gInnkeeper->mAbleToTalk && gInnkeeper->mCurrentlyTalkingTo && !gInnkeeper->mThinking)
+		for (std::shared_ptr<NPC>& npc : mNPCs)
 		{
-			//NPC
-			gInnkeeper->mCurrentlyTalkingTo = false;
+			if (npc->endedDialogue())
+			{
+				//Dialogue
+				npc->mDialogue.reset();
 
-			//Dialogue
-			gInnkeeper->mDialogue.reset();
-
-			LOG_INFO("Player ended dialogue with The Innkeeper");
+				LOG_INFO("Player ended dialogue with " + npc->getName());
+			}
 		}
 	}
 }
@@ -115,60 +137,42 @@ void Inn::update()
 	if (checkCollision(gPlayer->getCollider(), mTriggerOverworld))
 		setNextState(Overworld::get());
 
-	//NPC
-	if (checkCollision(gPlayer->getCollider(), gInnkeeper->getDialogueCollider()))
-		gInnkeeper->mAbleToTalk = true;
-	else
+	//NPCs
+	for (std::shared_ptr<NPC>& npc : mNPCs)
 	{
-		gInnkeeper->mAbleToTalk = false;
-		gInnkeeper->mRecentlyTalkedTo = false;
+		npc->checkIfAbleToTalk();
+		npc->updateDialogue();
 	}
-
-	//Dialogue
-	if (gInnkeeper->mCurrentlyTalkingTo && !(gInnkeeper->mDialogue == nullptr))
-		gInnkeeper->mDialogue->update();
 }
 
 void Inn::render()
 {
+	//Center camera around the player
 	SDL_Rect camera =
 	{
 		(gPlayer->getCollider().x + Player::PLAYER_WIDTH / 2) - SCREEN_WIDTH / 2,
 		(gPlayer->getCollider().y + Player::PLAYER_HEIGHT / 2) - SCREEN_HEIGHT / 2,
-		SCREEN_WIDTH,
-		SCREEN_HEIGHT
+		SCREEN_WIDTH, SCREEN_HEIGHT
 	};
-	if (camera.x < 0)
-	{
-		camera.x = 0;
-	}
-	if (camera.y < 0)
-	{
-		camera.y = 0;
-	}
-	if (camera.x > LEVEL_WIDTH - camera.w)
-	{
-		camera.x = LEVEL_WIDTH - camera.w;
-	}
-	if (camera.y > LEVEL_HEIGHT - camera.h)
-	{
-		camera.y = LEVEL_HEIGHT - camera.h;
-	}
+	if (camera.x < 0) camera.x = 0;
+	if (camera.y < 0) camera.y = 0;
+	if (camera.x > LEVEL_WIDTH - camera.w) camera.x = LEVEL_WIDTH - camera.w;
+	if (camera.y > LEVEL_HEIGHT - camera.h) camera.y = LEVEL_HEIGHT - camera.h;
 
 	//Background
 	mLevelTexture->render(0, 0, &camera);
 
-	//NPC
-	gInnkeeper->render(camera);
+	//NPCs
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+		npc->render(camera);
 
 	//Player
 	gPlayer->render(camera);
 
-	//Prompts
-	if (gInnkeeper->mAbleToTalk && !gInnkeeper->mCurrentlyTalkingTo && !gInnkeeper->mRecentlyTalkedTo)
-		renderPrompt(127, BEGIN_DIALOGUE_PROMPT + STRING_INNKEEPER_NAME, 1, 0xFF, 0xFF, 0xFF);
+	//Specific NPCs prompts
+	gInnkeeper->renderDialoguePrompt(98);
 
-	//Dialogue
-	if (gInnkeeper->mCurrentlyTalkingTo && !(gInnkeeper->mDialogue == nullptr))
-		gInnkeeper->mDialogue->render();
+	//NPCs Dialogue
+	for (std::shared_ptr<NPC>& npc : mNPCs)
+		npc->renderDialogue();
 }

@@ -4,6 +4,7 @@
 #include "../Logger.h"
 #include "Castle.h"
 #include "Inn.h"
+#include "House.h"
 
 Overworld Overworld::gLevelOverworld;
 
@@ -14,6 +15,7 @@ Overworld::Overworld()
 	//Trigger
 	mTriggerCastle = { 768, 96, 64, 32 };
 	mTriggerInn = { 288, 96, 64, 32 };
+	mTriggerHouse = { 544, 512, 64, 32 };
 
 	//Castle
 	mWalls.push_back(SDL_Rect{ 704, 0, 64, 128 });
@@ -24,12 +26,16 @@ Overworld::Overworld()
 	mWalls.push_back(SDL_Rect{ 224, 0, 64, 128 });
 	mWalls.push_back(SDL_Rect{ 288, 0, 64, 96 });
 	mWalls.push_back(SDL_Rect{ 352, 0, 64, 128 });
+	
+	//House
+	mWalls.push_back(SDL_Rect{ 480, 416, 64, 128 });
+	mWalls.push_back(SDL_Rect{ 544, 416, 64, 96 });
+	mWalls.push_back(SDL_Rect{ 608, 416, 64, 128 });
 
 	//Trees
 	mWalls.push_back(SDL_Rect{ 480, 96, 32, 96 }); 
 	mWalls.push_back(SDL_Rect{ 128, 160, 32, 96 }); 
 	mWalls.push_back(SDL_Rect{ 128, 512, 32, 96 }); 
-	mWalls.push_back(SDL_Rect{ 512, 576, 32, 96 }); 
 	mWalls.push_back(SDL_Rect{ 832, 544, 32, 96 }); 
 }
 
@@ -43,7 +49,7 @@ bool Overworld::enter()
 	//Load background
 	if (!mLevelTexture->load(FILE_OVERWORLD_TEXTURE.string()))
 	{
-		LOG_ERROR("Could not load overworld level texture");
+		LOG_ERROR("Could not load Overworld level texture");
 		return false;
 	}
 
@@ -57,12 +63,17 @@ bool Overworld::enter()
 	{
 		gPlayer->setPosition(302, 128);
 	}
+	//Came from House
+	else if (gCurrentLevel == House::get())
+	{
+		gPlayer->setPosition(558, 544);
+	}
 	else
 	{
 		gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) / 2);
 	}
 
-	LOG_INFO("Successfully entered overworld level");
+	LOG_INFO("Successfully entered Overworld level");
 	return true;
 }
 
@@ -71,7 +82,7 @@ bool Overworld::exit()
 	//Free allocated memory
 	mLevelTexture->free();
 
-	LOG_INFO("Exiting overworld level");
+	LOG_INFO("Exiting Overworld level");
 	return true;
 }
 
@@ -93,6 +104,11 @@ void Overworld::update()
 	else if (checkCollision(gPlayer->getCollider(), mTriggerInn))
 	{
 		setNextState(Inn::get());
+	}
+	//Enter House
+	else if (checkCollision(gPlayer->getCollider(), mTriggerHouse))
+	{
+		setNextState(House::get());
 	}
 }
 

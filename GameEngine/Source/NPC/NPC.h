@@ -48,8 +48,15 @@ public:
 	SDL_Rect getCollider() const;
 	SDL_Rect getDialogueCollider() const;
 
-	void startDialogue();
-	void endDialogue();
+	void renderDialoguePrompt(int xOffset);
+	void renderDialogue();
+
+	void handleDialogueEvents(SDL_Event& e);
+	bool startedDialogue();
+	bool endedDialogue();
+
+	void checkIfAbleToTalk();
+	void updateDialogue();
 
 private:
 	int mWidth;
