@@ -12,6 +12,7 @@ public:
 
 private:
 	SDL_Window* mWindow;
+	SDL_Texture* mCurrentFrame;
 	bool mFullscreen;
 
 	bool init();

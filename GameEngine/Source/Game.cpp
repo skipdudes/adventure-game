@@ -51,7 +51,7 @@ bool Game::init()
 	}
 
 	//Renderer
-	gRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
+	gRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 	if (gRenderer == nullptr)
 	{
 		LOG_ERROR("Renderer could not be created, SDL Error: " + std::string(SDL_GetError()));
@@ -61,6 +61,14 @@ bool Game::init()
 		LOG_WARNING("Could not set renderer draw color, SDL Error: " + std::string(SDL_GetError()));
 	if (SDL_RenderSetLogicalSize(gRenderer, SCREEN_WIDTH, SCREEN_HEIGHT) < 0)
 		LOG_WARNING("Could not set renderer logical size, SDL Error: " + std::string(SDL_GetError()));
+
+	//Buffer texture
+	mCurrentFrame = SDL_CreateTexture(gRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
+	if (mCurrentFrame == nullptr)
+	{
+		LOG_ERROR("Buffer texture could not be created, SDL Error: " + std::string(SDL_GetError()));
+		return false;
+	}
 
 	//SDL_image
 	int imgFlags = IMG_INIT_PNG;
@@ -191,10 +199,15 @@ void Game::update()
 
 void Game::render()
 {
+	//Render to buffer
+	SDL_SetRenderTarget(gRenderer, mCurrentFrame);
 	SDL_RenderClear(gRenderer);
-
 	gCurrentLevel->render();
 
+	//Render from buffer
+	SDL_SetRenderTarget(gRenderer, nullptr);
+	SDL_RenderClear(gRenderer);
+	SDL_RenderCopy(gRenderer, mCurrentFrame, nullptr, nullptr);
 	SDL_RenderPresent(gRenderer);
 }
 
@@ -236,6 +249,10 @@ void Game::freeData()
 void Game::close()
 {
 	LOG_INFO("Starting game teardown");
+
+	//Frame
+	SDL_DestroyTexture(mCurrentFrame);
+	mCurrentFrame = nullptr;
 
 	//Window	
 	SDL_DestroyRenderer(gRenderer);
