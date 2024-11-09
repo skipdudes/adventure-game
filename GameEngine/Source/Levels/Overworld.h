@@ -17,8 +17,8 @@ public:
 	void render();
 
 private:
-	const static int LEVEL_WIDTH = 960;
-	const static int LEVEL_HEIGHT = 704;
+	const static int LEVEL_WIDTH = 1536;
+	const static int LEVEL_HEIGHT = 1152;
 
 	SDL_Rect mTriggerCastle;
 	SDL_Rect mTriggerInn;

@@ -13,30 +13,24 @@ Overworld::Overworld()
 	mLevelTexture = std::make_unique<Texture>();
 
 	//Trigger
-	mTriggerCastle = { 768, 96, 64, 32 };
-	mTriggerInn = { 288, 96, 64, 32 };
-	mTriggerHouse = { 544, 512, 64, 32 };
+	mTriggerCastle = { 1104, 144, 96, 36 };
+	mTriggerInn = { 192, 192, 48, 36 };
+	mTriggerHouse = { 864, 768, 48, 36 };
 
 	//Castle
-	mWalls.push_back(SDL_Rect{ 704, 0, 64, 128 });
-	mWalls.push_back(SDL_Rect{ 768, 0, 64, 96 });
-	mWalls.push_back(SDL_Rect{ 832, 0, 64, 128 });
+	mWalls.push_back(SDL_Rect{ 816, 0, 288, 192 });
+	mWalls.push_back(SDL_Rect{ 1104, 0, 96, 144 });
+	mWalls.push_back(SDL_Rect{ 1200, 0, 288, 192 });
 
 	//Inn
-	mWalls.push_back(SDL_Rect{ 224, 0, 64, 128 });
-	mWalls.push_back(SDL_Rect{ 288, 0, 64, 96 });
-	mWalls.push_back(SDL_Rect{ 352, 0, 64, 128 });
+	mWalls.push_back(SDL_Rect{ 96, 0, 96, 240 });
+	mWalls.push_back(SDL_Rect{ 192, 0, 48, 192 });
+	mWalls.push_back(SDL_Rect{ 240, 0, 96, 240 });
 	
 	//House
-	mWalls.push_back(SDL_Rect{ 480, 416, 64, 128 });
-	mWalls.push_back(SDL_Rect{ 544, 416, 64, 96 });
-	mWalls.push_back(SDL_Rect{ 608, 416, 64, 128 });
-
-	//Trees
-	mWalls.push_back(SDL_Rect{ 480, 96, 32, 96 }); 
-	mWalls.push_back(SDL_Rect{ 128, 160, 32, 96 }); 
-	mWalls.push_back(SDL_Rect{ 128, 512, 32, 96 }); 
-	mWalls.push_back(SDL_Rect{ 832, 544, 32, 96 }); 
+	mWalls.push_back(SDL_Rect{ 720, 624, 144, 192 });
+	mWalls.push_back(SDL_Rect{ 864, 624, 48, 144 });
+	mWalls.push_back(SDL_Rect{ 912, 624, 144, 192 });
 }
 
 Overworld* Overworld::get()
@@ -56,21 +50,21 @@ bool Overworld::enter()
 	//Came from Castle
 	if (gCurrentLevel == Castle::get())
 	{
-		gPlayer->setPosition(782, 128);
+		gPlayer->setPosition(1134, 181);
 	}
 	//Came from Inn
 	else if (gCurrentLevel == Inn::get())
 	{
-		gPlayer->setPosition(302, 128);
+		gPlayer->setPosition(197, 229);
 	}
 	//Came from House
 	else if (gCurrentLevel == House::get())
 	{
-		gPlayer->setPosition(558, 544);
+		gPlayer->setPosition(869, 805);
 	}
 	else
 	{
-		gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) / 2);
+		gPlayer->setPosition(533, 420);
 	}
 
 	LOG_INFO("Successfully entered Overworld level");
@@ -114,29 +108,17 @@ void Overworld::update()
 
 void Overworld::render()
 {
+	//Center camera around the player
 	SDL_Rect camera =
 	{
 		(gPlayer->getCollider().x + Player::PLAYER_WIDTH / 2) - SCREEN_WIDTH / 2,
 		(gPlayer->getCollider().y + Player::PLAYER_HEIGHT / 2) - SCREEN_HEIGHT / 2,
-		SCREEN_WIDTH,
-		SCREEN_HEIGHT
+		SCREEN_WIDTH, SCREEN_HEIGHT
 	};
-	if (camera.x < 0)
-	{
-		camera.x = 0;
-	}
-	if (camera.y < 0)
-	{
-		camera.y = 0;
-	}
-	if (camera.x > LEVEL_WIDTH - camera.w)
-	{
-		camera.x = LEVEL_WIDTH - camera.w;
-	}
-	if (camera.y > LEVEL_HEIGHT - camera.h)
-	{
-		camera.y = LEVEL_HEIGHT - camera.h;
-	}
+	if (camera.x < 0) camera.x = 0;
+	if (camera.y < 0) camera.y = 0;
+	if (camera.x > LEVEL_WIDTH - camera.w) camera.x = LEVEL_WIDTH - camera.w;
+	if (camera.y > LEVEL_HEIGHT - camera.h) camera.y = LEVEL_HEIGHT - camera.h;
 
 	//Background
 	mLevelTexture->render(0, 0, &camera);
