@@ -11,14 +11,33 @@ House::House()
 	mLevelTexture = std::make_unique<Texture>();
 
 	//Trigger to Overworld
-	mTriggerOverworld = { 256, 478, 128, 2 };
+	mTriggerOverworld = { 432, 718, 96, 2 };
 
-	//Temp walls
-	mWalls.push_back(SDL_Rect{ 0, 0, 640, 32 }); //top
-	mWalls.push_back(SDL_Rect{ 0, 32, 32, 352 }); //left
-	mWalls.push_back(SDL_Rect{ 608, 32, 32, 352 }); //right
-	mWalls.push_back(SDL_Rect{ 0, 384, 256, 96 }); //bottom left
-	mWalls.push_back(SDL_Rect{ 384, 384, 256, 96 }); //bottom right
+	//Walls
+	mWalls.push_back(SDL_Rect{ 0, 48, 48, 624 }); //left
+	mWalls.push_back(SDL_Rect{ 912, 48, 48, 624 }); //right
+	mWalls.push_back(SDL_Rect{ 0, 672, 432, 48 }); //bottom left
+	mWalls.push_back(SDL_Rect{ 528, 672, 432, 48 }); //bottom right
+
+	//Top furniture
+	mWalls.push_back(SDL_Rect{ 144, 0, 48, 48 });
+	mWalls.push_back(SDL_Rect{ 240, 0, 48, 48 });
+	mWalls.push_back(SDL_Rect{ 499, 0, 106, 48 }); //fireplace
+	mWalls.push_back(SDL_Rect{ 672, 0, 48, 48 });
+	mWalls.push_back(SDL_Rect{ 768, 0, 48, 48 });
+
+	//Piano
+	mWalls.push_back(SDL_Rect{ 167, 192, 97, 48 });
+
+	//Desk
+	mWalls.push_back(SDL_Rect{ 672, 192, 96, 2 });
+	mWalls.push_back(SDL_Rect{ 703, 158, 34, 34 }); //armchair
+
+	//Right furniture
+	mWalls.push_back(SDL_Rect{ 876, 96, 36, 96 });
+
+	//Table
+	mWalls.push_back(SDL_Rect{ 624, 384, 96, 96 });
 }
 
 House* House::get()
@@ -49,7 +68,7 @@ bool House::enter()
 	}
 
 	//Individual NPCs position
-	gMarquis->setPosition((LEVEL_WIDTH - gMarquis->getWidth()) / 2, 64);
+	gMarquis->setPosition(535, 163);
 
 	//NPCs colliders
 	for (std::shared_ptr<NPC>& npc : mNPCs)
@@ -151,8 +170,17 @@ void House::update()
 
 void House::render()
 {
-	//Static camera
-	SDL_Rect camera = { 0, 0, LEVEL_WIDTH, LEVEL_HEIGHT };
+	//Center camera around the player
+	SDL_Rect camera =
+	{
+		(gPlayer->getCollider().x + Player::PLAYER_WIDTH / 2) - SCREEN_WIDTH / 2,
+		(gPlayer->getCollider().y + Player::PLAYER_HEIGHT / 2) - SCREEN_HEIGHT / 2,
+		SCREEN_WIDTH, SCREEN_HEIGHT
+	};
+	if (camera.x < 0) camera.x = 0;
+	if (camera.y < 0) camera.y = 0;
+	if (camera.x > LEVEL_WIDTH - camera.w) camera.x = LEVEL_WIDTH - camera.w;
+	if (camera.y > LEVEL_HEIGHT - camera.h) camera.y = LEVEL_HEIGHT - camera.h;
 
 	//Background
 	mLevelTexture->render(0, 0, &camera);

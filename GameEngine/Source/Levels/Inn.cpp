@@ -11,10 +11,48 @@ Inn::Inn()
 	mLevelTexture = std::make_unique<Texture>();
 
 	//Trigger to Overworld
-	mTriggerOverworld = { 0, 718, 960, 2 };
+	mTriggerOverworld = { 432, 718, 96, 2 };
 
 	//Walls
-	//TODO
+	mWalls.push_back(SDL_Rect{ 0, 48, 48, 624 }); //left
+	mWalls.push_back(SDL_Rect{ 912, 48, 48, 624 }); //right
+	mWalls.push_back(SDL_Rect{ 0, 672, 432, 48 }); //bottom left
+	mWalls.push_back(SDL_Rect{ 528, 672, 432, 48 }); //bottom right
+
+	//Bar
+	mWalls.push_back(SDL_Rect{ 48, 0, 432, 336 });
+
+	//Holes
+	mWalls.push_back(SDL_Rect{ 528, 48, 48, 2 });
+	mWalls.push_back(SDL_Rect{ 816, 432, 48, 2 });
+
+	//Fireplace
+	mWalls.push_back(SDL_Rect{ 720, 48, 48, 48 });
+
+	//Tables 1
+	mWalls.push_back(SDL_Rect{ 107, 488, 26, 2 });
+	mWalls.push_back(SDL_Rect{ 96, 528, 48, 2 });
+	mWalls.push_back(SDL_Rect{ 107, 584, 26, 2 });
+
+	//Tables 2
+	mWalls.push_back(SDL_Rect{ 299, 488, 26, 2 });
+	mWalls.push_back(SDL_Rect{ 288, 528, 48, 2 });
+	mWalls.push_back(SDL_Rect{ 299, 584, 26, 2 });
+
+	//Tables 3
+	mWalls.push_back(SDL_Rect{ 731, 488, 26, 2 });
+	mWalls.push_back(SDL_Rect{ 720, 528, 48, 2 });
+	mWalls.push_back(SDL_Rect{ 731, 584, 26, 2 });
+
+	//Tables 4
+	mWalls.push_back(SDL_Rect{ 635, 344, 26, 2 });
+	mWalls.push_back(SDL_Rect{ 672, 336, 48, 2 });
+	mWalls.push_back(SDL_Rect{ 731, 344, 26, 2 });
+
+	//Tables 5
+	mWalls.push_back(SDL_Rect{ 635, 200, 26, 2 });
+	mWalls.push_back(SDL_Rect{ 672, 192, 48, 2 });
+	mWalls.push_back(SDL_Rect{ 731, 200, 26, 2 });
 }
 
 Inn* Inn::get()
@@ -45,7 +83,7 @@ bool Inn::enter()
 	}
 
 	//Individual NPCs position
-	gInnkeeper->setPosition((LEVEL_WIDTH - gInnkeeper->getWidth()) / 2, 179);
+	gInnkeeper->setPosition(343, 261);
 
 	//NPCs colliders
 	for (std::shared_ptr<NPC>& npc : mNPCs)

@@ -18,8 +18,8 @@ public:
 	void render();
 
 private:
-	const static int LEVEL_WIDTH = 640;
-	const static int LEVEL_HEIGHT = 480;
+	const static int LEVEL_WIDTH = 960;
+	const static int LEVEL_HEIGHT = 720;
 
 	SDL_Rect mTriggerOverworld;
 	std::vector<SDL_Rect> mWalls;
