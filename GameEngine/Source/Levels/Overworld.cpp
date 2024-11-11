@@ -13,14 +13,14 @@ Overworld::Overworld()
 	mLevelTexture = std::make_unique<Texture>();
 
 	//Trigger
-	mTriggerCastle = { 1104, 144, 96, 36 };
+	mTriggerCastle = { 1128, 123, 48, 56 };
 	mTriggerInn = { 192, 192, 48, 36 };
 	mTriggerHouse = { 864, 768, 48, 36 };
 
 	//Castle
-	mWalls.push_back(SDL_Rect{ 816, 0, 288, 192 });
-	mWalls.push_back(SDL_Rect{ 1104, 0, 96, 144 });
-	mWalls.push_back(SDL_Rect{ 1200, 0, 288, 192 });
+	mWalls.push_back(SDL_Rect{ 816, 0, 312, 192 });
+	mWalls.push_back(SDL_Rect{ 1128, 0, 48, 123 });
+	mWalls.push_back(SDL_Rect{ 1176, 0, 312, 192 });
 
 	//Inn
 	mWalls.push_back(SDL_Rect{ 96, 0, 96, 240 });
