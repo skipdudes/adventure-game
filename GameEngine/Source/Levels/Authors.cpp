@@ -40,7 +40,7 @@ bool Authors::exit()
 
 void Authors::handleEvents(SDL_Event& e)
 {
-	if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_CONFIRM))
+	if ((e.type == SDL_KEYDOWN) && ((e.key.keysym.sym == BUTTON_CONFIRM) || (e.key.keysym.sym == BUTTON_QUIT)))
 	{
 		setNextState(Menu::get());
 	}
@@ -62,6 +62,12 @@ void Authors::render()
 	//Render authors
 	gFontMedium->setColor(0x00, 0x00, 0x00);
 	gFontMedium->renderText(246, 197, AUTHOR_MARCIN);
+
+	//Special char
+	SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
+	SDL_RenderFillRect(gRenderer, &mSpecialChar1);
+	SDL_RenderFillRect(gRenderer, &mSpecialChar2);
+
 	gFontMedium->renderText(226, 223, AUTHOR_ANDRZEJ);
 	gFontMedium->renderText(234, 249, AUTHOR_MARTA);
 
