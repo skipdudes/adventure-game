@@ -364,3 +364,7 @@ FodyWeavers.xsd
 
 # PyCharm
 .idea
+/GameEngine/Data/Maps/Overworld new doors.png
+/GameEngine/Data/Maps/Overworld new.xcf
+/apitest/api_client_test/client/client.vcxproj
+/Dialogi.txt
