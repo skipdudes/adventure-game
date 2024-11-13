@@ -14,8 +14,8 @@
 
 int main(int argc, char* args[])
 {
-	std::string scriptPath = "..\\apitest\\api_server_test\\run.bat";
-	std::string scriptPathDeactivate = "..\\apitest\\api_server_test\\close.bat";
+	std::string scriptPath = "Server\\run.bat";
+	std::string scriptPathDeactivate = "Server\\close.bat";
 	std::thread batchThread(runBatchScript, scriptPath);
 
 	//// ############################################################
