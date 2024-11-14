@@ -92,3 +92,23 @@ void renderPrompt(int xOffset, std::string text, int linesNumber, Uint8 r, Uint8
 	gFontMedium->setColor(r, g, b);
 	gFontMedium->renderText(xOffset, SCREEN_HEIGHT - (content - 2 * padding), text);
 }
+
+void renderQuestPrompt(int xOffset, std::string text)
+{
+	int padding = 2;
+	int content = 32;
+
+	//Outer box
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_Rect outerBox = { 0, 0, SCREEN_WIDTH, (2 * padding + content) };
+	SDL_RenderFillRect(gRenderer, &outerBox);
+
+	//Inner box
+	SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
+	SDL_Rect innerBox = { padding, padding, SCREEN_WIDTH - (2 * padding), content };
+	SDL_RenderFillRect(gRenderer, &innerBox);
+
+	//Prompt
+	gFontMedium->setColor(0xFF, 0xFF, 0xFF);
+	gFontMedium->renderText(xOffset, 4 * padding, text);
+}
