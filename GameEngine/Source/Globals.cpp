@@ -19,6 +19,11 @@ std::shared_ptr<NPC> gMarquis;
 Level* gCurrentLevel = nullptr;
 Level* gNextLevel = nullptr;
 
+//Game events
+//bool g_RDF_PlayerFoundBody = 0;
+//todo -> game events bools
+//+ per individual npc
+
 void setNextState(Level* nextLevel)
 {
     if (gNextLevel != Exit::get())

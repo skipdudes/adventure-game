@@ -95,14 +95,23 @@ void Dialogue::changeToNPCTurn()
 	mCurrentLine = mNPC->getName() + " is thinking";
 	mLastRenderUpateTime = SDL_GetTicks();
 
+
+
+	// ******************* TODO ********************
+	//std::string gameEvents = rdfBoolsToString()
+
+
+	//std::string context = mNPC->getContext() + STRING_RDF_BASE_CONTEXT + rdfBoolsToString() + STRING_NPC_BASE_CONTEXT;
+
 	//Begin generating response
 	generatedResponse = std::async(
 		std::launch::async,
 		generateMessage,
 		std::ref(mNPC->mMessages),
 		mNPC->getContext(),
+		//zamiast tego wyzej^: context,
 		std::ref(mNPC->mHappiness),
-		std::ref(mNPC->mAnxiety),
+		std::ref(mNPC->mTrust),
 		std::ref(mNPC->mHostility),
 		prompt
 	);
@@ -156,8 +165,11 @@ void Dialogue::update()
 			//Log stats
 			LOG_INFO(mNPC->getName() + " stats after the line:");
 			LOG_INFO("Happiness: " + std::to_string(mNPC->mHappiness));
-			LOG_INFO("Anxiety: " + std::to_string(mNPC->mAnxiety));
+			LOG_INFO("Trust: " + std::to_string(mNPC->mTrust));
 			LOG_INFO("Hostility: " + std::to_string(mNPC->mHostility));
+
+			//TODO *************************************************************************
+			//updateBools();
 
 			//Not thinking anymore
 			mNPC->mThinking = false;
@@ -265,13 +277,13 @@ void Dialogue::render()
 	//Stats labels
 	int statsLabelsX = SCREEN_WIDTH - padding - statsInnerBoxSizeX + (1 * padding);
 	int statsLabelsY = SCREEN_HEIGHT - (promptHeight)-(2 * padding + content) - statsInnerBoxSizeY;
-	std::string statsLabelsText = mNPC->getName() + "\n" + STRING_HAPPINESS + "\n" + STRING_ANXIETY + "\n" + STRING_HOSTILITY;
+	std::string statsLabelsText = mNPC->getName() + "\n" + STRING_HAPPINESS + "\n" + STRING_TRUST + "\n" + STRING_HOSTILITY;
 	gFontSmall->setColor(0xFF, 0xFF, 0xFF);
 	gFontSmall->renderText(statsLabelsX, statsLabelsY, statsLabelsText);
 
 	//Stats
 	renderStat(636, 270, mNPC->mHappiness, true);
-	renderStat(636, 292, mNPC->mAnxiety, false);
+	renderStat(636, 292, mNPC->mTrust, true);
 	renderStat(636, 314, mNPC->mHostility, false);
 
 	//NPC Avatar

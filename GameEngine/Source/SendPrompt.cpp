@@ -24,8 +24,8 @@ std::string sendPrompt(const nlohmann::json& messages) {
 }
 
 
-std::string generateMessage(nlohmann::json& messages, std::string base_context, float& happiness, float& anxiety, float& hostility, std::string prompt) {
-    std::string context = base_context + paramsToString(happiness, anxiety, hostility);
+std::string generateMessage(nlohmann::json& messages, std::string base_context, float& happiness, float& trust, float& hostility, std::string prompt) {
+    std::string context = base_context + paramsToString(happiness, trust, hostility);
     std::string response;
     std::string originalResponse;
 
@@ -52,7 +52,7 @@ std::string generateMessage(nlohmann::json& messages, std::string base_context, 
             response = response.substr(2, response.length() - 4);
 
         originalResponse = response;
-    } while (!updateParametersFromResponse(response, happiness, anxiety, hostility));
+    } while (!updateParametersFromResponse(response, happiness, trust, hostility));
 
 
     //Push model's response if valid
@@ -61,12 +61,12 @@ std::string generateMessage(nlohmann::json& messages, std::string base_context, 
     return response;
 }
 
-bool updateParametersFromResponse(std::string& response, float& npc_happiness, float& npc_anxiety, float& npc_hostility) {
-    std::regex pattern(R"(\b(Happiness|Anxiety|Hostility):\s*([0-9]*\.?[0-9]+))");
+bool updateParametersFromResponse(std::string& response, float& npc_happiness, float& npc_trust, float& npc_hostility) {
+    std::regex pattern(R"(\b(Happiness|Trust|Hostility):\s*([0-9]*\.?[0-9]+))");
     std::smatch match;
 
     float happiness = 0.0;
-    float anxiety = 0.0;
+    float trust = 0.0;
     float hostility = 0.0;
 
     //Get parameters from string
@@ -78,8 +78,8 @@ bool updateParametersFromResponse(std::string& response, float& npc_happiness, f
 
         if (attribute == "Happiness")
             happiness = value;
-        else if (attribute == "Anxiety")
-            anxiety = value;
+        else if (attribute == "Trust")
+            trust = value;
         else if (attribute == "Hostility")
             hostility = value;
 
@@ -87,7 +87,7 @@ bool updateParametersFromResponse(std::string& response, float& npc_happiness, f
     }
 
     //Check if parameters are valid
-    if (happiness == 0 && anxiety == 0 && hostility == 0)
+    if (happiness == 0 && trust == 0 && hostility == 0)
     {
         LOG_INFO("Generated response is invalid. Regenerating...");
         return false;
@@ -98,11 +98,11 @@ bool updateParametersFromResponse(std::string& response, float& npc_happiness, f
 
 
     //Stats
-    std::regex params_pattern(R"(\s*\(Happiness:\s*[0-9]*\.?[0-9]+,\s*Anxiety:\s*[0-9]*\.?[0-9]+,\s*Hostility:\s*[0-9]*\.?[0-9]+\)\s*)");
+    std::regex params_pattern(R"(\s*\(Happiness:\s*[0-9]*\.?[0-9]+,\s*Trust:\s*[0-9]*\.?[0-9]+,\s*Hostility:\s*[0-9]*\.?[0-9]+\)\s*)");
     response = std::regex_replace(response, params_pattern, "");
 
     npc_happiness = happiness;
-    npc_anxiety = anxiety;
+    npc_trust = trust;
     npc_hostility = hostility;
 
     return true;
@@ -135,10 +135,10 @@ void pushAssistantMessage(nlohmann::json& messages, std::string msg) {
     messages.push_back(systemMessage);
 }
 
-std::string paramsToString(float happiness, float anxiety, float hostility) {
+std::string paramsToString(float happiness, float trust, float hostility) {
     std::ostringstream oss;
     oss << std::fixed << std::setprecision(2);
-    oss << happiness << ", " << anxiety << ", " << hostility;
+    oss << happiness << ", " << trust << ", " << hostility;
 
     return oss.str();
 }

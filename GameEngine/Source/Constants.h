@@ -48,45 +48,52 @@ const std::filesystem::path FILE_PLAYER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Playe
 //NPC
 const std::filesystem::path DIR_NPC = DIR_TEXTURES / "NPC";
 const std::string STRING_HAPPINESS = "Happiness";
-const std::string STRING_ANXIETY = "Anxiety";
+const std::string STRING_TRUST = "Trust";
 const std::string STRING_HOSTILITY = "Hostility";
 const std::string STRING_NPC_BASE_CONTEXT = 
 " Please try to answer shortly, maximum 50 words."
 " Do not use any special characters, especially at the beginning and the end of the response. eg. newline character"
 " At the end of your response, you need to set some parameters based on the conversation,"
-" the parameters are float with value ranging from 0 to 1. parameters are: Happiness, Anxiety, Hostility."
+" the parameters are float with value ranging from 0 to 1. parameters are: Happiness, Trust, Hostility."
 " You MUST include all of them in every response and you should behave accordingly to their value."
-" The structure of response: (Happiness: 0.0, Anxiety: 0.0, Hostility: 0.0). Starting values are: ";
+" The structure of response: (Happiness: 0.0, Trust: 0.0, Hostility: 0.0). Starting values are: ";
+//const std::string STRING_RDF_BASE_CONTEXT = "The King lives in the castle";
+//todo -> rozbuduj kontekst RDF, wspolny dla wszystkich NPC
 
 //King
 const std::string STRING_KING_NAME = "The King";
 const std::filesystem::path FILE_KING_TEXTURE = DIR_NPC / "King.png";
 const std::filesystem::path FILE_KING_DIALOGUE_TEXTURE = DIR_DIALOGUE / "King.png";
 const std::string STRING_KING_CONTEXT = "You are the king of a medieval city.";
+//todo -> rozbuduj kontekst
 
 //Father
 const std::string STRING_FATHER_NAME = "The Father";
 const std::filesystem::path FILE_FATHER_TEXTURE = DIR_NPC / "Father.png";
 const std::filesystem::path FILE_FATHER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Father.png";
 const std::string STRING_FATHER_CONTEXT = "You are the father of the person you are talking with. You both live in a medieval city.";
+//todo -> rozbuduj kontekst
 
 //RoyalGuard
 const std::string STRING_ROYALGUARD_NAME = "Royal Guard";
 const std::filesystem::path FILE_ROYALGUARD_TEXTURE = DIR_NPC / "RoyalGuard.png";
 const std::filesystem::path FILE_ROYALGUARD_DIALOGUE_TEXTURE = DIR_DIALOGUE / "RoyalGuard.png";
 const std::string STRING_ROYALGUARD_CONTEXT = "You are a royal guard in a medieval city.";
+//todo -> rozbuduj kontekst
 
 //Innkeeper
 const std::string STRING_INNKEEPER_NAME = "The Innkeeper";
 const std::filesystem::path FILE_INNKEEPER_TEXTURE = DIR_NPC / "Innkeeper.png";
 const std::filesystem::path FILE_INNKEEPER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Innkeeper.png";
 const std::string STRING_INNKEEPER_CONTEXT = "You are the owner of an inn in a medieval city.";
+//todo -> rozbuduj kontekst
 
 //Marquis
 const std::string STRING_MARQUIS_NAME = "The Marquis";
 const std::filesystem::path FILE_MARQUIS_TEXTURE = DIR_NPC / "Marquis.png";
 const std::filesystem::path FILE_MARQUIS_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Marquis.png";
 const std::string STRING_MARQUIS_CONTEXT = "You are a Marquis in a medieval city.";
+//todo -> rozbuduj kontekst
 
 //Levels
 const std::filesystem::path DIR_LEVELS = DIR_TEXTURES / "Levels";
@@ -116,3 +123,7 @@ const std::string DIALOGUE_HELP_PROMPT = "Press ENTER to confirm, press ESC to q
 const std::string DIALOGUE_TOO_LONG = "Too many characters!";
 const std::string DIALOGUE_HELP_NPC_THINKING = "Wait for the response";
 const std::string DIALOGUE_HELP_NPC_TURN = "Press ENTER to reply, press ESC to quit";
+
+//Game events
+//const std::string STRING_RDF_PLAYER_FOUND_BODY = "The person you are speaking with has found the body";
+//todo -> reprezentacja tekstowa booli

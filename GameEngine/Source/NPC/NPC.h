@@ -27,7 +27,7 @@ public:
 
 	//Stats
 	float mHappiness;
-	float mAnxiety;
+	float mTrust;
 	float mHostility;
 
 	//Messages array
@@ -70,4 +70,26 @@ private:
 	std::string mName;
 	std::string mDialogueTexturePath;
 	std::string mContext;
+
+	////todo
+	//void updateBools();
+
+	////todo
+	//void updateGlobalBools();
+
+	////per NPC;
+	//void updateKingBools();
+	//void updateInnkeeperBools();
 };
+
+//void updateBools()
+//{
+//	updateGlobalBools();
+//	switch (mName)
+//	{
+//	case KING_NAME:
+//		updateKingBools();
+//	case INNKEPER_NAME:
+//		updateInnkeeperBools();
+//	}
+//}

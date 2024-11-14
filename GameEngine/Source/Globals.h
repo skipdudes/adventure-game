@@ -31,5 +31,10 @@ extern Level* gCurrentLevel;
 extern Level* gNextLevel;
 bool checkCollision(SDL_Rect a, SDL_Rect b);
 
+//Game events
+//extern bool g_RDF_PlayerFoundBody;
+//todo -> game events bools
+//+ per individual npc
+
 //HUD
 void renderPrompt(int xOffset, std::string text, int linesNumber, Uint8 r, Uint8 g, Uint8 b);
