@@ -2,7 +2,7 @@
 #include "../Constants.h"
 #include "../Globals.h"
 #include "../Logger.h"
-#include "Overworld.h"
+#include "Intro.h"
 #include "Authors.h"
 #include "Exit.h"
 #include <algorithm>
@@ -69,7 +69,7 @@ void Menu::handleEvents(SDL_Event& e)
 		case BUTTON_CONFIRM:
 			switch (mChosenOption)
 			{
-			case START: setNextState(Overworld::get()); break;
+			case START: setNextState(Intro::get()); break;
 			case AUTHORS: setNextState(Authors::get()); break;
 			case QUIT: setNextState(Exit::get()); break;
 			}

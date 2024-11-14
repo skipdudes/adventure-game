@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Levels\Intro.cpp" />
+    <ClCompile Include="Source\Levels\Outro.cpp" />
     <ClCompile Include="Source\Batch.cpp" />
     <ClCompile Include="Source\Dialogue\Dialogue.cpp" />
     <ClCompile Include="Source\Fonts\Font.cpp" />
@@ -40,6 +42,8 @@
     <ClCompile Include="Source\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Levels\Intro.h" />
+    <ClInclude Include="Source\Levels\Outro.h" />
     <ClInclude Include="Source\Batch.h" />
     <ClInclude Include="Source\Constants.h" />
     <ClInclude Include="Source\Dialogue\Dialogue.h" />

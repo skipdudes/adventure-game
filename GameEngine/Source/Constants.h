@@ -116,6 +116,9 @@ const std::string AUTHOR_ANDRZEJ = "Andrzej Woroniecki";
 const std::string AUTHOR_MARTA = "Marta Makowska";
 const std::string OPTION_BACK = "Press ENTER to go back";
 
+//Go to next level prompt
+const std::string NEXT_LEVEL_PROMPT = "Press ENTER to continue";
+
 //Dialogue
 const std::string BEGIN_DIALOGUE_PROMPT = "Press ENTER to speak with ";
 const std::string DIALOGUE_START_PROMPT = "Enter text. Press ESC to quit";
