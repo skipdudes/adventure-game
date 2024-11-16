@@ -51,50 +51,71 @@ const std::filesystem::path DIR_NPC = DIR_TEXTURES / "NPC";
 const std::string STRING_HAPPINESS = "Happiness";
 const std::string STRING_TRUST = "Trust";
 const std::string STRING_HOSTILITY = "Hostility";
+
 const std::string STRING_NPC_BASE_CONTEXT = 
 " Please try to answer shortly, maximum 50 words."
-" Do not use any special characters, especially at the beginning and the end of the response. eg. newline character"
+" Do not use any special characters, especially at the beginning and the end of the response, eg. newline character."
 " At the end of your response, you need to set some parameters based on the conversation,"
 " the parameters are float with value ranging from 0 to 1. parameters are: Happiness, Trust, Hostility."
 " You MUST include all of them in every response and you should behave accordingly to their value."
 " The structure of response: (Happiness: 0.0, Trust: 0.0, Hostility: 0.0). Starting values are: ";
-//const std::string STRING_RDF_BASE_CONTEXT = "The King lives in the castle";
-//todo -> rozbuduj kontekst RDF, wspolny dla wszystkich NPC
+
+const std::string STRING_RDF_BASE_CONTEXT = 
+" Here's some information about the world you're living in:"
+" The person you are talking with is the player."
+" He's a 20 year old Royal Guard and his name is Anthony."
+" The King lives in the castle."
+" Player's father Henry lives in the castle."
+" Royal Guard Michael lives in the castle."
+" The Innkeeper lives in the Inn."
+" The Marquis lives in his house.";
+//todo: ******************************************* Complete RDF information *******************************************
 
 //King
 const std::string STRING_KING_NAME = "The King";
 const std::filesystem::path FILE_KING_TEXTURE = DIR_NPC / "King.png";
 const std::filesystem::path FILE_KING_DIALOGUE_TEXTURE = DIR_DIALOGUE / "King.png";
-const std::string STRING_KING_CONTEXT = "You are the king of a medieval city.";
-//todo -> rozbuduj kontekst
+const std::string STRING_KING_CONTEXT = "You are the king of a medieval city."
+" Your name is Arthur and you are 55 years old."
+" You are commanding, apodictic and intelligent."
+" You don't trust many people and have a narrow circle of trusted advisors."
+" You trust the prime minister.";
 
 //Father
 const std::string STRING_FATHER_NAME = "The Father";
 const std::filesystem::path FILE_FATHER_TEXTURE = DIR_NPC / "Father.png";
 const std::filesystem::path FILE_FATHER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Father.png";
-const std::string STRING_FATHER_CONTEXT = "You are the father of the person you are talking with. You both live in a medieval city.";
-//todo -> rozbuduj kontekst
+const std::string STRING_FATHER_CONTEXT = "You are the father of the person you are talking with. You both live in a medieval city."
+" Your name is Henry, you are 54 years old and you are the Prime Minister."
+" You are strict, intelligent and political savvy."
+" You are loyal to the king."
+" You value honor and a good family background.";
 
 //RoyalGuard
 const std::string STRING_ROYALGUARD_NAME = "Royal Guard";
 const std::filesystem::path FILE_ROYALGUARD_TEXTURE = DIR_NPC / "RoyalGuard.png";
 const std::filesystem::path FILE_ROYALGUARD_DIALOGUE_TEXTURE = DIR_DIALOGUE / "RoyalGuard.png";
-const std::string STRING_ROYALGUARD_CONTEXT = "You are a royal guard in a medieval city.";
-//todo -> rozbuduj kontekst
+const std::string STRING_ROYALGUARD_CONTEXT = "You are a Royal Guard in a medieval city."
+" Your name is Michael and you are 21 years old."
+" You are friends with the player and Richard."
+" You are smart, hardworking and reliable."
+" You love your family, friends and the King.";
 
 //Innkeeper
 const std::string STRING_INNKEEPER_NAME = "The Innkeeper";
 const std::filesystem::path FILE_INNKEEPER_TEXTURE = DIR_NPC / "Innkeeper.png";
 const std::filesystem::path FILE_INNKEEPER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Innkeeper.png";
-const std::string STRING_INNKEEPER_CONTEXT = "You are the owner of an inn in a medieval city.";
-//todo -> rozbuduj kontekst
+const std::string STRING_INNKEEPER_CONTEXT = "You are the owner of an inn in a medieval city."
+" You are 48 years old and your name is John."
+" You're shrewd and money-grubbing."
+" You will sell information if the client knows how to talk to you and pay the right price.";
 
 //Marquis
 const std::string STRING_MARQUIS_NAME = "The Marquis";
 const std::filesystem::path FILE_MARQUIS_TEXTURE = DIR_NPC / "Marquis.png";
 const std::filesystem::path FILE_MARQUIS_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Marquis.png";
 const std::string STRING_MARQUIS_CONTEXT = "You are a Marquis in a medieval city.";
-//todo -> rozbuduj kontekst
+//todo: ******************************************* Complete Marquis' unique context *******************************************
 
 //Levels
 const std::filesystem::path DIR_LEVELS = DIR_TEXTURES / "Levels";

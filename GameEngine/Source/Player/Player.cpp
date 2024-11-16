@@ -3,7 +3,7 @@
 #include "../Logger.h"
 
 Player::Player()
-	: mVelocityX(0), mVelocityY(0), mCurrentSprite(nullptr), mDirection(Direction::DOWN), mCurrentSpriteFrame(0), mLastAnimationUpdateTime(0), mIsMoving(false)
+	: mVelocityX(0), mVelocityY(0), mCurrentSprite(nullptr), mDirection(Direction::DOWN), mCurrentSpriteFrame(0), mLastAnimationUpdateTime(0), mIsMoving(false), mIsTalking(false)
 {
 	//Collider init
 	mCollider.x = 0;
@@ -94,39 +94,42 @@ bool Player::load()
 
 void Player::handleEvents(SDL_Event& e)
 {
-	if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+	if (!mIsTalking)
 	{
-		switch (e.key.keysym.sym)
+		if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
 		{
-		case BUTTON_MOVE_UP:
-			mVelocityY -= PLAYER_VELOCITY;
-			mDirection = Direction::UP;
-			break;
-		case BUTTON_MOVE_DOWN:
-			mVelocityY += PLAYER_VELOCITY;
-			mDirection = Direction::DOWN;
-			break;
-		case BUTTON_MOVE_LEFT:
-			mVelocityX -= PLAYER_VELOCITY;
-			mDirection = Direction::LEFT;
-			break;
-		case BUTTON_MOVE_RIGHT:
-			mVelocityX += PLAYER_VELOCITY;
-			mDirection = Direction::RIGHT;
-			break;
+			switch (e.key.keysym.sym)
+			{
+			case BUTTON_MOVE_UP:
+				mVelocityY -= PLAYER_VELOCITY;
+				mDirection = Direction::UP;
+				break;
+			case BUTTON_MOVE_DOWN:
+				mVelocityY += PLAYER_VELOCITY;
+				mDirection = Direction::DOWN;
+				break;
+			case BUTTON_MOVE_LEFT:
+				mVelocityX -= PLAYER_VELOCITY;
+				mDirection = Direction::LEFT;
+				break;
+			case BUTTON_MOVE_RIGHT:
+				mVelocityX += PLAYER_VELOCITY;
+				mDirection = Direction::RIGHT;
+				break;
+			}
 		}
-	}
-	else if (e.type == SDL_KEYUP && e.key.repeat == 0)
-	{
-		switch (e.key.keysym.sym)
+		else if (e.type == SDL_KEYUP && e.key.repeat == 0)
 		{
-		case BUTTON_MOVE_UP: mVelocityY += PLAYER_VELOCITY; break;
-		case BUTTON_MOVE_DOWN: mVelocityY -= PLAYER_VELOCITY; break;
-		case BUTTON_MOVE_LEFT: mVelocityX += PLAYER_VELOCITY; break;
-		case BUTTON_MOVE_RIGHT: mVelocityX -= PLAYER_VELOCITY; break;
-		}
+			switch (e.key.keysym.sym)
+			{
+			case BUTTON_MOVE_UP: mVelocityY += PLAYER_VELOCITY; break;
+			case BUTTON_MOVE_DOWN: mVelocityY -= PLAYER_VELOCITY; break;
+			case BUTTON_MOVE_LEFT: mVelocityX += PLAYER_VELOCITY; break;
+			case BUTTON_MOVE_RIGHT: mVelocityX -= PLAYER_VELOCITY; break;
+			}
 
-		fixDirection();
+			fixDirection();
+		}
 	}
 }
 

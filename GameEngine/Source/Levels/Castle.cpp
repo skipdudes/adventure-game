@@ -97,15 +97,7 @@ bool Castle::exit()
 void Castle::handleEvents(SDL_Event& e)
 {
 	//Player
-	bool talkingTo = false;
-	for (std::shared_ptr<NPC>& npc : mNPCs)
-	{
-		if (npc->mCurrentlyTalkingTo)
-			talkingTo = true;
-		break;
-	}
-	if (!talkingTo)
-		gPlayer->handleEvents(e);
+	gPlayer->handleEvents(e);
 
 	//Dialogue
 	for (std::shared_ptr<NPC>& npc : mNPCs)
@@ -120,6 +112,7 @@ void Castle::handleEvents(SDL_Event& e)
 			{
 				//Stop the player
 				gPlayer->stop();
+				gPlayer->mIsTalking = true;
 
 				//Dialogue
 				npc->mDialogue = std::make_unique<Dialogue>(npc);
@@ -137,6 +130,9 @@ void Castle::handleEvents(SDL_Event& e)
 		{
 			if (npc->endedDialogue())
 			{
+				//Release the player
+				gPlayer->mIsTalking = false;
+
 				//Dialogue
 				npc->mDialogue.reset();
 

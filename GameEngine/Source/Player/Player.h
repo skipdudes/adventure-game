@@ -35,6 +35,8 @@ public:
 
 	void render(SDL_Rect camera);
 
+	bool mIsTalking;
+
 	SDL_Rect getCollider() const;
 
 private:

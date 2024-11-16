@@ -5,13 +5,11 @@
 
 NPC::NPC(const std::string& name, const std::string& texturePath, const std::string& dialogueTexturePath, const std::string& context)
 	:mWidth(0), mHeight(0), mAbleToTalk(false), mCurrentlyTalkingTo(false), mRecentlyTalkedTo(false), mThinking(false), 
-	mName(name), mTexturePath(texturePath), mDialogueTexturePath(dialogueTexturePath), 
+	mName(name), mTexturePath(texturePath), mDialogueTexturePath(dialogueTexturePath), mContext(context), 
 	mHappiness(0.5f), mTrust(0.5f), mHostility(0.5f)
 {
 	mTexture = std::make_unique<Texture>();
 	mMessages.clear();
-	mContext = context + STRING_NPC_BASE_CONTEXT;
-	//mContext = context;
 }
 
 NPC::~NPC()
