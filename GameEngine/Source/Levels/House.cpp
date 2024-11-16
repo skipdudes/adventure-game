@@ -149,6 +149,9 @@ void House::handleEvents(SDL_Event& e)
 			}
 		}
 	}
+
+	//Toggle rendering current quest
+	toggleQuestPrompt(e);
 }
 
 void House::update()
@@ -198,4 +201,7 @@ void House::render()
 	//NPCs Dialogue
 	for (std::shared_ptr<NPC>& npc : mNPCs)
 		npc->renderDialogue();
+
+	//Quest
+	renderCurrentQuest();
 }

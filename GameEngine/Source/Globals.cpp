@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Levels/Exit.h"
 #include "Constants.h"
+#include "Logger.h"
 
 SDL_Renderer* gRenderer = nullptr;
 
@@ -18,6 +19,8 @@ std::shared_ptr<NPC> gMarquis;
 
 Level* gCurrentLevel = nullptr;
 Level* gNextLevel = nullptr;
+
+bool gDisplayQuestPrompt = false;
 
 //Game events
 //bool g_RDF_PlayerFoundBody = 0;
@@ -93,10 +96,25 @@ void renderPrompt(int xOffset, std::string text, int linesNumber, Uint8 r, Uint8
 	gFontMedium->renderText(xOffset, SCREEN_HEIGHT - (content - 2 * padding), text);
 }
 
-void renderQuestPrompt(int xOffset, std::string text)
+void renderQuestPrompt(std::string text)
 {
 	int padding = 2;
-	int content = 32;
+
+	//Store previous buffer address
+	SDL_Texture* previousBuffer = SDL_GetRenderTarget(gRenderer);
+
+	//Get lines number
+	SDL_Texture* textTexture = SDL_CreateTexture(gRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, SCREEN_WIDTH, SCREEN_HEIGHT);
+	if (textTexture == nullptr)
+	{
+		LOG_WARNING("Text buffer texture could not be created, SDL Error: " + std::string(SDL_GetError()));
+		return;
+	}
+	SDL_SetRenderTarget(gRenderer, textTexture);
+	int linesNumber = gFontSmall->renderDialogueText(4 * padding, 4 * padding, text, SCREEN_WIDTH - (4 * padding));
+	SDL_SetRenderTarget(gRenderer, previousBuffer);
+
+	int content = 24 * linesNumber;
 
 	//Outer box
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -109,6 +127,32 @@ void renderQuestPrompt(int xOffset, std::string text)
 	SDL_RenderFillRect(gRenderer, &innerBox);
 
 	//Prompt
-	gFontMedium->setColor(0xFF, 0xFF, 0xFF);
-	gFontMedium->renderText(xOffset, 4 * padding, text);
+	gFontSmall->setColor(0xFF, 0xFF, 0xFF);
+	gFontSmall->renderDialogueText(4 * padding, 4 * padding, text, SCREEN_WIDTH - (4 * padding));
+
+	//Dealloc memory
+	SDL_DestroyTexture(textTexture);
+	textTexture = nullptr;
+}
+
+void renderCurrentQuest()
+{
+	if (gDisplayQuestPrompt)
+	{
+		//renderQuestPrompt("Current quest...?");
+		renderQuestPrompt(STRING_NPC_BASE_CONTEXT);
+	}
+}
+
+void toggleQuestPrompt(SDL_Event& e)
+{
+	if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_INFO))
+	{
+		gDisplayQuestPrompt = !gDisplayQuestPrompt;
+
+		if (gDisplayQuestPrompt)
+			LOG_INFO("Display current quest prompt: ON");
+		else
+			LOG_INFO("Display current quest prompt: OFF");
+	}
 }

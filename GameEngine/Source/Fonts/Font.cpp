@@ -149,8 +149,10 @@ void Font::renderText(int x, int y, std::string text)
 	}
 }
 
-void Font::renderDialogueText(int x, int y, std::string text, int xMaxPos)
+int Font::renderDialogueText(int x, int y, std::string text, int xMaxPos)
 {
+	int linesNumber = 1;
+
 	//If the font was built
 	if (mBuilt)
 	{
@@ -171,6 +173,8 @@ void Font::renderDialogueText(int x, int y, std::string text, int xMaxPos)
 
 				//Return to the beginning
 				charX = x;
+
+				linesNumber += 1;
 			}
 			//Other chars
 			else
@@ -180,6 +184,8 @@ void Font::renderDialogueText(int x, int y, std::string text, int xMaxPos)
 				{
 					charY += mNewLine;
 					charX = x;
+
+					linesNumber += 1;
 				}
 
 				mFontTexture->render(charX, charY, &mChars[int(text[i])]);
@@ -187,6 +193,8 @@ void Font::renderDialogueText(int x, int y, std::string text, int xMaxPos)
 			}
 		}
 	}
+
+	return linesNumber;
 }
 
 void Font::renderStat(int x, int y, std::string text)

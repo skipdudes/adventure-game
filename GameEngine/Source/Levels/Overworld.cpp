@@ -83,6 +83,9 @@ bool Overworld::exit()
 void Overworld::handleEvents(SDL_Event& e)
 {
 	gPlayer->handleEvents(e);
+
+	//Toggle rendering current quest
+	toggleQuestPrompt(e);
 }
 
 void Overworld::update()
@@ -125,4 +128,7 @@ void Overworld::render()
 
 	//Objects
 	gPlayer->render(camera);
+
+	//Quest
+	renderCurrentQuest();
 }
