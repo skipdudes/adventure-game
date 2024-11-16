@@ -70,7 +70,15 @@ bool Castle::enter()
 		mWalls.push_back(npc->getCollider());
 
 	//Player starting position
-	gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) - 4);
+	//Came from Overworld
+	if (gCurrentLevel == Overworld::get())
+	{
+		gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) - 4);
+	}
+	else
+	{
+		gPlayer->setPosition((LEVEL_WIDTH - Player::PLAYER_WIDTH) / 2, (LEVEL_HEIGHT - Player::PLAYER_HEIGHT) - (48 * 6));
+	}
 
 	LOG_INFO("Successfully entered Castle level");
 	return true;

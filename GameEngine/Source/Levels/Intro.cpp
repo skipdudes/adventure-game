@@ -2,7 +2,7 @@
 #include "../Constants.h"
 #include "../Globals.h"
 #include "../Logger.h"
-#include "Overworld.h"
+#include "Castle.h"
 
 Intro Intro::gLevelIntro;
 
@@ -32,7 +32,7 @@ void Intro::handleEvents(SDL_Event& e)
 {
 	if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_CONFIRM))
 	{
-		setNextState(Overworld::get());
+		setNextState(Castle::get());
 	}
 }
 

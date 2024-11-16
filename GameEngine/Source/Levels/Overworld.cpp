@@ -62,10 +62,6 @@ bool Overworld::enter()
 	{
 		gPlayer->setPosition(869, 805);
 	}
-	else
-	{
-		gPlayer->setPosition(533, 420);
-	}
 
 	LOG_INFO("Successfully entered Overworld level");
 	return true;
