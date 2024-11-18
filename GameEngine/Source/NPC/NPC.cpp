@@ -3,10 +3,10 @@
 #include "../Constants.h"
 #include "../Globals.h"
 
-NPC::NPC(const std::string& name, const std::string& texturePath, const std::string& dialogueTexturePath, const std::string& context)
+NPC::NPC(const std::string& name, const std::string& texturePath, const std::string& dialogueTexturePath, const std::string& context, const std::string& rdfDynamicContext, const float happiness, const float trust, const float hostility)
 	:mWidth(0), mHeight(0), mAbleToTalk(false), mCurrentlyTalkingTo(false), mRecentlyTalkedTo(false), mThinking(false), 
-	mName(name), mTexturePath(texturePath), mDialogueTexturePath(dialogueTexturePath), mContext(context), 
-	mHappiness(0.5f), mTrust(0.5f), mHostility(0.5f)
+	mName(name), mTexturePath(texturePath), mDialogueTexturePath(dialogueTexturePath), mContext(context), mRDFDynamicContext(rdfDynamicContext),
+	mHappiness(happiness), mTrust(trust), mHostility(hostility)
 {
 	mTexture = std::make_unique<Texture>();
 	mMessages.clear();

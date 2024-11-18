@@ -26,6 +26,9 @@ bool gDisplayQuestPrompt = false;
 //bool g_RDF_PlayerFoundBody = 0;
 //todo -> game events bools
 //+ per individual npc
+bool g_RDF_isInvestigationAssigned = false;
+bool g_RDF_innkeeperToldAboutWoman = false;
+bool g_RDF_marquisToldAboutWoman = false;
 
 void setNextState(Level* nextLevel)
 {

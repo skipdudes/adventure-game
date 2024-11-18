@@ -33,7 +33,12 @@ bool checkCollision(SDL_Rect a, SDL_Rect b);
 
 //Game events
 //extern bool g_RDF_PlayerFoundBody;
-//todo -> game events bools
+extern bool g_RDF_isInvestigationAssigned;
+extern bool g_RDF_innkeeperToldAboutWoman;
+extern bool g_RDF_marquisToldAboutWoman;
+extern bool g_RDF_isInvestigationAssigned;
+extern bool g_RDF_isInvestigationAssigned;
+extern bool g_RDF_isInvestigationAssigned;
 //+ per individual npc
 
 //HUD

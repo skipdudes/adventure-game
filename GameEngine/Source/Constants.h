@@ -52,6 +52,7 @@ const std::string STRING_HAPPINESS = "Happiness";
 const std::string STRING_TRUST = "Trust";
 const std::string STRING_HOSTILITY = "Hostility";
 
+//Shared NPC instructions
 const std::string STRING_NPC_BASE_CONTEXT = 
 " Please try to answer shortly, maximum 50 words."
 " Do not use any special characters, especially at the beginning and the end of the response, eg. newline character."
@@ -60,6 +61,7 @@ const std::string STRING_NPC_BASE_CONTEXT =
 " You MUST include all of them in every response and you should behave accordingly to their value."
 " The structure of response: (Happiness: 0.0, Trust: 0.0, Hostility: 0.0). Starting values are: ";
 
+//RDF shared basic knowledge
 const std::string STRING_RDF_BASE_CONTEXT = 
 " Here's some information about the world you're living in:"
 " The person you are talking with is the player."
@@ -68,24 +70,47 @@ const std::string STRING_RDF_BASE_CONTEXT =
 " Player's father Henry lives in the castle."
 " Royal Guard Michael lives in the castle."
 " The Innkeeper lives in the Inn."
-" The Marquis lives in his house.";
+" The Marquis lives in his house. It is located south to the castle and it's made of brick.";
 //todo: ******************************************* Complete RDF information *******************************************
 
 //King
 const std::string STRING_KING_NAME = "The King";
 const std::filesystem::path FILE_KING_TEXTURE = DIR_NPC / "King.png";
 const std::filesystem::path FILE_KING_DIALOGUE_TEXTURE = DIR_DIALOGUE / "King.png";
-const std::string STRING_KING_CONTEXT = "You are the king of a medieval city."
+
+//King basic context
+const std::string STRING_KING_CONTEXT =
+"You are the king of a medieval city."
 " Your name is Arthur and you are 55 years old."
 " You are commanding, apodictic and intelligent."
 " You don't trust many people and have a narrow circle of trusted advisors."
-" You trust the prime minister.";
+" You trust the prime minister."
+" Richard, your nephew, was found dead yesterday, stabbed in a chest, lying in nearby forest."
+" You are devastated about it, because you loved him like your own.";
+
+//King quest 1 false context
+const std::string RDF_INVESTIGATION_ASSIGNED_FALSE =
+"A player came to you."
+" You tell him what you know about Richard only if player asks you to. Last time that you saw Richard was yesterday in your castle."
+" Richard told you then that he was going to the local Inn. Talking to player makes you more happy."
+" Your happiness increases quickly when player is nice to you."
+" If player asks you if he could help when requirements are not met (Happiness < 0.6 and Hostility > 0.3), then tell player that you are greatful for asking but now is not the best moment."
+" If requirements are met (Happiness >= 0.6 and Hostility <= 0.3) then you tell player that you would want him to conduct an investigation. That's crucial that you don't tell him about it before requirements are met."
+" He should go to the local Inn and see if bartender knows anything. If player didn't ask, then you don't tell him about it.";
+
+//King quest 1 true context
+const std::string RDF_INVESTIGATION_ASSIGNED_TRUE =
+"If you didn't yet tell player to conduct an investigation, do it now. Tell him that he should go to the local Inn and see if bartender knows anything."
+"You were devastated about your nephew death, but player made you feel better."
+" You are thankful to him for that, but despite that you don't want to chat with him and tell him to go to the local inn already.";
+
 
 //Father
 const std::string STRING_FATHER_NAME = "The Father";
 const std::filesystem::path FILE_FATHER_TEXTURE = DIR_NPC / "Father.png";
 const std::filesystem::path FILE_FATHER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Father.png";
-const std::string STRING_FATHER_CONTEXT = "You are the father of the person you are talking with. You both live in a medieval city."
+const std::string STRING_FATHER_CONTEXT = 
+"You are the father of the person you are talking with. You both live in a medieval city."
 " Your name is Henry, you are 54 years old and you are the Prime Minister."
 " You are strict, intelligent and political savvy."
 " You are loyal to the king."
@@ -95,7 +120,8 @@ const std::string STRING_FATHER_CONTEXT = "You are the father of the person you 
 const std::string STRING_ROYALGUARD_NAME = "Royal Guard";
 const std::filesystem::path FILE_ROYALGUARD_TEXTURE = DIR_NPC / "RoyalGuard.png";
 const std::filesystem::path FILE_ROYALGUARD_DIALOGUE_TEXTURE = DIR_DIALOGUE / "RoyalGuard.png";
-const std::string STRING_ROYALGUARD_CONTEXT = "You are a Royal Guard in a medieval city."
+const std::string STRING_ROYALGUARD_CONTEXT = 
+"You are a Royal Guard in a medieval city."
 " Your name is Michael and you are 21 years old."
 " You are friends with the player and Richard."
 " You are smart, hardworking and reliable."
@@ -105,16 +131,34 @@ const std::string STRING_ROYALGUARD_CONTEXT = "You are a Royal Guard in a mediev
 const std::string STRING_INNKEEPER_NAME = "The Innkeeper";
 const std::filesystem::path FILE_INNKEEPER_TEXTURE = DIR_NPC / "Innkeeper.png";
 const std::filesystem::path FILE_INNKEEPER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Innkeeper.png";
-const std::string STRING_INNKEEPER_CONTEXT = "You are the owner of an inn in a medieval city."
+const std::string STRING_INNKEEPER_CONTEXT =
+"You are the owner of an inn in a medieval city."
 " You are 48 years old and your name is John."
-" You're shrewd and money-grubbing."
-" You will sell information if the client knows how to talk to you and pay the right price.";
+" You're shrewd and money-grubbing.";
+
+const std::string RDF_INNKEEPER_TOLD_ABOUT_WOMAN_FALSE =
+"A player came into your Inn. This is the first time you see him and you don't seem to trust him, although you are quite easy to convince if you hear a good story."
+" If player asks you about Richard when requirements are not met (Trust < 0.5) then you can't tell him about Richard."
+" If requirements are met (Trust >= 0.5) and player asks you about Richard,"
+" then you tell him that you saw Richard leave your Inn with a mysterious woman yesterday right before it was closed.";
+
+const std::string RDF_INNKEEPER_TOLD_ABOUT_WOMAN_TRUE =
+" You were suspicious about the player, but now he gained some of your trust."
+" If he asks about the woman, you tell him that you saw her a few times in your inn talking with a Marquis, so maybe he might know something. Use your own words.";
 
 //Marquis
 const std::string STRING_MARQUIS_NAME = "The Marquis";
 const std::filesystem::path FILE_MARQUIS_TEXTURE = DIR_NPC / "Marquis.png";
 const std::filesystem::path FILE_MARQUIS_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Marquis.png";
-const std::string STRING_MARQUIS_CONTEXT = "You are a Marquis in a medieval city.";
+const std::string STRING_MARQUIS_CONTEXT =
+"You are a Marquis in a medieval city."
+" You are usually loud and positive person"
+" You are friendly and welcoming"
+" You are easy to throw off balance, you get hostile when someone is pushing you."
+" You are in love with myserious woman, Emma. You are jealous when somebody else is seeing her."
+" Player made you furious insinuating Emma's affair and because of that you slipped out that she was just getting information out of him. You try to convince him that you just made it all up in a fit of anger. You dont want to see the player anymore and if he tries to talk with you you tell him to get the hell out of your house. Use your own words. ";
+
+
 //todo: ******************************************* Complete Marquis' unique context *******************************************
 
 //Levels

@@ -78,6 +78,9 @@
     <ClCompile Include="Source\Levels\Outro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\UpdateBools.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Dialogue\Dialogue.h">
@@ -144,6 +147,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Levels\Outro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UpdateBools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,6 +3,7 @@
 #include "../Globals.h"
 #include "../Logger.h"
 #include "../SendPrompt.h"
+#include "../UpdateBools.h"
 #include <sstream>
 
 Dialogue::Dialogue(const std::shared_ptr<NPC>& NPC)
@@ -102,7 +103,7 @@ void Dialogue::changeToNPCTurn()
 
 
 	//std::string context = mNPC->getContext() + STRING_RDF_BASE_CONTEXT + rdfBoolsToString() + STRING_NPC_BASE_CONTEXT;
-	std::string context = mNPC->getContext() + STRING_RDF_BASE_CONTEXT + STRING_NPC_BASE_CONTEXT;
+	std::string context = STRING_RDF_BASE_CONTEXT + mNPC->getContext() + mNPC->mRDFDynamicContext + STRING_NPC_BASE_CONTEXT;
 
 	//Begin generating response
 	generatedResponse = std::async(
@@ -169,7 +170,7 @@ void Dialogue::update()
 			LOG_INFO("Hostility: " + std::to_string(mNPC->mHostility));
 
 			//TODO *************************************************************************
-			//updateBools();
+			updateBools(mNPC);
 
 			//Not thinking anymore
 			mNPC->mThinking = false;

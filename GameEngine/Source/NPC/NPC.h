@@ -12,7 +12,7 @@ class NPC
 {
 public:
 	//Create & delete
-	NPC(const std::string& name, const std::string& texturePath, const std::string& dialogueTexturePath, const std::string& context);
+	NPC(const std::string& name, const std::string& texturePath, const std::string& dialogueTexturePath, const std::string& context, const std::string& rdfDynamicContext, const float happiness, const float trust, const float hostility);
 	~NPC();
 
 	//Second collider
@@ -29,6 +29,9 @@ public:
 	float mHappiness;
 	float mTrust;
 	float mHostility;
+
+	//RDF context based on current quest
+	std::string mRDFDynamicContext;
 
 	//Messages array
 	nlohmann::json mMessages = nlohmann::json::array();
