@@ -47,6 +47,16 @@ House* House::get()
 
 bool House::enter()
 {
+	//If player just finished innkeeper quest and still haven't been to Marquis' house
+	if (g_RDF_innkeeperToldAboutWoman == true && g_additional_playerEnteredMarquisHouse == false) 
+	{
+		g_additional_playerEnteredMarquisHouse = true;
+		//************ TODO ************
+		// ustaw opis questa
+		// Get Marquis to talk about the woman. Find out why Richard was seeing her. (Hostility >= 70%).
+		LOG_INFO("Quest set to: Get Marquis to talk about the woman. Find out why Richard was seeing her. (Hostility >= 70%).");
+	}
+
 	//Load background
 	if (!mLevelTexture->load(FILE_HOUSE_TEXTURE.string()))
 	{

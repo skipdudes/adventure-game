@@ -70,8 +70,10 @@ const std::string STRING_RDF_BASE_CONTEXT =
 " Player's father Henry lives in the castle."
 " Royal Guard Michael lives in the castle."
 " The Innkeeper lives in the Inn."
-" The Marquis lives in his house. It is located south to the castle and it's made of brick.";
+" The Marquis lives in his house. It is located south to the castle and it's made of brick. ";
 //todo: ******************************************* Complete RDF information *******************************************
+
+
 
 //King
 const std::string STRING_KING_NAME = "The King";
@@ -86,7 +88,7 @@ const std::string STRING_KING_CONTEXT =
 " You don't trust many people and have a narrow circle of trusted advisors."
 " You trust the prime minister."
 " Richard, your nephew, was found dead yesterday, stabbed in a chest, lying in nearby forest."
-" You are devastated about it, because you loved him like your own.";
+" You are devastated about it, because you loved him like your own. ";
 
 //King quest 1 false context
 const std::string RDF_INVESTIGATION_ASSIGNED_FALSE =
@@ -96,70 +98,126 @@ const std::string RDF_INVESTIGATION_ASSIGNED_FALSE =
 " Your happiness increases quickly when player is nice to you."
 " If player asks you if he could help when requirements are not met (Happiness < 0.6 and Hostility > 0.3), then tell player that you are greatful for asking but now is not the best moment."
 " If requirements are met (Happiness >= 0.6 and Hostility <= 0.3) then you tell player that you would want him to conduct an investigation. That's crucial that you don't tell him about it before requirements are met."
-" He should go to the local Inn and see if bartender knows anything. If player didn't ask, then you don't tell him about it.";
+" He should go to the local Inn and see if bartender knows anything. If player didn't ask, then you don't tell him about it. ";
 
 //King quest 1 true context
 const std::string RDF_INVESTIGATION_ASSIGNED_TRUE =
 "If you didn't yet tell player to conduct an investigation, do it now. Tell him that he should go to the local Inn and see if bartender knows anything."
-"You were devastated about your nephew death, but player made you feel better."
-" You are thankful to him for that, but despite that you don't want to chat with him and tell him to go to the local inn already.";
+" You were devastated about your nephew death, but player made you feel better."
+" You are thankful to him for that, but despite that you don't want to chat with him and tell him to go to the local inn already. ";
+
+
+
 
 
 //Father
 const std::string STRING_FATHER_NAME = "The Father";
 const std::filesystem::path FILE_FATHER_TEXTURE = DIR_NPC / "Father.png";
 const std::filesystem::path FILE_FATHER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Father.png";
+
+//Father basic context
 const std::string STRING_FATHER_CONTEXT = 
-"You are the father of the person you are talking with. You both live in a medieval city."
+"You are the father of the player. You both live in a medieval city."
 " Your name is Henry, you are 54 years old and you are the Prime Minister."
 " You are strict, intelligent and political savvy."
 " You are loyal to the king."
-" You value honor and a good family background.";
+" You value honor and a good family background. ";
+
+//Father quest 4 false context
+const std::string RDF_FATHER_TOLD_ABOUT_WOMAN_FALSE =
+"You just found out about a mysterious woman's death. She was found dead behind the Inn, clearly murdered."
+" You are doing an investigation of your own and, according to the Innkeeper, she was murdered by Marquis."
+" You need to tell player about it. If player tells you details about his investigation,"
+" like mysterious woman Emma spying on the royal family or meeting with Richard, then increase your trust to 0.7"
+" and tell player that according to what he told you, you are no longer sure it was Marquis."
+" You also tell player that you suspect Marquis clearly didn't tell him everything and that you need him to go and interrogate Marquis again. Use your own words. ";
+
+//Father quest 4 true context
+const std::string RDF_FATHER_TOLD_ABOUT_WOMAN_TRUE =
+" If player keeps talking with you, you need to tell player to go interrogate Marquis already and to tell guard, who is in front of Marquis' home,"
+" that it's Prime Minister's order to let you in. Use your own words. ";
+
+
+
 
 //RoyalGuard
 const std::string STRING_ROYALGUARD_NAME = "Royal Guard";
 const std::filesystem::path FILE_ROYALGUARD_TEXTURE = DIR_NPC / "RoyalGuard.png";
 const std::filesystem::path FILE_ROYALGUARD_DIALOGUE_TEXTURE = DIR_DIALOGUE / "RoyalGuard.png";
+
+//RoyalGuard base context
 const std::string STRING_ROYALGUARD_CONTEXT = 
 "You are a Royal Guard in a medieval city."
 " Your name is Michael and you are 21 years old."
 " You are friends with the player and Richard."
 " You are smart, hardworking and reliable."
-" You love your family, friends and the King.";
+" You love your family, friends and the King. ";
+
+const std::string RDF_ROYALGUARD_CONVINCED_FALSE =
+"You are on a mission in front of a Marquis home, guarding the place. Marquis in on a home arrest, suspected of murder. You can't let anybody in."
+" If someone approaches, tell them to state their business or leave. If player tells you that he has been sent there by his father,"
+" who is a prime minister, or something similar, then increase your trust to 0.6, and tell him that you are sorry and you didnt know. Use your own words and be creative. ";
+
+const std::string RDF_ROYALGUARD_CONVINCED_TRUE = 
+"You are guarding the home of Marquis, beacuse he is in a home arrest as a suspected murderer. You already gave permission to the player to go in. Use your own words, be creative. ";
+
 
 //Innkeeper
 const std::string STRING_INNKEEPER_NAME = "The Innkeeper";
 const std::filesystem::path FILE_INNKEEPER_TEXTURE = DIR_NPC / "Innkeeper.png";
 const std::filesystem::path FILE_INNKEEPER_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Innkeeper.png";
+
+//Innkeeper basic context
 const std::string STRING_INNKEEPER_CONTEXT =
 "You are the owner of an inn in a medieval city."
 " You are 48 years old and your name is John."
-" You're shrewd and money-grubbing.";
+" You're shrewd and money-grubbing. ";
 
+//Innkeeper quest 2 false context
 const std::string RDF_INNKEEPER_TOLD_ABOUT_WOMAN_FALSE =
 "A player came into your Inn. This is the first time you see him and you don't seem to trust him, although you are quite easy to convince if you hear a good story."
 " If player asks you about Richard when requirements are not met (Trust < 0.5) then you can't tell him about Richard."
 " If requirements are met (Trust >= 0.5) and player asks you about Richard,"
-" then you tell him that you saw Richard leave your Inn with a mysterious woman yesterday right before it was closed.";
+" then you tell him that you saw Richard leave your Inn with a mysterious woman yesterday right before it was closed. ";
 
+//Inkeeper quest 2 ture context
 const std::string RDF_INNKEEPER_TOLD_ABOUT_WOMAN_TRUE =
 " You were suspicious about the player, but now he gained some of your trust."
-" If he asks about the woman, you tell him that you saw her a few times in your inn talking with a Marquis, so maybe he might know something. Use your own words.";
+" If he asks about the woman, you tell him that you saw her a few times in your inn talking with a Marquis, so maybe he might know something. Use your own words. ";
+
+
+
 
 //Marquis
 const std::string STRING_MARQUIS_NAME = "The Marquis";
 const std::filesystem::path FILE_MARQUIS_TEXTURE = DIR_NPC / "Marquis.png";
 const std::filesystem::path FILE_MARQUIS_DIALOGUE_TEXTURE = DIR_DIALOGUE / "Marquis.png";
+
+//Marquis base context
 const std::string STRING_MARQUIS_CONTEXT =
 "You are a Marquis in a medieval city."
 " You are usually loud and positive person"
 " You are friendly and welcoming"
 " You are easy to throw off balance, you get hostile when someone is pushing you."
-" You are in love with myserious woman, Emma. You are jealous when somebody else is seeing her."
-" Player made you furious insinuating Emma's affair and because of that you slipped out that she was just getting information out of him. You try to convince him that you just made it all up in a fit of anger. You dont want to see the player anymore and if he tries to talk with you you tell him to get the hell out of your house. Use your own words. ";
+" You are in love with myserious woman, Emma. You are jealous when somebody else is seeing her. ";
+
+//Marquis quest 3 false context
+const std::string RDF_MARQUIS_TOLD_ABOUT_WOMAN_FALSE =
+"A player came into your home.You know you shouldnt talk to a royal guard, but you need to make an impression of being friendly and welcoming."
+" If player asks you about the woman and requirements are not met (Hostility < 0.7) then you tell him that you dont know her very well"
+" and she was just one of the many you were talking with at the Inn.Use your own words."
+" If the requirements are met Hostility >= 0.7) and player asks you about the woman,"
+" You get furious. You hate the thought that Emma might have any feeling towards Ricahrd. You tell the player, in anger, shouting,"
+" that Emma was seeing Richard only because she had to get the information about royal family out of him. Use your own words, be creative. ";
+
+const std::string RDF_MARQUIS_TOLD_ABOUT_WOMAN_TRUE =
+" Player made you furious insinuating Emma's affair and because of that you slipped out that she was just getting information out of him."
+" You try to convince him that you just made it all up in a fit of anger."
+" You dont want to see the player anymore and if he tries to talk with you you tell him to get the hell out of your house. Use your own words. ";
 
 
-//todo: ******************************************* Complete Marquis' unique context *******************************************
+
+
 
 //Levels
 const std::filesystem::path DIR_LEVELS = DIR_TEXTURES / "Levels";

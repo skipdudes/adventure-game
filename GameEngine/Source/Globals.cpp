@@ -23,12 +23,17 @@ Level* gNextLevel = nullptr;
 bool gDisplayQuestPrompt = false;
 
 //Game events
-//bool g_RDF_PlayerFoundBody = 0;
-//todo -> game events bools
-//+ per individual npc
 bool g_RDF_isInvestigationAssigned = false;
 bool g_RDF_innkeeperToldAboutWoman = false;
 bool g_RDF_marquisToldAboutWoman = false;
+bool g_RDF_fatherToldAboutWoman = false;
+bool g_RDF_isGuardConvinced = false;
+bool g_RDF_marquisToldAboutInnkeeper = false;
+bool g_RDF_innkeeperToldAboutRebels = false;
+bool g_RDF_joinedTheRebellion = false;
+
+bool g_additional_playerEnteredMarquisHouse = false;
+bool g_additional_playerEnteredCastle = false;
 
 void setNextState(Level* nextLevel)
 {

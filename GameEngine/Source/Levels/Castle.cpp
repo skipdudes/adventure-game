@@ -38,6 +38,15 @@ Castle* Castle::get()
 
 bool Castle::enter()
 {
+	//If player just finished marquis quest and still haven't been to castle
+	if (g_RDF_marquisToldAboutWoman == true && g_additional_playerEnteredCastle == false)
+	{
+		g_additional_playerEnteredCastle = true;
+		//************ TODO ************
+		// 
+		LOG_INFO("Successfully tracked entering castle after marquis' quest");
+	}
+
 	//Load background
 	if (!mLevelTexture->load(FILE_CASTLE_TEXTURE.string()))
 	{
