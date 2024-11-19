@@ -44,7 +44,7 @@ bool Castle::enter()
 		g_additional_playerEnteredCastle = true;
 		//************ TODO ************
 		// 
-		LOG_INFO("Successfully tracked entering castle after marquis' quest");
+		LOG_INFO("<<QUEST>> Successfully tracked entering castle after marquis' quest");
 	}
 
 	//Load background

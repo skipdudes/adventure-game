@@ -23,9 +23,9 @@ Level* gNextLevel = nullptr;
 bool gDisplayQuestPrompt = false;
 
 //Game events
-bool g_RDF_isInvestigationAssigned = false;
-bool g_RDF_innkeeperToldAboutWoman = false;
-bool g_RDF_marquisToldAboutWoman = false;
+bool g_RDF_isInvestigationAssigned = true;
+bool g_RDF_innkeeperToldAboutWoman = true;
+bool g_RDF_marquisToldAboutWoman = true;
 bool g_RDF_fatherToldAboutWoman = false;
 bool g_RDF_isGuardConvinced = false;
 bool g_RDF_marquisToldAboutInnkeeper = false;

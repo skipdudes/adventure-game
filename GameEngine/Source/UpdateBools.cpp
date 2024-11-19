@@ -14,7 +14,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 			//check if quest is completed, set parameters for completed quest
 			if (NPC->mHappiness >= 0.6 && NPC->mHostility <= 0.3)
 			{
-				LOG_INFO("First quest has been completed.");
+				LOG_INFO("<<QUEST>> First quest has been completed.");
 
 				//set quest state to finished
 				g_RDF_isInvestigationAssigned = true;
@@ -48,7 +48,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 			//check if quest is completed, set parameters for completed quest
 			if (NPC->mTrust >= 0.5)
 			{
-				LOG_INFO("Second quest has been completed.");
+				LOG_INFO("<<QUEST>> Second quest has been completed.");
 
 				//set quest state to finished
 				g_RDF_innkeeperToldAboutWoman = true;
@@ -82,7 +82,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 			//check if quest is completed, set parameters for completed quest
 			if (NPC->mHostility >= 0.7)
 			{
-				LOG_INFO("Third quest has been completed.");
+				LOG_INFO("<<QUEST>> Third quest has been completed.");
 
 				//set quest state to finished
 				g_RDF_marquisToldAboutWoman = true;
@@ -119,7 +119,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 			//check if quest is completed, set parameters for completed quest
 			if (NPC->mTrust >= 0.7)
 			{
-				LOG_INFO("Fourth quest has been completed.");
+				LOG_INFO("<<QUEST>> Fourth quest has been completed.");
 
 				//set quest state to finished
 				g_RDF_fatherToldAboutWoman = true;
@@ -152,7 +152,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 			//check if quest is completed, set parameters for completed quest
 			if (NPC->mTrust >= 0.6)
 			{
-				LOG_INFO("Fifth quest has been completed.");
+				LOG_INFO("<<QUEST>> Fifth quest has been completed.");
 
 				//set quest state to finished
 				g_RDF_isGuardConvinced = true;
@@ -184,7 +184,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 			//check if quest is completed, set parameters for completed quest
 			if (NPC->mTrust >= 0.6)//TODO
 			{
-				LOG_INFO("Sixth quest has been completed.");
+				LOG_INFO("<<QUEST>> Sixth quest has been completed.");
 
 				//set quest state to finished
 				g_RDF_marquisToldAboutInnkeeper = true;
@@ -216,7 +216,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 			//check if quest is completed, set parameters for completed quest
 			if (NPC->mTrust >= 0.6)//TODO
 			{
-				LOG_INFO("Seventh quest has been completed.");
+				LOG_INFO("<<QUEST>> Seventh quest has been completed.");
 
 				//set quest state to finished
 				g_RDF_innkeeperToldAboutRebels = true;
