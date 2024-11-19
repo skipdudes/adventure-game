@@ -141,6 +141,9 @@ void Game::run()
 {
 	LOG_INFO("Starting the game loop");
 
+	//Initial quest
+	gCurrentQuestPrompt = &STRING_QUEST_1_USER_PROMPT;
+
 	SDL_Event e;
 	gCurrentLevel = Menu::get();
 	gCurrentLevel->enter();

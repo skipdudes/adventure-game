@@ -50,3 +50,4 @@ void renderQuestPrompt(std::string text);
 void renderCurrentQuest();
 void toggleQuestPrompt(SDL_Event& e);
 extern bool gDisplayQuestPrompt;
+extern const std::string* gCurrentQuestPrompt;
