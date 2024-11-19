@@ -53,7 +53,7 @@ const std::string STRING_TRUST = "Trust";
 const std::string STRING_HOSTILITY = "Hostility";
 
 //Shared NPC instructions
-const std::string STRING_NPC_BASE_CONTEXT = 
+const std::string STRING_LANGUAGE_MODEL_INSTRUCTIONS =
 " Please try to answer shortly, maximum 50 words."
 " Do not use any special characters, especially at the beginning and the end of the response, eg. newline character."
 " At the end of your response, you need to set some parameters based on the conversation,"
@@ -254,6 +254,13 @@ const std::string DIALOGUE_TOO_LONG = "Too many characters!";
 const std::string DIALOGUE_HELP_NPC_THINKING = "Wait for the response";
 const std::string DIALOGUE_HELP_NPC_TURN = "Press ENTER to reply, press ESC to quit";
 
-//Game events
-//const std::string STRING_RDF_PLAYER_FOUND_BODY = "The person you are speaking with has found the body";
-//todo -> reprezentacja tekstowa booli
+//Quest prompts
+const std::string STRING_QUEST_1_USER_PROMPT = "Ask the King what happened. If you get him to calm down"
+" (Happiness > 60%, Hostility < 30%), he may have a task for you.";
+const std::string STRING_QUEST_2_USER_PROMPT = "Meet with the Innkeeper and ask him about Richard. The investigation"
+" is kept secret, so don't tell anyone about it. The Innkeeper won't talk unless you gain his trust (Trust > 50%).";
+const std::string STRING_QUEST_3_USER_PROMPT = "Get the Marquis to talk about the woman. Find out why Richard was seeing her."
+" Marquis will reveal this to you only if he's angry enough (Hostility > 70%).";
+const std::string STRING_QUEST_4_USER_PROMPT = "Tell your father what you have found out.";
+const std::string STRING_QUEST_FINAL_USER_PROMPT = "You did everything you could. Now, all that's left"
+" is to wait for the events to unfold.";

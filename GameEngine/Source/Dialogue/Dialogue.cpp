@@ -103,7 +103,7 @@ void Dialogue::changeToNPCTurn()
 
 
 	//std::string context = mNPC->getContext() + STRING_RDF_BASE_CONTEXT + rdfBoolsToString() + STRING_NPC_BASE_CONTEXT;
-	std::string context = STRING_RDF_BASE_CONTEXT + mNPC->getContext() + mNPC->mRDFDynamicContext + STRING_NPC_BASE_CONTEXT;
+	std::string context = STRING_RDF_BASE_CONTEXT + mNPC->getContext() + mNPC->mRDFDynamicContext + STRING_LANGUAGE_MODEL_INSTRUCTIONS;
 
 	//Begin generating response
 	generatedResponse = std::async(

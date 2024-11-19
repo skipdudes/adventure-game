@@ -19,6 +19,9 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				//set quest state to finished
 				g_RDF_isInvestigationAssigned = true;
 
+				//Set user quest prompt to the next quest
+				gCurrentQuestPrompt = &STRING_QUEST_2_USER_PROMPT;
+
 				//set required rdf strings
 				gKing->mRDFDynamicContext = RDF_INVESTIGATION_ASSIGNED_TRUE;
 				gFather->mRDFDynamicContext = "Other quest dependent string";
@@ -53,6 +56,9 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				//set quest state to finished
 				g_RDF_innkeeperToldAboutWoman = true;
 
+				//Set user quest prompt to the next quest
+				gCurrentQuestPrompt = &STRING_QUEST_3_USER_PROMPT;
+
 				//set required rdf strings
 				gKing->mRDFDynamicContext = "Other quest dependent string";
 				gFather->mRDFDynamicContext = "Other quest dependent string";
@@ -86,6 +92,9 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 
 				//set quest state to finished
 				g_RDF_marquisToldAboutWoman = true;
+
+				//Set user quest prompt to the next quest
+				gCurrentQuestPrompt = &STRING_QUEST_4_USER_PROMPT;
 
 				//set required rdf strings
 				gKing->mRDFDynamicContext = "Other quest dependent string";
@@ -123,6 +132,9 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 
 				//set quest state to finished
 				g_RDF_fatherToldAboutWoman = true;
+
+				//Set user quest prompt to the next quest
+				gCurrentQuestPrompt = &STRING_QUEST_FINAL_USER_PROMPT;
 
 				//set required rdf strings
 				gKing->mRDFDynamicContext = "Other quest dependent string";

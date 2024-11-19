@@ -21,6 +21,7 @@ Level* gCurrentLevel = nullptr;
 Level* gNextLevel = nullptr;
 
 bool gDisplayQuestPrompt = false;
+const std::string* gCurrentQuestPrompt = nullptr;
 
 //Game events
 bool g_RDF_isInvestigationAssigned = true;
@@ -147,8 +148,7 @@ void renderCurrentQuest()
 {
 	if (gDisplayQuestPrompt)
 	{
-		//renderQuestPrompt("Current quest...?");
-		renderQuestPrompt(STRING_NPC_BASE_CONTEXT);
+		renderQuestPrompt(*gCurrentQuestPrompt);
 	}
 }
 

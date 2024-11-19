@@ -19,8 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Levels\Intro.cpp" />
-    <ClCompile Include="Source\Levels\Outro.cpp" />
     <ClCompile Include="Source\Batch.cpp" />
     <ClCompile Include="Source\Dialogue\Dialogue.cpp" />
     <ClCompile Include="Source\Fonts\Font.cpp" />
@@ -32,7 +30,9 @@
     <ClCompile Include="Source\Levels\Exit.cpp" />
     <ClCompile Include="Source\Levels\House.cpp" />
     <ClCompile Include="Source\Levels\Inn.cpp" />
+    <ClCompile Include="Source\Levels\Intro.cpp" />
     <ClCompile Include="Source\Levels\Menu.cpp" />
+    <ClCompile Include="Source\Levels\Outro.cpp" />
     <ClCompile Include="Source\Levels\Overworld.cpp" />
     <ClCompile Include="Source\Logger.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -43,8 +43,6 @@
     <ClCompile Include="Source\UpdateBools.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Levels\Intro.h" />
-    <ClInclude Include="Source\Levels\Outro.h" />
     <ClInclude Include="Source\Batch.h" />
     <ClInclude Include="Source\Constants.h" />
     <ClInclude Include="Source\Dialogue\Dialogue.h" />
@@ -57,8 +55,10 @@
     <ClInclude Include="Source\Levels\Exit.h" />
     <ClInclude Include="Source\Levels\House.h" />
     <ClInclude Include="Source\Levels\Inn.h" />
+    <ClInclude Include="Source\Levels\Intro.h" />
     <ClInclude Include="Source\Levels\Level.h" />
     <ClInclude Include="Source\Levels\Menu.h" />
+    <ClInclude Include="Source\Levels\Outro.h" />
     <ClInclude Include="Source\Levels\Overworld.h" />
     <ClInclude Include="Source\Logger.h" />
     <ClInclude Include="Source\NPC\NPC.h" />
