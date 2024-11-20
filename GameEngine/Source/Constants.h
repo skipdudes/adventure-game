@@ -202,6 +202,9 @@ const std::string STRING_MARQUIS_CONTEXT =
 " You are easy to throw off balance, you get hostile when someone is pushing you."
 " You are in love with myserious woman, Emma. You are jealous when somebody else is seeing her. ";
 
+//****************************** TODO *********************************
+// Marquis nie mowi faktów o emmie jesli gracz go pyta dopiero po tym, jak quest zostal wykonany, naprawic
+
 //Marquis quest 3 false context
 const std::string RDF_MARQUIS_TOLD_ABOUT_WOMAN_FALSE =
 "A player came into your home.You know you shouldnt talk to a royal guard, but you need to make an impression of being friendly and welcoming."
@@ -217,9 +220,26 @@ const std::string RDF_MARQUIS_TOLD_ABOUT_WOMAN_TRUE =
 " You try to convince him that you just made it all up in a fit of anger."
 " You dont want to see the player anymore and if he tries to talk with you you tell him to get the hell out of your house. Use your own words. ";
 
+const std::string RDF_MARQUIS_TOLD_ABOUT_INNKEEPER_FALSE =
+"You are accused of killing Emma, who was found dead near local Inn. You are temporarily sentenced to house arrest by Prime Minister."
+" Because of the accusation, you are also a prime suspect in Richard’s murder."
+" You are still quite out of balance after your last conversation with a player."
+" The player comes to you again. He is willing to help your cause if you are cooperating."
+" If player is trying to help you or tries to calm you, then your hostility should go down and your trust go up."
+" If player asks you about more details about woman and requirements are not met (Hostility > 0.4 or Trust < 0.5)"
+" then you tell player that you are devastated and you cant believe she is dead. Use your own words."
+" If requirements are met (Hostility <= 0.4 and Trust >= 0.5) then, only if player asks about more information about Emma,"
+" you tell player that she was a part of secret rebel organisation called Shadows of the Crown."
+" Her mission, assigned by the Innkeeper, who was a higher rank in said organisation,"
+" was to find someone related to royal family and get useful information out of him."
+" You believe he may be the one responsible for the death of both Richard and Emma. ";
 
-
-
+const std::string RDF_MARQUIS_TOLD_ABOUT_INNKEEPER_TRUE =
+"If player asks you for more information, then tell him that after the last time you met with a player,"
+" you were thinking about the whole situation and you realized,"
+" that at some point Emma started to distance herself from you and stopped telling you about her spying on Richard."
+" With that in mind, as much as you dont want to admit it,"
+" it may be because she truly fell in love with Richard and that may be why they are both dead now. ";
 
 
 //Levels

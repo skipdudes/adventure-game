@@ -177,9 +177,9 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				gMarquis->mRDFDynamicContext = "Other quest dependent string";//TODO
 
 				//set required emotion attributes
-				gMarquis->mHappiness = 0.4f;
-				gMarquis->mTrust = 0.2f;
-				gMarquis->mHostility = 0.4f;
+				gMarquis->mHappiness = 0.1f;
+				gMarquis->mTrust = 0.3f;
+				gMarquis->mHostility = 0.7f;
 
 				//TODO: set current quest string
 				//
