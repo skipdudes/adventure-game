@@ -259,6 +259,7 @@ const std::string STRING_QUEST_1_USER_PROMPT = "Ask the King what happened. If y
 " (Happiness > 60%, Hostility < 30%), he may have a task for you.";
 const std::string STRING_QUEST_2_USER_PROMPT = "Meet with the Innkeeper and ask him about Richard. The investigation"
 " is kept secret, so don't tell anyone about it. The Innkeeper won't talk unless you gain his trust (Trust > 50%).";
+const std::string STRING_QUEST_2_ADDITIONAL_USER_PROMPT = "Find out more about the woman and try to find a next person to interrogate.";
 const std::string STRING_QUEST_3_USER_PROMPT = "Get the Marquis to talk about the woman. Find out why Richard was seeing her."
 " Marquis will reveal this to you only if he's angry enough (Hostility > 70%).";
 const std::string STRING_QUEST_4_USER_PROMPT = "Tell your father what you have found out.";

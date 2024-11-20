@@ -57,7 +57,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				g_RDF_innkeeperToldAboutWoman = true;
 
 				//Set user quest prompt to the next quest
-				gCurrentQuestPrompt = &STRING_QUEST_3_USER_PROMPT;
+				gCurrentQuestPrompt = &STRING_QUEST_2_ADDITIONAL_USER_PROMPT;
 
 				//set required rdf strings
 				gKing->mRDFDynamicContext = "Other quest dependent string";
