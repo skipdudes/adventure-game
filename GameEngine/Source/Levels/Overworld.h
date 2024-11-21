@@ -1,6 +1,7 @@
 #pragma once
 #include "Level.h"
 #include "../Texture.h"
+#include "../NPC/NPC.h"
 #include <memory>
 #include <vector>
 
@@ -16,6 +17,10 @@ public:
 	void update();
 	void render();
 
+	//Public, so UpdateBools() can access it
+	bool mHouseWallInserted;
+	std::vector<SDL_Rect> mWalls;
+
 private:
 	const static int LEVEL_WIDTH = 1536;
 	const static int LEVEL_HEIGHT = 1152;
@@ -23,7 +28,8 @@ private:
 	SDL_Rect mTriggerCastle;
 	SDL_Rect mTriggerInn;
 	SDL_Rect mTriggerHouse;
-	std::vector<SDL_Rect> mWalls;
+	
+	std::vector<std::shared_ptr<NPC>> mNPCs;
 
 	static Overworld gLevelOverworld;
 	Overworld();

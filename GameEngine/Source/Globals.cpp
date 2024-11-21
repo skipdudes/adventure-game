@@ -20,7 +20,7 @@ std::shared_ptr<NPC> gMarquis;
 Level* gCurrentLevel = nullptr;
 Level* gNextLevel = nullptr;
 
-bool gDisplayQuestPrompt = false;
+bool gDisplayQuestPrompt = true;
 const std::string* gCurrentQuestPrompt = nullptr;
 
 //Game events
@@ -66,10 +66,10 @@ void renderQuitGameplayPrompt()
 	if (gQuitHeld)
 	{
 		gFontMedium->setColor(0x00, 0x00, 0x00);
-		gFontMedium->renderText(4, 4, "Quitting the game...");
+		gFontMedium->renderText(4, (SCREEN_HEIGHT - 20 - 2), "Quitting the game...");
 
 		gFontMedium->setColor(0xFF, 0xFF, 0xFF);
-		gFontMedium->renderText(2, 2, "Quitting the game...");
+		gFontMedium->renderText(2, (SCREEN_HEIGHT - 20 - 4), "Quitting the game...");
 	}
 }
 

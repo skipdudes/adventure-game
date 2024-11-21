@@ -42,8 +42,6 @@ bool Castle::enter()
 	if (g_RDF_marquisToldAboutWoman == true && g_additional_playerEnteredCastle == false)
 	{
 		g_additional_playerEnteredCastle = true;
-		//************ TODO ************
-		// 
 		LOG_INFO("<<QUEST>> Successfully tracked entering castle after marquis' quest");
 	}
 
@@ -57,7 +55,10 @@ bool Castle::enter()
 	//NPCs
 	mNPCs.push_back(gKing);
 	mNPCs.push_back(gFather);
-	mNPCs.push_back(gRoyalGuard);
+
+	//Only if before the 3rd quest and not been to the castle
+	if (!(g_RDF_marquisToldAboutWoman && g_additional_playerEnteredCastle))
+		mNPCs.push_back(gRoyalGuard);
 
 	for (std::shared_ptr<NPC>& npc : mNPCs)
 	{
@@ -72,7 +73,10 @@ bool Castle::enter()
 	//Individual NPCs position
 	gKing->setPosition((LEVEL_WIDTH - gKing->getWidth()) / 2, 179);
 	gFather->setPosition((LEVEL_WIDTH - gFather->getWidth()) / 3, (LEVEL_HEIGHT - gFather->getHeight()) / 2);
-	gRoyalGuard->setPosition(2 * (LEVEL_WIDTH - gRoyalGuard->getWidth()) / 3, (LEVEL_HEIGHT - gRoyalGuard->getHeight()) / 2);
+
+	//Only if before the 3rd quest and not been to the castle
+	if (!(g_RDF_marquisToldAboutWoman && g_additional_playerEnteredCastle))
+		gRoyalGuard->setPosition(2 * (LEVEL_WIDTH - gRoyalGuard->getWidth()) / 3, (LEVEL_HEIGHT - gRoyalGuard->getHeight()) / 2);
 
 	//NPCs colliders
 	for (std::shared_ptr<NPC>& npc : mNPCs)
@@ -209,7 +213,10 @@ void Castle::render()
 	//Specific NPCs prompts
 	gKing->renderDialoguePrompt(127);
 	gFather->renderDialoguePrompt(113);
-	gRoyalGuard->renderDialoguePrompt(110);
+
+	//Only if before the 3rd quest and not been to the castle
+	if (!(g_RDF_marquisToldAboutWoman && g_additional_playerEnteredCastle))
+		gRoyalGuard->renderDialoguePrompt(110);
 		
 	//NPCs Dialogue
 	for (std::shared_ptr<NPC>& npc : mNPCs)

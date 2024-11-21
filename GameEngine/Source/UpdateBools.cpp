@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "Constants.h"
 #include "Logger.h"
+#include "Levels/Overworld.h"
 
 void updateBools(const std::shared_ptr<NPC>& NPC) {
 
@@ -24,23 +25,14 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 
 				//set required rdf strings
 				gKing->mRDFDynamicContext = RDF_INVESTIGATION_ASSIGNED_TRUE;
-				gFather->mRDFDynamicContext = "Other quest dependent string";
-				gRoyalGuard->mRDFDynamicContext = "Other quest dependent string";
 				gInnkeeper->mRDFDynamicContext = RDF_INNKEEPER_TOLD_ABOUT_WOMAN_FALSE;
-				gMarquis->mRDFDynamicContext = "Other quest dependent string";
 
 				//set required emotion attributes
 				gInnkeeper->mHappiness = 0.5f;
 				gInnkeeper->mTrust = 0.2f;
 				gInnkeeper->mHostility = 0.4f;
-
-				//TODO: set current quest string
-				// 
-				// Meet with the Innkeeper and ask about Richard. The investigation is kept secret, so don’t tell anyone about it. 
-				// Innkeeper won't talk unless you gain his trust (Trust > 50%)
 			}
 		}
-		
 	}
 	//IF PREVIOUS QUEST IS DONE, CHECK FOR SECOND QUEST
 	else if (g_RDF_innkeeperToldAboutWoman == false) 
@@ -58,11 +50,9 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 
 				//Set user quest prompt to the next quest
 				gCurrentQuestPrompt = &STRING_QUEST_2_ADDITIONAL_USER_PROMPT;
+				//Change to QUEST_3 upon entering Maqruis' house
 
 				//set required rdf strings
-				gKing->mRDFDynamicContext = "Other quest dependent string";
-				gFather->mRDFDynamicContext = "Other quest dependent string";
-				gRoyalGuard->mRDFDynamicContext = "Other quest dependent string";
 				gInnkeeper->mRDFDynamicContext = RDF_INNKEEPER_TOLD_ABOUT_WOMAN_TRUE;
 				gMarquis->mRDFDynamicContext = RDF_MARQUIS_TOLD_ABOUT_WOMAN_FALSE;
 
@@ -70,12 +60,6 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				gMarquis->mHappiness = 0.6f;
 				gMarquis->mTrust = 0.3f;
 				gMarquis->mHostility = 0.3f;
-
-				//TODO: set current quest string
-				// 
-				// Find out more about the woman and try to find a next person to interrogate
-				//
-				// dodatkowo nazwa questa zmieni sie tez po wejsciu do domu marquiza (House.cpp)
 			}
 		}
 	}
@@ -97,10 +81,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				gCurrentQuestPrompt = &STRING_QUEST_4_USER_PROMPT;
 
 				//set required rdf strings
-				gKing->mRDFDynamicContext = "Other quest dependent string";
 				gFather->mRDFDynamicContext = RDF_FATHER_TOLD_ABOUT_WOMAN_FALSE;
-				gRoyalGuard->mRDFDynamicContext = "Other quest dependent string";
-				gInnkeeper->mRDFDynamicContext = "Other quest dependent string";
 				gMarquis->mRDFDynamicContext = RDF_MARQUIS_TOLD_ABOUT_WOMAN_TRUE;
 
 				//set required emotion attributes
@@ -108,14 +89,8 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				gFather->mTrust = 0.4f;
 				gFather->mHostility = 0.3f;
 
-				//TODO: set current quest string
-				//
-				// Tell your father what you have found out.
-
-
-
-				// dodatkowo, jesli ten quest jest wykonany i gracz wejdzie do zamku, to RoyalGuard powinien zostac teleportowany przed dom Marquiza
-				
+				//RoyalGuard: Castle -> Overworld
+				//todo: Ustawic RoyalGuardowi niezmienny kontekst zeby pod zadnym pozorem nie przepuscil gracza do domu Markiza
 			}
 		}
 	}
@@ -134,23 +109,17 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				g_RDF_fatherToldAboutWoman = true;
 
 				//Set user quest prompt to the next quest
-				gCurrentQuestPrompt = &STRING_QUEST_FINAL_USER_PROMPT;
+				gCurrentQuestPrompt = &STRING_QUEST_5_USER_PROMPT;
 
 				//set required rdf strings
-				gKing->mRDFDynamicContext = "Other quest dependent string";
 				gFather->mRDFDynamicContext = RDF_FATHER_TOLD_ABOUT_WOMAN_TRUE;
 				gRoyalGuard->mRDFDynamicContext = RDF_ROYALGUARD_CONVINCED_FALSE;
-				gInnkeeper->mRDFDynamicContext = "Other quest dependent string";
-				gMarquis->mRDFDynamicContext = "Other quest dependent string";
+				// Teraz moze przepuscic gracza, bo quest z ojcem zostal wykonany
 
 				//set required emotion attributes
 				gRoyalGuard->mHappiness = 0.4f;
 				gRoyalGuard->mTrust = 0.2f;
 				gRoyalGuard->mHostility = 0.4f;
-
-				//TODO: set current quest string
-				//
-				// Father sent you to find out if Marquis was hiding something. 
 			}
 		}
 	}
@@ -170,11 +139,8 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				g_RDF_isGuardConvinced = true;
 
 				//set required rdf strings
-				gKing->mRDFDynamicContext = "Other quest dependent string";
-				gFather->mRDFDynamicContext = "Other quest dependent string";
 				gRoyalGuard->mRDFDynamicContext = RDF_ROYALGUARD_CONVINCED_TRUE;
-				gInnkeeper->mRDFDynamicContext = "Other quest dependent string";
-				gMarquis->mRDFDynamicContext = "Other quest dependent string";//TODO
+				gMarquis->mRDFDynamicContext = "Quest dependent string"; //TODO
 
 				//set required emotion attributes
 				gMarquis->mHappiness = 0.1f;
@@ -184,6 +150,19 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				//TODO: set current quest string
 				//
 				// Father sent you to find out if Marquis was hiding something. (quest zostaje ten sam)
+
+				// ********************************* zostaje ten sam?
+				// ***** mozna teoretycznie zmienic na ten kolejny ktory ma szerszy opis
+				gCurrentQuestPrompt = &STRING_QUEST_6_USER_PROMPT; // jak nie to wywal ta linijke
+
+				//Unlock the house
+				if (Overworld::get()->mHouseWallInserted)
+				{
+					Overworld::get()->mWalls.pop_back();
+					Overworld::get()->mHouseWallInserted = false;
+
+					LOG_INFO("<wall> Unlocked Marquis house (UpdateBools)");
+				}
 			}
 		}
 	}
@@ -194,17 +173,17 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 		if (NPC->getName() == STRING_MARQUIS_NAME)
 		{
 			//check if quest is completed, set parameters for completed quest
-			if (NPC->mTrust >= 0.6)//TODO
+			if (NPC->mHostility <= 0.4 && NPC->mTrust >= 0.5)
 			{
 				LOG_INFO("<<QUEST>> Sixth quest has been completed.");
 
 				//set quest state to finished
 				g_RDF_marquisToldAboutInnkeeper = true;
 
+				//Set user quest prompt to the next quest
+				gCurrentQuestPrompt = &STRING_QUEST_7_USER_PROMPT;
+
 				//set required rdf strings
-				gKing->mRDFDynamicContext = "Other quest dependent string";
-				gFather->mRDFDynamicContext = "Other quest dependent string";
-				gFather->mRDFDynamicContext = "Other quest dependent string";
 				gInnkeeper->mRDFDynamicContext = "Other quest dependent string";//TODO
 				gMarquis->mRDFDynamicContext = "Other quest dependent string";//TODO
 
@@ -212,10 +191,6 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				gInnkeeper->mHappiness = 0.4f;
 				gInnkeeper->mTrust = 0.2f;
 				gInnkeeper->mHostility = 0.4f;
-
-				//TODO: set current quest string
-				//
-				// 
 			}
 		}
 	}
@@ -233,18 +208,15 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				//set quest state to finished
 				g_RDF_innkeeperToldAboutRebels = true;
 
+				//Set user quest prompt to the next quest
+				gCurrentQuestPrompt = &STRING_QUEST_8_USER_PROMPT;
+
 				//set required rdf strings
 				gKing->mRDFDynamicContext = "Other quest dependent string";//TODO
-				gFather->mRDFDynamicContext = "Other quest dependent string";
-				gFather->mRDFDynamicContext = "Other quest dependent string";
 				gInnkeeper->mRDFDynamicContext = "Other quest dependent string";//TODO
-				gMarquis->mRDFDynamicContext = "Other quest dependent string";
 
 				//set required emotion attributes
-
-				//TODO: set current quest string
-				//
-				// 
+				//TODO
 			}
 		}
 	}

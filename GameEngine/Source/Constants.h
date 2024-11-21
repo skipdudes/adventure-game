@@ -277,11 +277,27 @@ const std::string DIALOGUE_HELP_NPC_TURN = "Press ENTER to reply, press ESC to q
 //Quest prompts
 const std::string STRING_QUEST_1_USER_PROMPT = "Ask the King what happened. If you get him to calm down"
 " (Happiness > 60%, Hostility < 30%), he may have a task for you.";
+
 const std::string STRING_QUEST_2_USER_PROMPT = "Meet with the Innkeeper and ask him about Richard. The investigation"
 " is kept secret, so don't tell anyone about it. The Innkeeper won't talk unless you gain his trust (Trust > 50%).";
+
 const std::string STRING_QUEST_2_ADDITIONAL_USER_PROMPT = "Find out more about the woman and try to find a next person to interrogate.";
+
 const std::string STRING_QUEST_3_USER_PROMPT = "Get the Marquis to talk about the woman. Find out why Richard was seeing her."
 " Marquis will reveal this to you only if he's angry enough (Hostility > 70%).";
+
 const std::string STRING_QUEST_4_USER_PROMPT = "Tell your father what you have found out.";
+
+const std::string STRING_QUEST_5_USER_PROMPT = "Sent by your father, try to find out if the Marquis is hiding something.";
+
+const std::string STRING_QUEST_6_USER_PROMPT = "Meet the Marquis again and try to find out more about Emma."
+" Maybe if you get him to calm down, he would be willing to tell you more (Hostility < 40%, Trust > 50%).";
+
+const std::string STRING_QUEST_7_USER_PROMPT = "Meet the Innkeeper again and try to get some information from him."
+" He might talk if he's in a good mood (Happiness > 70%) and if he trusts you enough (Trust > 70%).";
+
+const std::string STRING_QUEST_8_USER_PROMPT = "Decide the King's fate. If you join the rebellion, the King will die. Otherwise,"
+" if you get the King to trust you (Trust > 80%), he will stop the rebellion and you will be rewarded";
+
 const std::string STRING_QUEST_FINAL_USER_PROMPT = "You did everything you could. Now, all that's left"
 " is to wait for the events to unfold.";
