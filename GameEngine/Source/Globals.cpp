@@ -36,6 +36,43 @@ bool g_RDF_joinedTheRebellion = false;
 bool g_additional_playerEnteredMarquisHouse = false;
 bool g_additional_playerEnteredCastle = false;
 
+Uint32 gQuitPressTime = 0;
+bool gQuitHeld = false;
+
+void handleQuitGameplay(SDL_Event& e)
+{
+	if ((e.type == SDL_KEYDOWN) && (e.key.keysym.sym == BUTTON_QUIT) && (gPlayer->mIsTalking == false))
+	{
+		if (!gQuitHeld)
+		{
+			gQuitPressTime = SDL_GetTicks();
+			gQuitHeld = true;
+		}
+	}
+	else if ((e.type == SDL_KEYUP) && (e.key.keysym.sym == BUTTON_QUIT))
+	{
+		gQuitHeld = false;
+	}
+
+	if (gQuitHeld && (SDL_GetTicks() - gQuitPressTime >= 1000))
+	{
+		setNextState(Exit::get());
+		gQuitHeld = false;
+	}
+}
+
+void renderQuitGameplayPrompt()
+{
+	if (gQuitHeld)
+	{
+		gFontMedium->setColor(0x00, 0x00, 0x00);
+		gFontMedium->renderText(4, 4, "Quitting the game...");
+
+		gFontMedium->setColor(0xFF, 0xFF, 0xFF);
+		gFontMedium->renderText(2, 2, "Quitting the game...");
+	}
+}
+
 void setNextState(Level* nextLevel)
 {
     if (gNextLevel != Exit::get())

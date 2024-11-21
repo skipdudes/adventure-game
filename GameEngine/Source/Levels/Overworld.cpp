@@ -78,6 +78,9 @@ bool Overworld::exit()
 
 void Overworld::handleEvents(SDL_Event& e)
 {
+	//Handle quit button
+	handleQuitGameplay(e);
+
 	gPlayer->handleEvents(e);
 
 	//Toggle rendering current quest
@@ -127,4 +130,7 @@ void Overworld::render()
 
 	//Quest
 	renderCurrentQuest();
+
+	//Render quit prompt
+	renderQuitGameplayPrompt();
 }

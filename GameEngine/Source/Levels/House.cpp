@@ -109,6 +109,9 @@ bool House::exit()
 
 void House::handleEvents(SDL_Event& e)
 {
+	//Handle quit button
+	handleQuitGameplay(e);
+
 	//Player
 	gPlayer->handleEvents(e);
 
@@ -208,4 +211,7 @@ void House::render()
 
 	//Quest
 	renderCurrentQuest();
+
+	//Render quit prompt
+	renderQuitGameplayPrompt();
 }

@@ -116,6 +116,9 @@ bool Inn::exit()
 
 void Inn::handleEvents(SDL_Event& e)
 {
+	//Handle quit button
+	handleQuitGameplay(e);
+
 	//Player
 	gPlayer->handleEvents(e);
 
@@ -215,4 +218,7 @@ void Inn::render()
 
 	//Quest
 	renderCurrentQuest();
+
+	//Render quit prompt
+	renderQuitGameplayPrompt();
 }

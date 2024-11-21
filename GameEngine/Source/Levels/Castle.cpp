@@ -113,6 +113,9 @@ bool Castle::exit()
 
 void Castle::handleEvents(SDL_Event& e)
 {
+	//Handle quit button
+	handleQuitGameplay(e);
+
 	//Player
 	gPlayer->handleEvents(e);
 
@@ -214,4 +217,7 @@ void Castle::render()
 
 	//Quest
 	renderCurrentQuest();
+
+	//Render quit prompt
+	renderQuitGameplayPrompt();
 }

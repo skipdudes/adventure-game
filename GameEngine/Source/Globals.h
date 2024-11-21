@@ -44,6 +44,12 @@ extern bool g_RDF_joinedTheRebellion;
 extern bool g_additional_playerEnteredMarquisHouse;
 extern bool g_additional_playerEnteredCastle;
 
+//Quit during gameplay
+extern Uint32 gQuitPressTime;
+extern bool gQuitHeld;
+void handleQuitGameplay(SDL_Event& e);
+void renderQuitGameplayPrompt();
+
 //HUD
 void renderPrompt(int xOffset, std::string text, int linesNumber, Uint8 r, Uint8 g, Uint8 b);
 void renderQuestPrompt(std::string text);

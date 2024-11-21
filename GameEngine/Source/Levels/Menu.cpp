@@ -87,14 +87,10 @@ void Menu::render()
 {
 	mLevelTexture->render(0, 0);
 
-	//Render title
-	gFontLarge->setColor(0x00, 0x00, 0x00);
-	gFontLarge->renderText(175, 156, TITLE);
-
 	//Render each option
-	renderOption(START, 263, 237);
-	renderOption(AUTHORS, 281, 263);
-	renderOption(QUIT, 272, 289);
+	renderOption(START, 263, 287);
+	renderOption(AUTHORS, 281, 313);
+	renderOption(QUIT, 272, 339);
 }
 
 void Menu::renderOption(int index, int x, int y)
