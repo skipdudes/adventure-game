@@ -42,7 +42,11 @@ extern bool g_RDF_innkeeperToldAboutRebels;
 extern bool g_RDF_joinedTheRebellion;
 
 extern bool g_additional_playerEnteredMarquisHouse;
+extern bool g_additional_playerLeftInnAfterQuestSeven;
 extern bool g_additional_playerEnteredCastle;
+
+extern bool g_final_playerSidedWithInnkeeper;
+extern bool g_final_playerSidedWithKing;
 
 //Quit during gameplay
 extern Uint32 gQuitPressTime;

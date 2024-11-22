@@ -42,6 +42,17 @@ Overworld* Overworld::get()
 
 bool Overworld::enter()
 {
+	//If player just finished second innkeeper quest (quest 7) and still haven't left the Inn
+	if (g_RDF_innkeeperToldAboutRebels == true && g_additional_playerLeftInnAfterQuestSeven == false)
+	{
+		g_additional_playerLeftInnAfterQuestSeven = true;
+		gCurrentQuestPrompt = &STRING_QUEST_8_USER_PROMPT;
+		LOG_INFO("<<QUEST>> Successfully tracked entering Overworld after second Innkeeper quest");
+
+		gInnkeeper->mRDFDynamicContext = RDF_JOIN_THE_REBELLION_SIDE_WTIH_INNKEEPER_FALSE;
+		gKing->mRDFDynamicContext = RDF_JOIN_THE_REBELLION_SIDE_WTIH_KING_FALSE;
+	}
+
 	//Load background
 	if (!mLevelTexture->load(FILE_OVERWORLD_TEXTURE.string()))
 	{

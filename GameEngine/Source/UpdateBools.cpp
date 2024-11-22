@@ -13,7 +13,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 		if (NPC->getName() == STRING_KING_NAME) 
 		{
 			//check if quest is completed, set parameters for completed quest
-			if (NPC->mHappiness >= 0.6 && NPC->mHostility <= 0.3)
+			if (NPC->mHappiness >= 0.59 && NPC->mHostility <= 0.31)
 			{
 				LOG_INFO("<<QUEST>> First quest has been completed.");
 
@@ -41,7 +41,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 		if (NPC->getName() == STRING_INNKEEPER_NAME)
 		{
 			//check if quest is completed, set parameters for completed quest
-			if (NPC->mTrust >= 0.5)
+			if (NPC->mTrust >= 0.49)
 			{
 				LOG_INFO("<<QUEST>> Second quest has been completed.");
 
@@ -70,7 +70,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 		if (NPC->getName() == STRING_MARQUIS_NAME)
 		{
 			//check if quest is completed, set parameters for completed quest
-			if (NPC->mHostility >= 0.7)
+			if (NPC->mHostility >= 0.69)
 			{
 				LOG_INFO("<<QUEST>> Third quest has been completed.");
 
@@ -101,7 +101,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 		if (NPC->getName() == STRING_FATHER_NAME)
 		{
 			//check if quest is completed, set parameters for completed quest
-			if (NPC->mTrust >= 0.7)
+			if (NPC->mTrust >= 0.69) // not always registering at 0.7
 			{
 				LOG_INFO("<<QUEST>> Fourth quest has been completed.");
 
@@ -131,7 +131,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 		if (NPC->getName() == STRING_ROYALGUARD_NAME)
 		{
 			//check if quest is completed, set parameters for completed quest
-			if (NPC->mTrust >= 0.6)
+			if (NPC->mTrust >= 0.59)
 			{
 				LOG_INFO("<<QUEST>> Fifth quest has been completed.");
 
@@ -140,7 +140,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 
 				//set required rdf strings
 				gRoyalGuard->mRDFDynamicContext = RDF_ROYALGUARD_CONVINCED_TRUE;
-				gMarquis->mRDFDynamicContext = "Quest dependent string"; //TODO
+				gMarquis->mRDFDynamicContext = RDF_MARQUIS_TOLD_ABOUT_INNKEEPER_FALSE;
 
 				//set required emotion attributes
 				gMarquis->mHappiness = 0.1f;
@@ -173,7 +173,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 		if (NPC->getName() == STRING_MARQUIS_NAME)
 		{
 			//check if quest is completed, set parameters for completed quest
-			if (NPC->mHostility <= 0.4 && NPC->mTrust >= 0.5)
+			if (NPC->mHostility <= 0.41 && NPC->mTrust >= 0.49)
 			{
 				LOG_INFO("<<QUEST>> Sixth quest has been completed.");
 
@@ -184,8 +184,8 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				gCurrentQuestPrompt = &STRING_QUEST_7_USER_PROMPT;
 
 				//set required rdf strings
-				gInnkeeper->mRDFDynamicContext = "Other quest dependent string";//TODO
-				gMarquis->mRDFDynamicContext = "Other quest dependent string";//TODO
+				gInnkeeper->mRDFDynamicContext = RDF_INNKEEPER_TOLD_ABOUT_REBELS_FALSE;
+				gMarquis->mRDFDynamicContext = RDF_MARQUIS_TOLD_ABOUT_INNKEEPER_TRUE;
 
 				//set required emotion attributes
 				gInnkeeper->mHappiness = 0.4f;
@@ -201,7 +201,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 		if (NPC->getName() == STRING_INNKEEPER_NAME)
 		{
 			//check if quest is completed, set parameters for completed quest
-			if (NPC->mTrust >= 0.6)//TODO
+			if (NPC->mTrust >= 0.79 && NPC->mHostility <= 0.31)//TODO
 			{
 				LOG_INFO("<<QUEST>> Seventh quest has been completed.");
 
@@ -209,14 +209,50 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				g_RDF_innkeeperToldAboutRebels = true;
 
 				//Set user quest prompt to the next quest
-				gCurrentQuestPrompt = &STRING_QUEST_8_USER_PROMPT;
+				gCurrentQuestPrompt = &STRING_QUEST_7_ADDITIONAL_USER_PROMPT;
 
 				//set required rdf strings
-				gKing->mRDFDynamicContext = "Other quest dependent string";//TODO
-				gInnkeeper->mRDFDynamicContext = "Other quest dependent string";//TODO
+				gInnkeeper->mRDFDynamicContext = RDF_INNKEEPER_TOLD_ABOUT_REBELS_TRUE;
+			}
+		}
+	}
+	//IF PREVIOUS QUEST IS DONE AND PLAYER LEFT THE INN
+	else if (g_additional_playerLeftInnAfterQuestSeven == true) 
+	{
+		//check if player talks to king
+		if (NPC->getName() == STRING_KING_NAME) 
+		{
+			if (NPC->mHostility >= 0.69)
+			{
+				LOG_INFO("<<QUEST>> Eigth quest has been completed. Sided with the king.");
 
-				//set required emotion attributes
-				//TODO
+				//set quest state to finished
+				g_final_playerSidedWithKing = true;
+				g_RDF_joinedTheRebellion = true;
+
+				//Set user quest prompt to the next quest
+				gCurrentQuestPrompt = nullptr; //TODO jakas nazwa questa
+
+				//set required rdf strings
+				gInnkeeper->mRDFDynamicContext = RDF_JOIN_THE_REBELLION_SIDE_WITH_KING_TRUE;
+			}
+		}
+		//check if player talks to innkeeper
+		else if (NPC->getName() == STRING_INNKEEPER_NAME)
+		{
+			if (NPC->mTrust >= 0.89)
+			{
+				LOG_INFO("<<QUEST>> Eigth quest has been completed. Sided with the innkeeper.");
+
+				//set quest state to finished
+				g_final_playerSidedWithInnkeeper = true;
+				g_RDF_joinedTheRebellion = true;
+
+				//Set user quest prompt to the next quest
+				gCurrentQuestPrompt = nullptr; //TODO jakas nazwa questa
+
+				//set required rdf strings
+				gInnkeeper->mRDFDynamicContext = RDF_JOIN_THE_REBELLION_SIDE_WITH_INNKEEPER_TRUE;
 			}
 		}
 	}

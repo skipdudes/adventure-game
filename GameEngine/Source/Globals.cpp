@@ -24,8 +24,8 @@ bool gDisplayQuestPrompt = true;
 const std::string* gCurrentQuestPrompt = nullptr;
 
 //Game events
-bool g_RDF_isInvestigationAssigned = true;
-bool g_RDF_innkeeperToldAboutWoman = true;
+bool g_RDF_isInvestigationAssigned = false;
+bool g_RDF_innkeeperToldAboutWoman = false;
 bool g_RDF_marquisToldAboutWoman = false;
 bool g_RDF_fatherToldAboutWoman = false;
 bool g_RDF_isGuardConvinced = false;
@@ -35,6 +35,10 @@ bool g_RDF_joinedTheRebellion = false;
 
 bool g_additional_playerEnteredMarquisHouse = false;
 bool g_additional_playerEnteredCastle = false;
+bool g_additional_playerLeftInnAfterQuestSeven = false;
+
+bool g_final_playerSidedWithInnkeeper = false;
+bool g_final_playerSidedWithKing = false;
 
 Uint32 gQuitPressTime = 0;
 bool gQuitHeld = false;
