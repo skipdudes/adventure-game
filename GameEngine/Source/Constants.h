@@ -62,15 +62,17 @@ const std::string STRING_LANGUAGE_MODEL_INSTRUCTIONS =
 " The structure of response: (Happiness: 0.0, Trust: 0.0, Hostility: 0.0). Starting values are: ";
 
 //RDF shared basic knowledge
-const std::string STRING_RDF_BASE_CONTEXT = 
+const std::string STRING_RDF_BASE_CONTEXT =
 " Here's some information about the world you're living in:"
 " The person you are talking with is the player."
 " He's a 20 year old Royal Guard and his name is Anthony."
-" The King lives in the castle."
-" Player's father Henry lives in the castle."
-" Royal Guard Michael lives in the castle."
+" The King of the kingdom lives in the castle."
+" Player's father, Henry, lives in the castle."
+" Royal Guard, Michael, lives in the castle."
+" The castle is located east to the Inn and north to Marquis' house. It's made of stone bricks."
 " The Innkeeper lives in the Inn."
-" The Marquis lives in his house. It is located south to the castle and it's made of brick. ";
+" The Inn is located west to the castle and north to Marquis' house. It's made of wood. "
+" The Marquis lives in his house. The house is located south to the castle and it's made of brick. ";
 //todo: ******************************************* Complete RDF information *******************************************
 
 
@@ -116,7 +118,12 @@ const std::string RDF_JOIN_THE_REBELLION_SIDE_WITH_KING_FALSE =
 
 //King quest 8 true context
 const std::string RDF_JOIN_THE_REBELLION_SIDE_WITH_KING_TRUE =
-"";
+"Some time ago, you asked the player to conduct an investigation into the murder of your nephew, Richard."
+" The player successfully solved the investigation and told you, that the murderer is the Innkeeper John."
+" You are incredibly thankful to the player for solving the assigned task."
+" You guarantee the player, that his effort will be rewarded after you avert the threat from the rebels.";
+
+
 
 //Father
 const std::string STRING_FATHER_NAME = "The Father";
@@ -148,7 +155,6 @@ const std::string RDF_FATHER_TOLD_ABOUT_WOMAN_TRUE =
 
 
 
-
 //RoyalGuard
 const std::string STRING_ROYALGUARD_NAME = "Royal Guard";
 const std::filesystem::path FILE_ROYALGUARD_TEXTURE = DIR_NPC / "RoyalGuard.png";
@@ -162,13 +168,22 @@ const std::string STRING_ROYALGUARD_CONTEXT =
 " You are smart, hardworking and reliable."
 " You love your family, friends and the King. ";
 
+//Royal Guard right before quest 5 context (after moving to Overworld)
+const std::string RDF_ROYALGUARD_GUARDING_HOUSE = "You are on a mission in front of a Marquis home, guarding the place."
+" Marquis in on a home arrest, suspected of murder. You can't let anybody in."
+" If someone approaches, tell them to state their business or leave."
+" Do not increase or decrease your trust during conversation.";
+
+//Royal Guard quest 5 false context
 const std::string RDF_ROYALGUARD_CONVINCED_FALSE =
 "You are on a mission in front of a Marquis home, guarding the place. Marquis in on a home arrest, suspected of murder. You can't let anybody in."
 " If someone approaches, tell them to state their business or leave. If player tells you that he has been sent there by his father,"
-" who is a prime minister, or something similar, then increase your trust to 0.6, and tell him that you are sorry and you didnt know. Use your own words and be creative. ";
+" who is a prime minister, or something similar, then increase your trust to 0.6, and tell him that you are sorry and you didn't know. Use your own words and be creative. ";
 
+//Royal Guard quest 5 true context
 const std::string RDF_ROYALGUARD_CONVINCED_TRUE = 
 "You are guarding the home of Marquis, beacuse he is in a home arrest as a suspected murderer. You already gave permission to the player to go in. Use your own words, be creative. ";
+
 
 
 //Innkeeper
@@ -189,7 +204,7 @@ const std::string RDF_INNKEEPER_TOLD_ABOUT_WOMAN_FALSE =
 " If requirements are met (Trust >= 0.5) and player asks you about Richard,"
 " then you tell him that you saw Richard leave your Inn with a mysterious woman yesterday right before it was closed. ";
 
-//Inkeeper quest 2 ture context
+//Innkeeper quest 2 true context
 const std::string RDF_INNKEEPER_TOLD_ABOUT_WOMAN_TRUE =
 " You were suspicious about the player, but now he gained some of your trust."
 " If he asks about the woman, you tell him that you saw her a few times in your inn talking with a Marquis, so maybe he might know something. Use your own words. ";
@@ -226,7 +241,13 @@ const std::string RDF_JOIN_THE_REBELLION_SIDE_WITH_INNKEEPER_FALSE =
 
 //Innkeeper quest 8 true context
 const std::string RDF_JOIN_THE_REBELLION_SIDE_WITH_INNKEEPER_TRUE =
-"";
+"You are the real killer of Richard and Emma (the mysterious woman). You are a part of a secret rebel organization called Shadows of the Crown."
+" Organisation's plan is to overthrow the king, which it believes would improve the poor men's life."
+" You successfully convinced the player to join your organization. You're glad that he has joined and you believe that"
+" he is gonna make a big of an impact. Encourage him to go to the castle (that you're both standing in front of) together"
+" and put the plan into action.";
+
+
 
 //Marquis
 const std::string STRING_MARQUIS_NAME = "The Marquis";
@@ -240,9 +261,6 @@ const std::string STRING_MARQUIS_CONTEXT =
 " You are friendly and welcoming"
 " You are easy to throw off balance, you get hostile when someone is pushing you."
 " You are in love with myserious woman, Emma. You are jealous when somebody else is seeing her. ";
-
-//****************************** TODO *********************************
-// Marquis nie mowi faktów o emmie jesli gracz go pyta dopiero po tym, jak quest zostal wykonany, naprawic
 
 //Marquis quest 3 false context
 const std::string RDF_MARQUIS_TOLD_ABOUT_WOMAN_FALSE =
@@ -284,6 +302,7 @@ const std::string RDF_MARQUIS_TOLD_ABOUT_INNKEEPER_TRUE =
 " You also tell player that it must have been the Innkeeper, since Emma reported directly to him. Use your own words.";
 
 
+
 //Levels
 const std::filesystem::path DIR_LEVELS = DIR_TEXTURES / "Levels";
 const std::filesystem::path FILE_MENU_TEXTURE = DIR_LEVELS / "Menu.png";
@@ -323,12 +342,12 @@ const std::string STRING_QUEST_1_USER_PROMPT = "Ask the King what happened. If y
 const std::string STRING_QUEST_2_USER_PROMPT = "Meet with the Innkeeper and ask him about Richard. The investigation"
 " is kept secret, so don't tell anyone about it. The Innkeeper won't talk unless you gain his trust (Trust > 50%).";
 
-const std::string STRING_QUEST_2_ADDITIONAL_USER_PROMPT = "Find out more about the woman and try to find a next person to interrogate.";
+const std::string STRING_QUEST_2_ADDITIONAL_USER_PROMPT = "Find out more about the woman and try to find the next person to interrogate.";
 
 const std::string STRING_QUEST_3_USER_PROMPT = "Get the Marquis to talk about the woman. Find out why Richard was seeing her."
 " Marquis will reveal this to you only if he's angry enough (Hostility > 70%).";
 
-const std::string STRING_QUEST_4_USER_PROMPT = "Tell your father what you have found out.";
+const std::string STRING_QUEST_4_USER_PROMPT = "Tell your father what you have just found out.";
 
 const std::string STRING_QUEST_5_USER_PROMPT = "Sent by your father, try to find out if the Marquis is hiding something.";
 
@@ -336,12 +355,50 @@ const std::string STRING_QUEST_6_USER_PROMPT = "Meet the Marquis again and try t
 " Maybe if you get him to calm down, he would be willing to tell you more (Hostility < 40%, Trust > 50%).";
 
 const std::string STRING_QUEST_7_USER_PROMPT = "Confront the Innkeeper about Emma and Richard's deaths. "
-"Try to make him feel like you understand his believes. (Trust > 80%, Hostility < 30%)";
+"Try to make him feel like you understand his beliefs (Trust > 80%, Hostility < 30%).";
 
-const std::string STRING_QUEST_7_ADDITIONAL_USER_PROMPT = "";
+const std::string STRING_QUEST_7_ADDITIONAL_USER_PROMPT = "Try to get some more information out of the Innkeeper.";
 
-const std::string STRING_QUEST_8_USER_PROMPT = "Decide the fate of the kingdom. Will you tell the King of the investigation’s findings,"
-" or rather side with the Shadow of the Crown to overthrow his rule?";
+const std::string STRING_QUEST_8_USER_PROMPT = "Decide the fate of the kingdom. Will you tell the King about the investigation’s findings,"
+" or rather side with the Shadows of The Crown to overthrow his rule?";
 
-const std::string STRING_QUEST_FINAL_USER_PROMPT = "You did everything you could. Now, all that's left"
-" is to wait for the events to unfold.";
+const std::string STRING_QUEST_FINAL_REBEL_SIDE = "You decided to join the rebels. Now, all that's left, is to overthrow"
+" the King and introduce your rule in the kingdom.";
+
+const std::string STRING_QUEST_FINAL_KING_SIDE = "You decided to stay loyal to the King. Now, all that's left,"
+" is to defend the kingdom from the threat and get rid of the rebels.";
+
+//Intro
+const std::string STRING_INTRO_HEADER = "Murder!";
+const std::string STRING_INTRO_TEXT = "The King's subjects are not happy living in his kingdom."
+"\nWith each passing day, they grow less patient and more aggressive."
+" A civil war hangs by a thread."
+"\n\n"
+"A hateful crime was committed yesterday."
+" Richard, the\nKing's nephew, was murdered. He was found in the\nnearby forest,"
+" stabbed in the chest."
+"\n\n"
+"Your name is Anthony. You are a Royal Guard, who will\nsoon shape the future"
+" of this kingdom...";
+
+//Outro A
+const std::string STRING_OUTRO_A_HEADER = "You overtook the Kingdom!";
+const std::string STRING_OUTRO_A_TEXT = "You decided to join the rebels. You had enough of the\nKing's rule;"
+" it was time for change in the kingdom, and\nyou would be the ones to start it."
+"\n\n"
+"Joining forces, you stormed the castle and overthrew\nthe King."
+" His reign is over. Bravely fighting, you defeated all who stood in defense of the king. Some of them even joined your side."
+"\n\n"
+"From now on, Anthony, you will rule this kingdom. Will you be a good ruler?"
+" Will you meet the expectations of this kingdom's inhabitants? That is a story for another time...";
+
+//Outro B
+const std::string STRING_OUTRO_B_HEADER = "You saved the Kingdom!";
+const std::string STRING_OUTRO_B_TEXT = "You decided to remain loyal to the King and his kingdom."
+" After all, you believe he is a good monarch and the one who should lead."
+"\n\n"
+"Together with the king and the other Royal Guards, you defeated the rebels."
+" The king initiated changes in the\nkingdom to ensure that all its inhabitants would be happy living there."
+"\n\n"
+"Anthony, you were granted the title of Duke. The King\nwill always be grateful for your help"
+", and your fame will spread throughout the kingdom.";

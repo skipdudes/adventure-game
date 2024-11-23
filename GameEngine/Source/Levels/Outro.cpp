@@ -18,6 +18,9 @@ Outro* Outro::get()
 
 bool Outro::enter()
 {
+	//Stop the player
+	gPlayer->stop();
+
 	LOG_INFO("Successfully entered Outro level");
 	return true;
 }
@@ -43,11 +46,28 @@ void Outro::update()
 
 void Outro::render()
 {
-	std::string temp = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in lorem sapien. Nunc sit amet diam sed enim malesuada aliquet non quis enim. Nam varius ac velit sed lacinia. Sed id condimentum turpis, nec iaculis justo. Aenean porttitor hendrerit odio, scelerisque tempor mi tincidunt ut. Proin commodo vitae justo ut molestie. Etiam imperdiet tortor eget ex dictum, nec finibus sem gravida. Sed sed lectus id magna ultricies auctor sed et dui. Vestibulum bibendum quis nisl vel eleifend.";
 	int padding = 16;
-
 	gFontMedium->setColor(0xFF, 0xFF, 0xFF);
-	gFontMedium->renderDialogueText(padding, 100, temp, SCREEN_WIDTH - padding);
+
+	//Depending on the side taken
+	if (g_final_playerSidedWithInnkeeper)
+	{
+		//Header
+		gFontLarge->setColor(0xFF, 0x00, 0x00);
+		gFontLarge->renderText(150, 55, STRING_OUTRO_A_HEADER);
+
+		//Text
+		gFontMedium->renderDialogueText(padding, 100, STRING_OUTRO_A_TEXT, SCREEN_WIDTH - padding);
+	}
+	else if (g_final_playerSidedWithKing)
+	{
+		//Header
+		gFontLarge->setColor(0x00, 0xFF, 0x00);
+		gFontLarge->renderText(170, 55, STRING_OUTRO_B_HEADER);
+
+		//Text
+		gFontMedium->renderDialogueText(padding, 100, STRING_OUTRO_B_TEXT, SCREEN_WIDTH - padding);
+	}
 
 	//Prompt
 	renderPrompt(189, NEXT_LEVEL_PROMPT, 1, 0xFF, 0xFF, 0xFF);

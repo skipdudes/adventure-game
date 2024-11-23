@@ -84,13 +84,13 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				gFather->mRDFDynamicContext = RDF_FATHER_TOLD_ABOUT_WOMAN_FALSE;
 				gMarquis->mRDFDynamicContext = RDF_MARQUIS_TOLD_ABOUT_WOMAN_TRUE;
 
+				//RoyalGuard: Castle -> Overworld
+				gRoyalGuard->mRDFDynamicContext = RDF_ROYALGUARD_GUARDING_HOUSE;
+
 				//set required emotion attributes
 				gFather->mHappiness = 0.5f;
 				gFather->mTrust = 0.4f;
 				gFather->mHostility = 0.3f;
-
-				//RoyalGuard: Castle -> Overworld
-				//todo: Ustawic RoyalGuardowi niezmienny kontekst zeby pod zadnym pozorem nie przepuscil gracza do domu Markiza
 			}
 		}
 	}
@@ -114,7 +114,7 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				//set required rdf strings
 				gFather->mRDFDynamicContext = RDF_FATHER_TOLD_ABOUT_WOMAN_TRUE;
 				gRoyalGuard->mRDFDynamicContext = RDF_ROYALGUARD_CONVINCED_FALSE;
-				// Teraz moze przepuscic gracza, bo quest z ojcem zostal wykonany
+				//Ready to be convinced
 
 				//set required emotion attributes
 				gRoyalGuard->mHappiness = 0.4f;
@@ -123,7 +123,6 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 			}
 		}
 	}
-	//********************EVERYTHING LOWER IS STILL NOT DONE**************************
 	//IF PREVIOUS QUEST IS DONE, CHECK FOR FIFTH QUEST
 	else if (g_RDF_isGuardConvinced == false) 
 	{
@@ -138,6 +137,9 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				//set quest state to finished
 				g_RDF_isGuardConvinced = true;
 
+				//Set user quest prompt to the next quest
+				gCurrentQuestPrompt = &STRING_QUEST_6_USER_PROMPT;
+
 				//set required rdf strings
 				gRoyalGuard->mRDFDynamicContext = RDF_ROYALGUARD_CONVINCED_TRUE;
 				gMarquis->mRDFDynamicContext = RDF_MARQUIS_TOLD_ABOUT_INNKEEPER_FALSE;
@@ -146,14 +148,6 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 				gMarquis->mHappiness = 0.1f;
 				gMarquis->mTrust = 0.3f;
 				gMarquis->mHostility = 0.7f;
-
-				//TODO: set current quest string
-				//
-				// Father sent you to find out if Marquis was hiding something. (quest zostaje ten sam)
-
-				// ********************************* zostaje ten sam?
-				// ***** mozna teoretycznie zmienic na ten kolejny ktory ma szerszy opis
-				gCurrentQuestPrompt = &STRING_QUEST_6_USER_PROMPT; // jak nie to wywal ta linijke
 
 				//Unlock the house
 				if (Overworld::get()->mHouseWallInserted)
@@ -213,9 +207,11 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 
 				//set required rdf strings
 				gInnkeeper->mRDFDynamicContext = RDF_INNKEEPER_TOLD_ABOUT_REBELS_TRUE;
+				gKing->mRDFDynamicContext = RDF_JOIN_THE_REBELLION_SIDE_WITH_KING_FALSE;
 			}
 		}
 	}
+	//*************************** EVERYTHING LOWER IS STILL NOT DONE ***************************
 	//IF PREVIOUS QUEST IS DONE AND PLAYER LEFT THE INN
 	else if (g_additional_playerLeftInnAfterQuestSeven == true) 
 	{
@@ -228,13 +224,13 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 
 				//set quest state to finished
 				g_final_playerSidedWithKing = true;
-				g_RDF_joinedTheRebellion = true;
+				//g_RDF_joinedTheRebellion = true; <- to chyba nie jest potrzebne juz?
 
 				//Set user quest prompt to the next quest
-				gCurrentQuestPrompt = nullptr; //TODO jakas nazwa questa
+				gCurrentQuestPrompt = &STRING_QUEST_FINAL_KING_SIDE;
 
 				//set required rdf strings
-				gInnkeeper->mRDFDynamicContext = RDF_JOIN_THE_REBELLION_SIDE_WITH_KING_TRUE;
+				gKing->mRDFDynamicContext = RDF_JOIN_THE_REBELLION_SIDE_WITH_KING_TRUE;
 			}
 		}
 		//check if player talks to innkeeper
@@ -246,10 +242,10 @@ void updateBools(const std::shared_ptr<NPC>& NPC) {
 
 				//set quest state to finished
 				g_final_playerSidedWithInnkeeper = true;
-				g_RDF_joinedTheRebellion = true;
+				//g_RDF_joinedTheRebellion = true; <- tak samo tutaj, chyba niepotrzebne?
 
 				//Set user quest prompt to the next quest
-				gCurrentQuestPrompt = nullptr; //TODO jakas nazwa questa
+				gCurrentQuestPrompt = &STRING_QUEST_FINAL_REBEL_SIDE;
 
 				//set required rdf strings
 				gInnkeeper->mRDFDynamicContext = RDF_JOIN_THE_REBELLION_SIDE_WITH_INNKEEPER_TRUE;

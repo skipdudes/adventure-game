@@ -3,6 +3,7 @@
 #include "../Globals.h"
 #include "../Logger.h"
 #include "Overworld.h"
+#include "Outro.h"
 
 Castle Castle::gLevelCastle;
 
@@ -176,7 +177,13 @@ void Castle::update()
 
 	//Enter overworld
 	if (checkCollision(gPlayer->getCollider(), mTriggerOverworld))
-		setNextState(Overworld::get());
+	{
+		//CHECK FOR ENDING
+		if (g_final_playerSidedWithKing)
+			setNextState(Outro::get());
+		else
+			setNextState(Overworld::get());
+	}
 
 	//NPCs
 	for (std::shared_ptr<NPC>& npc : mNPCs)

@@ -70,7 +70,9 @@ bool Inn::enter()
 	}
 
 	//NPCs
-	mNPCs.push_back(gInnkeeper);
+	//Only if before the 8th quest
+	if (g_RDF_innkeeperToldAboutRebels == false)
+		mNPCs.push_back(gInnkeeper);
 
 	for (std::shared_ptr<NPC>& npc : mNPCs)
 	{
@@ -83,7 +85,8 @@ bool Inn::enter()
 	}
 
 	//Individual NPCs position
-	gInnkeeper->setPosition(343, 261);
+	if (g_RDF_innkeeperToldAboutRebels == false)
+		gInnkeeper->setPosition(343, 261);
 
 	//NPCs colliders
 	for (std::shared_ptr<NPC>& npc : mNPCs)
@@ -210,7 +213,8 @@ void Inn::render()
 	gPlayer->render(camera);
 
 	//Specific NPCs prompts
-	gInnkeeper->renderDialoguePrompt(98);
+	if (g_additional_playerLeftInnAfterQuestSeven == false)
+		gInnkeeper->renderDialoguePrompt(98);
 
 	//NPCs Dialogue
 	for (std::shared_ptr<NPC>& npc : mNPCs)

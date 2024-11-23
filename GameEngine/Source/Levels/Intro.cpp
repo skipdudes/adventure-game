@@ -43,11 +43,14 @@ void Intro::update()
 
 void Intro::render()
 {
-	std::string temp = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in lorem sapien. Nunc sit amet diam sed enim malesuada aliquet non quis enim. Nam varius ac velit sed lacinia. Sed id condimentum turpis, nec iaculis justo. Aenean porttitor hendrerit odio, scelerisque tempor mi tincidunt ut. Proin commodo vitae justo ut molestie. Etiam imperdiet tortor eget ex dictum, nec finibus sem gravida. Sed sed lectus id magna ultricies auctor sed et dui. Vestibulum bibendum quis nisl vel eleifend.";
-	int padding = 16;
+	//Header
+	gFontLarge->setColor(0xFF, 0x00, 0x00);
+	gFontLarge->renderText(272, 65, STRING_INTRO_HEADER);
 
+	//Text
+	int padding = 16;
 	gFontMedium->setColor(0xFF, 0xFF, 0xFF);
-	gFontMedium->renderDialogueText(padding, 100, temp, SCREEN_WIDTH - padding);
+	gFontMedium->renderDialogueText(padding, 120, STRING_INTRO_TEXT, SCREEN_WIDTH - padding);
 
 	//Prompt
 	renderPrompt(189, NEXT_LEVEL_PROMPT, 1, 0xFF, 0xFF, 0xFF);

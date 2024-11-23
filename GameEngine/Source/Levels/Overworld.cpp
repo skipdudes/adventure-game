@@ -5,6 +5,7 @@
 #include "Castle.h"
 #include "Inn.h"
 #include "House.h"
+#include "Outro.h"
 
 Overworld Overworld::gLevelOverworld;
 
@@ -49,8 +50,7 @@ bool Overworld::enter()
 		gCurrentQuestPrompt = &STRING_QUEST_8_USER_PROMPT;
 		LOG_INFO("<<QUEST>> Successfully tracked entering Overworld after second Innkeeper quest");
 
-		gInnkeeper->mRDFDynamicContext = RDF_JOIN_THE_REBELLION_SIDE_WTIH_INNKEEPER_FALSE;
-		gKing->mRDFDynamicContext = RDF_JOIN_THE_REBELLION_SIDE_WTIH_KING_FALSE;
+		gInnkeeper->mRDFDynamicContext = RDF_JOIN_THE_REBELLION_SIDE_WITH_INNKEEPER_FALSE;
 	}
 
 	//Load background
@@ -64,6 +64,10 @@ bool Overworld::enter()
 	//Only if after the 3rd quest and been to the castle
 	if (g_RDF_marquisToldAboutWoman && g_additional_playerEnteredCastle)
 		mNPCs.push_back(gRoyalGuard);
+
+	//Only after the 7th quest and returned from the Inn already
+	if (g_RDF_innkeeperToldAboutRebels == true && g_additional_playerLeftInnAfterQuestSeven == true)
+		mNPCs.push_back(gInnkeeper);
 
 	for (std::shared_ptr<NPC>& npc : mNPCs)
 	{
@@ -79,6 +83,9 @@ bool Overworld::enter()
 	//Only if after the 3rd quest and been to the castle
 	if (g_RDF_marquisToldAboutWoman && g_additional_playerEnteredCastle)
 		gRoyalGuard->setPosition(918, 851);
+	//Only after the 7th quest and returned from the Inn already
+	if (g_RDF_innkeeperToldAboutRebels == true && g_additional_playerLeftInnAfterQuestSeven == true)
+		gInnkeeper->setPosition(1063, 229);
 
 	//NPCs colliders
 	for (std::shared_ptr<NPC>& npc : mNPCs)
@@ -204,7 +211,11 @@ void Overworld::update()
 	//Enter castle
 	if (checkCollision(gPlayer->getCollider(), mTriggerCastle))
 	{
-		setNextState(Castle::get());
+		//CHECK FOR ENDING
+		if (g_final_playerSidedWithInnkeeper)
+			setNextState(Outro::get());
+		else
+			setNextState(Castle::get());
 	}
 	//Enter Inn
 	else if (checkCollision(gPlayer->getCollider(), mTriggerInn))
@@ -253,6 +264,10 @@ void Overworld::render()
 	//Only if after the 3rd quest and been to the castle
 	if (g_RDF_marquisToldAboutWoman && g_additional_playerEnteredCastle)
 		gRoyalGuard->renderDialoguePrompt(110);
+
+	//Only after the 7th quest and returned from the Inn already
+	if (g_RDF_innkeeperToldAboutRebels == true && g_additional_playerLeftInnAfterQuestSeven == true)
+		gInnkeeper->renderDialoguePrompt(98);
 
 	//NPCs Dialogue
 	for (std::shared_ptr<NPC>& npc : mNPCs)
