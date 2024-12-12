@@ -36,7 +36,7 @@ bool Game::init()
 	LOG_INFO("Starting game initialization");
 
 	//SDL
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		LOG_ERROR("SDL could not initialize, SDL Error: " + std::string(SDL_GetError()));
 		return false;
@@ -75,13 +75,6 @@ bool Game::init()
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{
 		LOG_ERROR("SDL_image could not initialize, SDL_image Error: " + std::string(IMG_GetError()));
-		return false;
-	}
-
-	//SDL_mixer
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-	{
-		LOG_ERROR("SDL_mixer could not initialize, SDL_mixer Error: " + std::string(Mix_GetError()));
 		return false;
 	}
 
@@ -264,7 +257,6 @@ void Game::close()
 	mWindow = nullptr;
 
 	//SDL
-	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
 

@@ -123,29 +123,29 @@
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>shadows-crown</TargetName>
-    <IncludePath>C:\vclib\cpp-httplib-0.18.1;C:\vclib\json-3.11.3\single_include;C:\vclib\SDL2_mixer-2.8.0\include;C:\vclib\SDL2_image-2.8.2\include;C:\vclib\SDL2-2.30.8\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\vclib\SDL2_mixer-2.8.0\lib\x86;C:\vclib\SDL2_image-2.8.2\lib\x86;C:\vclib\SDL2-2.30.8\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\vclib\cpp-httplib-0.18.1;C:\vclib\json-3.11.3\single_include;C:\vclib\SDL2_image-2.8.2\include;C:\vclib\SDL2-2.30.8\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\vclib\SDL2_image-2.8.2\lib\x86;C:\vclib\SDL2-2.30.8\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>shadows-crown</TargetName>
-    <IncludePath>C:\vclib\cpp-httplib-0.18.1;C:\vclib\json-3.11.3\single_include;C:\vclib\SDL2_mixer-2.8.0\include;C:\vclib\SDL2_image-2.8.2\include;C:\vclib\SDL2-2.30.8\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\vclib\SDL2_mixer-2.8.0\lib\x86;C:\vclib\SDL2_image-2.8.2\lib\x86;C:\vclib\SDL2-2.30.8\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\vclib\cpp-httplib-0.18.1;C:\vclib\json-3.11.3\single_include;C:\vclib\SDL2_image-2.8.2\include;C:\vclib\SDL2-2.30.8\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\vclib\SDL2_image-2.8.2\lib\x86;C:\vclib\SDL2-2.30.8\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>shadows-crown</TargetName>
-    <IncludePath>C:\vclib\cpp-httplib-0.18.1;C:\vclib\json-3.11.3\single_include;C:\vclib\SDL2_mixer-2.8.0\include;C:\vclib\SDL2_image-2.8.2\include;C:\vclib\SDL2-2.30.8\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\vclib\SDL2_mixer-2.8.0\lib\x64;C:\vclib\SDL2_image-2.8.2\lib\x64;C:\vclib\SDL2-2.30.8\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\vclib\cpp-httplib-0.18.1;C:\vclib\json-3.11.3\single_include;C:\vclib\SDL2_image-2.8.2\include;C:\vclib\SDL2-2.30.8\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\vclib\SDL2_image-2.8.2\lib\x64;C:\vclib\SDL2-2.30.8\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>shadows-crown</TargetName>
-    <IncludePath>C:\vclib\cpp-httplib-0.18.1;C:\vclib\json-3.11.3\single_include;C:\vclib\SDL2_mixer-2.8.0\include;C:\vclib\SDL2_image-2.8.2\include;C:\vclib\SDL2-2.30.8\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\vclib\SDL2_mixer-2.8.0\lib\x64;C:\vclib\SDL2_image-2.8.2\lib\x64;C:\vclib\SDL2-2.30.8\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\vclib\cpp-httplib-0.18.1;C:\vclib\json-3.11.3\single_include;C:\vclib\SDL2_image-2.8.2\include;C:\vclib\SDL2-2.30.8\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\vclib\SDL2_image-2.8.2\lib\x64;C:\vclib\SDL2-2.30.8\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -158,7 +158,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -176,7 +176,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -190,7 +190,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -208,7 +208,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
